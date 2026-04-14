@@ -1,155 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nebrix</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebrix</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
 
-        body {
-            background: #0b0f1a;
-            color: white;
-        }
+body {
+    background: #f2f4f7;
+    color: #1f2937;
+}
 
-        /* NAVBAR */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-            background: #111827;
-            border-bottom: 1px solid #1f2937;
-        }
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 30px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #111827;
+}
 
-        .nav-links a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: #9ca3af;
-            font-size: 0.95rem;
-        }
+.nav-links a {
+    margin-left: 18px;
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 0.9rem;
+}
 
-        .nav-links a:hover {
-            color: white;
-        }
+.nav-links a:hover {
+    color: black;
+}
 
-        /* HERO */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 80vh;
-            padding: 20px;
-        }
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 80px 20px 40px;
+}
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-        }
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 
-        .hero p {
-            color: #9ca3af;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            max-width: 500px;
-        }
+.hero p {
+    color: #6b7280;
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto 25px;
+}
 
-        /* BUTTONS */
-        .buttons a {
-            display: inline-block;
-            margin: 10px;
-            padding: 14px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.2s;
-        }
+/* BUTTONS */
+.buttons a {
+    display: inline-block;
+    margin: 8px;
+    padding: 12px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: 0.15s;
+}
 
-        .primary {
-            background: #5865F2;
-            color: white;
-        }
+.primary {
+    background: #e11d48;
+    color: white;
+}
 
-        .secondary {
-            background: #1f2937;
-            color: white;
-        }
+.primary:hover {
+    background: #be123c;
+}
 
-        .buttons a:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
+.secondary {
+    background: white;
+    border: 1px solid #d1d5db;
+    color: #111827;
+}
 
-        /* INFO BOX */
-        .info {
-            margin-top: 40px;
-            padding: 20px;
-            background: #111827;
-            border-radius: 12px;
-            border: 1px solid #1f2937;
-        }
+.secondary:hover {
+    background: #f9fafb;
+}
 
-        .info strong {
-            color: white;
-        }
+/* FEATURE GRID */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    max-width: 1000px;
+    margin: auto;
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #6b7280;
-            font-size: 0.85rem;
-        }
-    </style>
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* PROGRESSION */
+.progression {
+    max-width: 1000px;
+    margin: 10px auto 0;
+    padding: 0 40px 40px;
+}
+
+.progression h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #111827;
+}
+
+.progress-box {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.progress-item {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.done {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.not-done {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* INFO BANNER */
+.info {
+    margin: 30px auto;
+    max-width: 600px;
+    background: #fff3cd;
+    border: 1px solid #ffe69c;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #9ca3af;
+    font-size: 0.8rem;
+}
+</style>
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="logo">Nebrix</div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank">GitHub</a>
-            <a href="https://discord.gg/Dwha8GE3jw" target="_blank">Discord</a>
+<div class="navbar">
+    <div class="logo">Nebrix</div>
+    <div class="nav-links">
+        <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank">GitHub</a>
+        <a href="https://discord.com/invite/Dwha8GE3jw" target="_blank">Discord</a>
+    </div>
+</div>
+
+<div class="hero">
+    <h1>Build Play Share™</h1>
+    <p>
+        Nebrix is a work in progress online platform where anyone can Build, Play, and Share games.
+    </p>
+
+    <div class="buttons">
+        <a class="primary" href="https://discord.com/invite/Dwha8GE3jw" target="_blank">
+            Join The Community
+        </a>
+        <a class="secondary" href="https://github.com/Puppyrjcw/Nebrix" target="_blank">
+            GitHub
+        </a>
+    </div>
+</div>
+
+<div class="features">
+    <div class="card">
+        <h3>Create Games</h3>
+        <p>Use powerful tools to build your own interactive worlds.</p>
+    </div>
+    <div class="card">
+        <h3>Play Games</h3>
+        <p>[Future] Jump into games created by a growing community.</p>
+    </div>
+    <div class="card">
+        <h3>Customize</h3>
+        <p>[Future] Design avatars, assets, and unique gameplay systems.</p>
+    </div>
+    <div class="card">
+        <h3>Multiplayer</h3>
+        <p>[Future] Connect with others and play together in real time.</p>
+    </div>
+</div>
+
+<div class="progression">
+    <h2>✔ Completed</h2>
+    <div class="features">
+        <div class="card" style="border: 1px solid #16a34a; background: #ecfdf5;">
+            <h3>Create Games</h3>
+            <p>The ability to use powerful tools to move, scale, and code using Lua Scripting all in Nebrix Studio.</p>
         </div>
     </div>
 
-    <div class="hero">
-        <h1>Create. Play. Build.</h1>
-        <p>
-            Nebrix is an in-development platform inspired by creativity and game building.
-            We're working hard to bring something fun and powerful.
-        </p>
-
-        <div class="buttons">
-            <a class="primary" href="https://discord.gg/Dwha8GE3jw" target="_blank">
-                Join the Community
-            </a>
-            <a class="secondary" href="https://github.com/Puppyrjcw/Nebrix" target="_blank">
-                View the Repository
-            </a>
+    <h2>Tasks</h2>
+    <div class="features">
+        <div class="card" style="border: 1px solid #dc2626; background: #fef2f2;">
+            <h3>Play Games</h3>
+            <p>&times; Not yet implemented</p>
         </div>
 
-        <div class="info">
-            🚧 <strong>Website in Development</strong><br>
-            More features, docs, and showcases coming soon.
+        <div class="card" style="border: 1px solid #dc2626; background: #fef2f2;">
+            <h3>Customize</h3>
+            <p>&times; Not yet implemented</p>
+        </div>
+
+        <div class="card" style="border: 1px solid #dc2626; background: #fef2f2;">
+            <h3>Multiplayer</h3>
+            <p>&times; Not yet implemented</p>
         </div>
     </div>
+</div>
 
-    <footer>
-        © 2026 Nebrix. All rights reserved.
-    </footer>
+<div class="info">
+    🚧 Nebrix is currently in development and is not yet released.
+</div>
+
+<footer>
+    © 2026 Nebrix Corporation. All rights reserved.
+</footer>
 
 </body>
 </html>
