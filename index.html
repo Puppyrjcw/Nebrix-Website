@@ -29,9 +29,17 @@ body {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
     font-size: 1.4rem;
     font-weight: bold;
     color: #111827;
+    gap: 10px;
+}
+
+.logo img {
+    width: 28px;
+    height: 28px;
 }
 
 .nav-links a {
@@ -73,7 +81,6 @@ body {
     text-decoration: none;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: 0.15s;
 }
 
 .primary {
@@ -81,9 +88,7 @@ body {
     color: white;
 }
 
-.primary:hover {
-    background: #be123c;
-}
+.primary:hover { background: #be123c; }
 
 .secondary {
     background: white;
@@ -91,11 +96,7 @@ body {
     color: #111827;
 }
 
-.secondary:hover {
-    background: #f9fafb;
-}
-
-/* FEATURE GRID */
+/* FEATURES */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -110,55 +111,21 @@ body {
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #e5e7eb;
-    text-align: left;
 }
 
-.card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 8px;
+/* PROGRESS BUTTON */
+.progress-link {
+    text-align: center;
+    margin-top: 10px;
 }
 
-.card p {
-    font-size: 0.9rem;
-    color: #6b7280;
-}
-
-/* PROGRESSION */
-.progression {
-    max-width: 1000px;
-    margin: 10px auto 0;
-    padding: 0 40px 40px;
-}
-
-.progression h2 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    color: #111827;
-}
-
-.progress-box {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.progress-item {
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-}
-
-.done {
-    color: #16a34a;
+.progress-link a {
+    text-decoration: none;
+    color: #2563eb;
     font-weight: 600;
 }
 
-.not-done {
-    color: #dc2626;
-    font-weight: 600;
-}
-
-/* INFO BANNER */
+/* INFO */
 .info {
     margin: 30px auto;
     max-width: 600px;
@@ -178,11 +145,17 @@ footer {
 }
 </style>
 </head>
+
 <body>
 
 <div class="navbar">
-    <div class="logo">Nebrix</div>
+    <div class="logo">
+        <img src="nebrixlogo.png" alt="Nebrix Logo">
+        Nebrix
+    </div>
+
     <div class="nav-links">
+        <a href="progression.html">Progress</a>
         <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank">GitHub</a>
         <a href="https://discord.com/invite/Dwha8GE3jw" target="_blank">Discord</a>
     </div>
@@ -190,71 +163,35 @@ footer {
 
 <div class="hero">
     <h1>Build Play Share™</h1>
-    <p>
-        Nebrix is a work in progress online platform where anyone can Build, Play, and Share games.
-    </p>
+    <p>Nebrix is a work in progress platform where anyone can build, play, and share games.</p>
 
     <div class="buttons">
-        <a class="primary" href="https://discord.com/invite/Dwha8GE3jw" target="_blank">
-            Join The Community
-        </a>
-        <a class="secondary" href="https://github.com/Puppyrjcw/Nebrix" target="_blank">
-            GitHub
-        </a>
+        <a class="primary" href="https://discord.com/invite/Dwha8GE3jw" target="_blank">Join The Community</a>
+        <a class="secondary" href="https://github.com/Puppyrjcw/Nebrix" target="_blank">GitHub</a>
     </div>
 </div>
 
 <div class="features">
     <div class="card">
         <h3>Create Games</h3>
-        <p>Use powerful tools to build your own interactive worlds.</p>
+        <p>Powerful tools for building worlds.</p>
     </div>
     <div class="card">
         <h3>Play Games</h3>
-        <p>[Future] Jump into games created by a growing community.</p>
+        <p>Coming soon.</p>
     </div>
     <div class="card">
         <h3>Customize</h3>
-        <p>[Future] Design avatars, assets, and unique gameplay systems.</p>
+        <p>Coming soon.</p>
     </div>
     <div class="card">
         <h3>Multiplayer</h3>
-        <p>[Future] Connect with others and play together in real time.</p>
-    </div>
-</div>
-
-<div class="progression">
-    <h2>✔ Completed</h2>
-    <div class="features">
-        <div class="card" style="border: 1px solid #16a34a; background: #ecfdf5;">
-            <h3>Create Games</h3>
-            <p>The ability to use powerful tools</p>
-            <p>to move, scale, and code using </p>
-            <p>Lua Scripting all in Nebrix Studio.</p>
-        </div>
-    </div>
-
-    <h2>Tasks</h2>
-    <div class="features">
-        <div class="card" style="border: 1px solid #dc2626; background: #fef2f2;">
-            <h3>Play Games</h3>
-            <p>&times; Not yet implemented</p>
-        </div>
-
-        <div class="card" style="border: 1px solid #dc2626; background: #fef2f2;">
-            <h3>Customize</h3>
-            <p>&times; Not yet implemented</p>
-        </div>
-
-        <div class="card" style="border: 1px solid #dc2626; background: #fef2f2;">
-            <h3>Multiplayer</h3>
-            <p>&times; Not yet implemented</p>
-        </div>
+        <p>Coming soon.</p>
     </div>
 </div>
 
 <div class="info">
-    🚧 Nebrix is currently in development and is not yet released.
+    🚧 Nebrix is currently in development and not yet released.
 </div>
 
 <footer>
