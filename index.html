@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebrix</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #0b0f1a;
+            color: white;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: #111827;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* HERO */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 80vh;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        /* BUTTONS */
+        .buttons a {
+            display: inline-block;
+            margin: 10px;
+            padding: 14px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .primary {
+            background: #5865F2;
+            color: white;
+        }
+
+        .secondary {
+            background: #1f2937;
+            color: white;
+        }
+
+        .buttons a:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* INFO BOX */
+        .info {
+            margin-top: 40px;
+            padding: 20px;
+            background: #111827;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+        }
+
+        .info strong {
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">Nebrix</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank">GitHub</a>
+            <a href="https://discord.gg/Dwha8GE3jw" target="_blank">Discord</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Create. Play. Build.</h1>
+        <p>
+            Nebrix is an in-development platform inspired by creativity and game building.
+            We're working hard to bring something fun and powerful.
+        </p>
+
+        <div class="buttons">
+            <a class="primary" href="https://discord.gg/Dwha8GE3jw" target="_blank">
+                Join the Community
+            </a>
+            <a class="secondary" href="https://github.com/Puppyrjcw/Nebrix" target="_blank">
+                View the Repository
+            </a>
+        </div>
+
+        <div class="info">
+            🚧 <strong>Website in Development</strong><br>
+            More features, docs, and showcases coming soon.
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Nebrix. All rights reserved.
+    </footer>
+
+</body>
+</html>
