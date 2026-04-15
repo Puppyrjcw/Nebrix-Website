@@ -16,18 +16,18 @@
     --primary: #e11d48;
     --primary-hover: #be123c;
 
-    /* INFO BOX (LIGHT) */
+    /* INFO BOX */
     --info-bg: #fff3cd;
     --info-border: #ffe69c;
 }
 
-.dark {
+/* DARK MODE */
+body.dark {
     --bg: #0f172a;
     --text: #e5e7eb;
     --card: #1e293b;
     --border: #334155;
 
-    /* INFO BOX (DARK) */
     --info-bg: #3f2f00;
     --info-border: #a16207;
 }
@@ -37,12 +37,12 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Arial, sans-serif;
-    transition: all 0.25s ease;
 }
 
 body {
     background: var(--bg);
     color: var(--text);
+    transition: background 0.3s, color 0.3s;
 }
 
 /* NAVBAR */
@@ -55,13 +55,44 @@ body {
     border-bottom: 1px solid var(--border);
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 10px;
+}
+
+.logo img {
+    width: 28px;
+}
+
+.nav-links a {
+    margin-left: 18px;
+    text-decoration: none;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+}
+
 /* HERO */
 .hero {
     text-align: center;
     padding: 80px 20px 40px;
 }
 
-/* BUTTONS */
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    opacity: 0.7;
+}
+
+/* BUTTONS (ANIMATED) */
 .buttons a {
     display: inline-block;
     margin: 8px;
@@ -70,7 +101,6 @@ body {
     text-decoration: none;
     font-weight: 600;
 
-    /* Smooth animation */
     transform: scale(1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -79,7 +109,6 @@ body {
     transform: scale(1.08);
 }
 
-/* Optional: slight press effect */
 .buttons a:active {
     transform: scale(0.96);
 }
@@ -91,6 +120,7 @@ body {
 }
 
 .primary:hover {
+    background: var(--primary-hover);
     box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
@@ -104,7 +134,29 @@ body {
     box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 
-/* INFO (FIXED) */
+/* FEATURES */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* INFO */
 .info {
     margin: 30px auto;
     max-width: 600px;
@@ -135,6 +187,7 @@ footer {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     cursor: pointer;
     font-size: 20px;
+    transition: transform 0.2s ease;
 }
 
 .toggle:hover {
@@ -195,6 +248,28 @@ footer {
 <footer>
     © 2026 Nebrix Corporation. All rights reserved.
 </footer>
+
+<!-- DARK MODE BUTTON -->
+<button class="toggle" onclick="toggleDark()">🌙</button>
+
+<script>
+function toggleDark() {
+    document.body.classList.toggle("dark");
+
+    const isDark = document.body.classList.contains("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
+}
+
+window.onload = () => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") {
+        document.body.classList.add("dark");
+        document.querySelector(".toggle").textContent = "☀️";
+    }
+};
+</script>
 
 </body>
 </html>
