@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebrix Progression</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f2f4f7;
+    color: #1f2937;
+}
+
+/* NAV */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 30px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.logo img {
+    width: 28px;
+    height: 28px;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+/* PROGRESS ITEM */
+.item {
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    margin-top: 10px;
+}
+
+/* BAR */
+.bar {
+    width: 100%;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    background: #16a34a;
+}
+
+.notdone .fill {
+    background: #dc2626;
+}
+
+.label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">
+        <img src="nebrixlogo.png" alt="Nebrix Logo">
+        Nebrix Progress
+    </div>
+
+    <div>
+        <a href="index.html">Home</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h2>Completed</h2>
+
+    <div class="item">
+        <div class="label">
+            <span>Create Games</span>
+            <span>100%</span>
+        </div>
+        <div class="bar">
+            <div class="fill" style="width: 100%"></div>
+        </div>
+    </div>
+
+    <h2>In Progress</h2>
+
+    <div class="item notdone">
+        <div class="label">
+            <span>Play Games</span>
+            <span>10%</span>
+        </div>
+        <div class="bar">
+            <div class="fill" style="width: 10%"></div>
+        </div>
+    </div>
+
+    <div class="item notdone">
+        <div class="label">
+            <span>Customize</span>
+            <span>5%</span>
+        </div>
+        <div class="bar">
+            <div class="fill" style="width: 5%"></div>
+        </div>
+    </div>
+
+    <div class="item notdone">
+        <div class="label">
+            <span>Multiplayer</span>
+            <span>0%</span>
+        </div>
+        <div class="bar">
+            <div class="fill" style="width: 0%"></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
