@@ -6,16 +6,43 @@
 <title>Nebrix</title>
 
 <style>
+:root {
+    --bg: #f2f4f7;
+    --text: #1f2937;
+    --card: #ffffff;
+    --border: #e5e7eb;
+
+    /* RED THEME */
+    --primary: #e11d48;
+    --primary-hover: #be123c;
+
+    /* INFO BOX (LIGHT) */
+    --info-bg: #fff3cd;
+    --info-border: #ffe69c;
+}
+
+.dark {
+    --bg: #0f172a;
+    --text: #e5e7eb;
+    --card: #1e293b;
+    --border: #334155;
+
+    /* INFO BOX (DARK) */
+    --info-bg: #3f2f00;
+    --info-border: #a16207;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Arial, sans-serif;
+    transition: all 0.25s ease;
 }
 
 body {
-    background: #f2f4f7;
-    color: #1f2937;
+    background: var(--bg);
+    color: var(--text);
 }
 
 /* NAVBAR */
@@ -24,33 +51,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 12px 30px;
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #111827;
-    gap: 10px;
-}
-
-.logo img {
-    width: 28px;
-    height: 28px;
-}
-
-.nav-links a {
-    margin-left: 18px;
-    text-decoration: none;
-    color: #4b5563;
-    font-size: 0.9rem;
-}
-
-.nav-links a:hover {
-    color: black;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
 }
 
 /* HERO */
@@ -59,41 +61,31 @@ body {
     padding: 80px 20px 40px;
 }
 
-.hero h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.hero p {
-    color: #6b7280;
-    font-size: 1rem;
-    max-width: 500px;
-    margin: 0 auto 25px;
-}
-
 /* BUTTONS */
 .buttons a {
     display: inline-block;
     margin: 8px;
     padding: 12px 22px;
-    border-radius: 6px;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.95rem;
 }
 
 .primary {
-    background: #e11d48;
+    background: var(--primary);
     color: white;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
 
-.primary:hover { background: #be123c; }
+.primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
 
 .secondary {
-    background: white;
-    border: 1px solid #d1d5db;
-    color: #111827;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
 }
 
 /* FEATURES */
@@ -107,43 +99,55 @@ body {
 }
 
 .card {
-    background: white;
+    background: var(--card);
     padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* PROGRESS BUTTON */
-.progress-link {
-    text-align: center;
-    margin-top: 10px;
+.card:hover {
+    transform: translateY(-4px);
 }
 
-.progress-link a {
-    text-decoration: none;
-    color: #2563eb;
-    font-weight: 600;
-}
-
-/* INFO */
+/* INFO (FIXED) */
 .info {
     margin: 30px auto;
     max-width: 600px;
-    background: #fff3cd;
-    border: 1px solid #ffe69c;
+    background: var(--info-bg);
+    border: 1px solid var(--info-border);
     padding: 15px;
     border-radius: 6px;
     text-align: center;
-    font-size: 0.9rem;
 }
 
+/* FOOTER */
 footer {
     text-align: center;
     padding: 20px;
-    color: #9ca3af;
-    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* DARK MODE BUTTON */
+.toggle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: var(--card);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.toggle:hover {
+    transform: scale(1.1);
 }
 </style>
+
 </head>
 
 <body>
@@ -151,7 +155,7 @@ footer {
 <div class="navbar">
     <div class="logo">
         <img src="nebrixlogo.png" alt="Nebrix Logo">
-        Mr hugo is very cute
+        Nebrix
     </div>
 
     <div class="nav-links">
