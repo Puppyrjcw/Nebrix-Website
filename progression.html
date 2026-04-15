@@ -6,20 +6,45 @@
 <title>Nebrix Progression</title>
 
 <style>
+:root {
+    --bg: #f2f4f7;
+    --text: #1f2937;
+    --card: #ffffff;
+    --border: #e5e7eb;
+
+    --primary: #e11d48;
+    --primary-hover: #be123c;
+
+    --bar-bg: #e5e7eb;
+    --bar-fill: #16a34a;
+    --bar-fill-alt: #dc2626;
+}
+
+body.dark {
+    --bg: #0f172a;
+    --text: #e5e7eb;
+    --card: #1e293b;
+    --border: #334155;
+
+    --bar-bg: #334155;
+}
+
 body {
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f2f4f7;
-    color: #1f2937;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
 }
 
-/* NAV */
+/* NAVBAR (FIXED) */
 .navbar {
     display: flex;
     justify-content: space-between;
+    align-items: center; /* FIXES HEIGHT */
     padding: 12px 30px;
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
 }
 
 .logo {
@@ -27,12 +52,27 @@ body {
     align-items: center;
     gap: 10px;
     font-weight: bold;
-    font-size: 1.3rem;
 }
 
 .logo img {
     width: 28px;
-    height: 28px;
+}
+
+/* HOME BUTTON (FIXED SIZE) */
+.navbar a {
+    text-decoration: none;
+    color: white;
+    background: var(--primary);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    display: inline-block;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.navbar a:hover {
+    background: var(--primary-hover);
+    transform: scale(1.05);
 }
 
 /* CONTAINER */
@@ -46,38 +86,63 @@ h2 {
     margin-top: 30px;
 }
 
-/* PROGRESS ITEM */
+/* ITEM */
 .item {
-    background: white;
+    background: var(--card);
     padding: 16px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-top: 12px;
+    transition: transform 0.2s ease;
+}
+
+.item:hover {
+    transform: translateY(-4px);
+}
+
+/* LABEL */
+.label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
 }
 
 /* BAR */
 .bar {
     width: 100%;
     height: 10px;
-    background: #e5e7eb;
+    background: var(--bar-bg);
     border-radius: 20px;
     margin-top: 10px;
     overflow: hidden;
 }
 
+/* ANIMATED FILL */
 .fill {
     height: 100%;
-    background: #16a34a;
+    width: 0;
+    background: var(--bar-fill);
+    border-radius: 20px;
+    transition: width 1s ease;
 }
 
 .notdone .fill {
-    background: #dc2626;
+    background: var(--bar-fill-alt);
 }
 
-.label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
+/* DARK MODE BUTTON */
+.toggle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: var(--card);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-size: 20px;
 }
 </style>
 </head>
@@ -90,9 +155,7 @@ h2 {
         Nebrix Progress
     </div>
 
-    <div>
-        <a href="index.html">Home</a>
-    </div>
+    <a href="index.html">Home</a>
 </div>
 
 <div class="container">
@@ -102,10 +165,10 @@ h2 {
     <div class="item">
         <div class="label">
             <span>Create Games</span>
-            <span>100%</span>
+            <span>70%</span>
         </div>
         <div class="bar">
-            <div class="fill" style="width: 100%"></div>
+            <div class="fill" data-width="100%"></div>
         </div>
     </div>
 
@@ -114,10 +177,10 @@ h2 {
     <div class="item notdone">
         <div class="label">
             <span>Play Games</span>
-            <span>10%</span>
+            <span>0%</span>
         </div>
         <div class="bar">
-            <div class="fill" style="width: 10%"></div>
+            <div class="fill" data-width="10%"></div>
         </div>
     </div>
 
@@ -127,7 +190,7 @@ h2 {
             <span>5%</span>
         </div>
         <div class="bar">
-            <div class="fill" style="width: 5%"></div>
+            <div class="fill" data-width="5%"></div>
         </div>
     </div>
 
@@ -137,11 +200,39 @@ h2 {
             <span>0%</span>
         </div>
         <div class="bar">
-            <div class="fill" style="width: 0%"></div>
+            <div class="fill" data-width="0%"></div>
         </div>
     </div>
 
 </div>
+
+<!-- DARK MODE BUTTON -->
+<button class="toggle" onclick="toggleDark()">🌙</button>
+
+<script>
+// Animate bars
+window.onload = () => {
+    document.querySelectorAll(".fill").forEach(el => {
+        el.style.width = el.dataset.width;
+    });
+
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") {
+        document.body.classList.add("dark");
+        document.querySelector(".toggle").textContent = "☀️";
+    }
+};
+
+// Toggle theme
+function toggleDark() {
+    document.body.classList.toggle("dark");
+
+    const isDark = document.body.classList.contains("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
+}
+</script>
 
 </body>
 </html>
