@@ -90,8 +90,25 @@
         .hero {
             text-align: center;
             padding: 100px 20px 60px;
-            background: linear-gradient(135deg, var(--primary) 0%, #9333ea 100%);
+            background: url('nebrixbanner.png') center center / cover no-repeat;
             color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
