@@ -1,275 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nebrix</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebrix - Build Play Share™</title>
+    <meta name="description" content="Nebrix is a platform where anyone can build, play, and share games.">
+    <style>
+        :root {
+            --bg: #f2f4f7;
+            --text: #1f2937;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --primary: #e11d48;
+            --primary-hover: #be123c;
+            --info-bg: #fff3cd;
+            --info-border: #ffe69c;
+            --shadow: rgba(0,0,0,0.1);
+        }
 
-<style>
-:root {
-    --bg: #f2f4f7;
-    --text: #1f2937;
-    --card: #ffffff;
-    --border: #e5e7eb;
+        body.dark {
+            --bg: #0f172a;
+            --text: #e5e7eb;
+            --card: #1e293b;
+            --border: #334155;
+            --info-bg: #3f2f00;
+            --info-border: #a16207;
+            --shadow: rgba(0,0,0,0.4);
+        }
 
-    /* RED THEME */
-    --primary: #e11d48;
-    --primary-hover: #be123c;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
 
-    /* INFO BOX */
-    --info-bg: #fff3cd;
-    --info-border: #ffe69c;
-}
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+        }
 
-/* DARK MODE */
-body.dark {
-    --bg: #0f172a;
-    --text: #e5e7eb;
-    --card: #1e293b;
-    --border: #334155;
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 30px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    --info-bg: #3f2f00;
-    --info-border: #a16207;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
+        .logo img {
+            width: 32px;
+            height: 32px;
+        }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    transition: background 0.3s, color 0.3s;
-}
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
 
-/* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 30px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-}
+        .nav-links a {
+            padding: 8px 16px;
+            text-decoration: none;
+            color: var(--text);
+            opacity: 0.8;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    gap: 10px;
-}
+        .nav-links a:hover {
+            opacity: 1;
+            background: var(--bg);
+        }
 
-.logo img {
-    width: 28px;
-}
+        .hero {
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, #9333ea 100%);
+            color: white;
+        }
 
-.nav-links a {
-    margin-left: 18px;
-    text-decoration: none;
-    color: var(--text);
-    opacity: 0.8;
-}
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
 
-.nav-links a:hover {
-    opacity: 1;
-}
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
 
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 80px 20px 40px;
-}
+        .buttons a {
+            display: inline-block;
+            margin: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transform: scale(1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-.hero h1 {
-    font-size: 2.8rem;
-    margin-bottom: 10px;
-}
+        .buttons a:hover {
+            transform: scale(1.08);
+        }
 
-.hero p {
-    opacity: 0.7;
-}
+        .buttons a:active {
+            transform: scale(0.96);
+        }
 
-/* BUTTONS (ANIMATED) */
-.buttons a {
-    display: inline-block;
-    margin: 8px;
-    padding: 12px 22px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
+        .primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
 
-    transform: scale(1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+        .primary:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
 
-.buttons a:hover {
-    transform: scale(1.08);
-}
+        .secondary {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
 
-.buttons a:active {
-    transform: scale(0.96);
-}
+        .secondary:hover {
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
 
-.primary {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-}
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
 
-.primary:hover {
-    background: var(--primary-hover);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-}
+        .card {
+            background: var(--card);
+            padding: 28px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
 
-.secondary {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text);
-}
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px var(--shadow);
+        }
 
-.secondary:hover {
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
 
-/* FEATURES */
-.features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 40px;
-    max-width: 1000px;
-    margin: auto;
-}
+        .card p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
 
-.card {
-    background: var(--card);
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    transition: transform 0.2s ease;
-}
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
 
-.card:hover {
-    transform: translateY(-5px);
-}
+        .info {
+            margin: 40px auto;
+            max-width: 700px;
+            background: var(--info-bg);
+            border: 1px solid var(--info-border);
+            padding: 18px 24px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.05rem;
+        }
 
-/* INFO */
-.info {
-    margin: 30px auto;
-    max-width: 600px;
-    background: var(--info-bg);
-    border: 1px solid var(--info-border);
-    padding: 15px;
-    border-radius: 6px;
-    text-align: center;
-}
+        .section {
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
 
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 20px;
-    opacity: 0.6;
-}
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
 
-/* DARK MODE BUTTON */
-.toggle {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: var(--card);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    cursor: pointer;
-    font-size: 20px;
-    transition: transform 0.2s ease;
-}
+        .section p {
+            text-align: center;
+            opacity: 0.8;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
 
-.toggle:hover {
-    transform: scale(1.1);
-}
-</style>
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            opacity: 0.6;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
 
+        .toggle {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: var(--card);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            cursor: pointer;
+            font-size: 24px;
+            transition: transform 0.2s ease;
+            z-index: 99;
+        }
+
+        .toggle:hover {
+            transform: scale(1.15);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                padding: 40px 20px;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="navbar">
-    <div class="logo">
-        <img src="nebrixlogo.png" alt="Nebrix Logo">
-        Nebrix
+    <div class="navbar">
+        <div class="logo">
+            <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
+            Nebrix
+        </div>
+        <div class="nav-links">
+            <a href="documentation.html">Docs</a>
+            <a href="progression.html">Progress</a>
+            <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://discord.com/invite/Dwha8GE3jw" target="_blank" rel="noopener">Discord</a>
+        </div>
     </div>
 
-    <div class="nav-links">
-        <a href="progression.html">Progress</a>
-        <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank">GitHub</a>
-        <a href="https://discord.com/invite/Dwha8GE3jw" target="_blank">Discord</a>
+    <div class="hero">
+        <h1>Build Play Share™</h1>
+        <p>Nebrix is a powerful game creation platform where anyone can build, play, and share amazing games with an intuitive Lua scripting API.</p>
+        <div class="buttons">
+            <a class="primary" href="https://github.com/Puppyrjcw/Nebrix/releases" target="_blank" rel="noopener">Download Latest</a>
+            <a class="secondary" href="documentation.html">View Documentation</a>
+        </div>
     </div>
-</div>
 
-<div class="hero">
-    <h1>Build Play Share™</h1>
-    <p>Nebrix is a work in progress platform where anyone can build, play, and share games.</p>
-
-    <div class="buttons">
-        <a class="primary" href="https://github.com/Puppyrjcw/Nebrix/releases" target="_blank">Latest Version</a>
-        <a class="secondary" href="https://github.com/Puppyrjcw/Nebrix" target="_blank">GitHub</a>
+    <div class="features">
+        <div class="card">
+            <div class="icon">🎮</div>
+            <h3>Create Games</h3>
+            <p>Build immersive 3D worlds with powerful tools and an intuitive Lua scripting API inspired by familiar game engines.</p>
+        </div>
+        <div class="card">
+            <div class="icon">⚡</div>
+            <h3>Lua Scripting</h3>
+            <p>Script game logic with a full-featured Lua API including physics, GUI, lighting, and more. Easy to learn, powerful to master.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🎨</div>
+            <h3>Customize Everything</h3>
+            <p>Full control over parts, models, colors, physics properties, and visual effects. Make your vision come to life.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🌐</div>
+            <h3>Multiplayer Ready</h3>
+            <p>Built with multiplayer in mind. Share your creations and play together with friends across the world.</p>
+        </div>
     </div>
-</div>
 
-<div class="features">
-    <div class="card">
-        <h3>Create Games</h3>
-        <p>Powerful tools for building worlds.</p>
+    <div class="section">
+        <h2>Why Nebrix?</h2>
+        <p>Nebrix combines the accessibility of visual game creation with the power of Lua scripting. Whether you're a beginner learning to code or an experienced developer, Nebrix provides the tools you need to bring your game ideas to reality.</p>
     </div>
-    <div class="card">
-        <h3>Play Games</h3>
-        <p>Coming soon.</p>
+
+    <div class="info">
+        🚧 Nebrix is currently in active development. Join our Discord to stay updated on the latest features and releases!
     </div>
-    <div class="card">
-        <h3>Customize</h3>
-        <p>Coming soon.</p>
-    </div>
-    <div class="card">
-        <h3>Multiplayer</h3>
-        <p>Coming soon.</p>
-    </div>
-</div>
 
-<div class="info">
-    🚧 Nebrix is currently in development and not yet released.
-</div>
+    <footer>
+        © 2026 Nebrix Corporation. All rights reserved.
+    </footer>
 
-<footer>
-    © 2026 Nebrix Corporation. All rights reserved.
-</footer>
+    <button class="toggle" onclick="toggleDark()" aria-label="Toggle dark mode">🌙</button>
 
-<!-- DARK MODE BUTTON -->
-<button class="toggle" onclick="toggleDark()">🌙</button>
+    <script>
+        function toggleDark() {
+            document.body.classList.toggle("dark");
+            const isDark = document.body.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
+        }
 
-<script>
-function toggleDark() {
-    document.body.classList.toggle("dark");
-
-    const isDark = document.body.classList.contains("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-
-    document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
-}
-
-window.onload = () => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "dark") {
-        document.body.classList.add("dark");
-        document.querySelector(".toggle").textContent = "☀️";
-    }
-};
-</script>
-
+        window.onload = () => {
+            const saved = localStorage.getItem("theme");
+            if (saved === "dark") {
+                document.body.classList.add("dark");
+                document.querySelector(".toggle").textContent = "☀️";
+            }
+        };
+    </script>
 </body>
 </html>
