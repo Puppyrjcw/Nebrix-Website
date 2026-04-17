@@ -1,237 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nebrix Progression</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebrix Development Progress</title>
+    <meta name="description" content="Track the development progress of Nebrix game engine features.">
+    <style>
+        :root {
+            --bg: #f2f4f7;
+            --text: #1f2937;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --primary: #e11d48;
+            --primary-hover: #be123c;
+            --bar-bg: #e5e7eb;
+            --bar-fill: #16a34a;
+            --bar-fill-progress: #f59e0b;
+            --bar-fill-planned: #dc2626;
+            --shadow: rgba(0,0,0,0.1);
+        }
 
-<style>
-:root {
-    --bg: #f2f4f7;
-    --text: #1f2937;
-    --card: #ffffff;
-    --border: #e5e7eb;
+        body.dark {
+            --bg: #0f172a;
+            --text: #e5e7eb;
+            --card: #1e293b;
+            --border: #334155;
+            --bar-bg: #334155;
+            --shadow: rgba(0,0,0,0.4);
+        }
 
-    --primary: #e11d48;
-    --primary-hover: #be123c;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    --bar-bg: #e5e7eb;
-    --bar-fill: #16a34a;
-    --bar-fill-alt: #dc2626;
-}
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+        }
 
-body.dark {
-    --bg: #0f172a;
-    --text: #e5e7eb;
-    --card: #1e293b;
-    --border: #334155;
-    --bar-bg: #334155;
-}
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 30px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    transition: background 0.3s, color 0.3s;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
 
-/* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 30px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-}
+        .logo img {
+            width: 32px;
+            height: 32px;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-}
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            background: var(--primary);
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
 
-.logo img {
-    width: 28px;
-}
+        .navbar a:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
 
-/* BUTTON */
-.navbar a {
-    text-decoration: none;
-    color: white;
-    background: var(--primary);
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    display: inline-block;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 50px 20px;
+        }
 
-.navbar a:hover {
-    background: var(--primary-hover);
-    transform: scale(1.05);
-}
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
 
-/* CONTAINER */
-.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 40px 20px;
-}
+        .subtitle {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
 
-h2 {
-    margin-top: 30px;
-}
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
 
-/* ITEM */
-.item {
-    background: var(--card);
-    padding: 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    margin-top: 12px;
-    transition: transform 0.2s ease;
-}
+        .category {
+            margin-bottom: 40px;
+        }
 
-.item:hover {
-    transform: translateY(-4px);
-}
+        .item {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
 
-/* LABEL */
-.label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
+        .item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px var(--shadow);
+        }
 
-/* BAR */
-.bar {
-    width: 100%;
-    height: 10px;
-    background: var(--bar-bg);
-    border-radius: 20px;
-    margin-top: 10px;
-    overflow: hidden;
-}
+        .label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
 
-/* FILL */
-.fill {
-    height: 100%;
-    width: 0;
-    background: var(--bar-fill);
-    border-radius: 20px;
-    transition: width 1s ease;
-}
+        .status {
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
 
-.notdone .fill {
-    background: var(--bar-fill-alt);
-}
+        .status.complete {
+            background: #dcfce7;
+            color: #166534;
+        }
 
-/* DARK MODE BUTTON */
-.toggle {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: var(--card);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    cursor: pointer;
-    font-size: 20px;
-}
-</style>
+        body.dark .status.complete {
+            background: #14532d;
+            color: #86efac;
+        }
+
+        .status.progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        body.dark .status.progress {
+            background: #451a03;
+            color: #fcd34d;
+        }
+
+        .status.planned {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        body.dark .status.planned {
+            background: #450a0a;
+            color: #fca5a5;
+        }
+
+        .bar {
+            width: 100%;
+            height: 12px;
+            background: var(--bar-bg);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            width: 0;
+            border-radius: 20px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .complete .fill {
+            background: var(--bar-fill);
+        }
+
+        .progress .fill {
+            background: var(--bar-fill-progress);
+        }
+
+        .planned .fill {
+            background: var(--bar-fill-planned);
+        }
+
+        .description {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        .toggle {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: var(--card);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            cursor: pointer;
+            font-size: 24px;
+            transition: transform 0.2s ease;
+            z-index: 99;
+        }
+
+        .toggle:hover {
+            transform: scale(1.15);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .label {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="navbar">
-    <div class="logo">
-        <!-- make sure this file exists in same folder -->
-        <img src="./nebrixlogo.png" alt="Nebrix Logo">
-        Nebrix Progress
+    <div class="navbar">
+        <div class="logo">
+            <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
+            Nebrix Progress
+        </div>
+        <a href="index.html">Home</a>
     </div>
 
-    <a href="index.html">Home</a>
-</div>
+    <div class="container">
+        <h1>Development Roadmap</h1>
+        <p class="subtitle">Track the progress of Nebrix features and upcoming updates</p>
 
-<div class="container">
+        <div class="category">
+            <h2>Core Features - Completed ✓</h2>
+            
+            <div class="item complete">
+                <div class="label">
+                    <span>Lua Scripting Engine</span>
+                    <span class="status complete">100%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="100%"></div>
+                </div>
+                <div class="description">Full Lua 5.4 integration with custom API bindings for game objects, physics, and rendering.</div>
+            </div>
 
-    <h2>Completed</h2>
+            <div class="item complete">
+                <div class="label">
+                    <span>3D Part System</span>
+                    <span class="status complete">95%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="95%"></div>
+                </div>
+                <div class="description">Box, Sphere, Cylinder, and Wedge primitive shapes with full transform and physics support.</div>
+            </div>
 
-    <div class="item">
-        <div class="label">
-            <span>Create Games</span>
-            <span>70%</span>
+            <div class="item complete">
+                <div class="label">
+                    <span>Physics Engine</span>
+                    <span class="status complete">85%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="85%"></div>
+                </div>
+                <div class="description">Collision detection, velocity, mass, anchoring, and force application on parts.</div>
+            </div>
+
+            <div class="item complete">
+                <div class="label">
+                    <span>GUI System</span>
+                    <span class="status complete">75%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="75%"></div>
+                </div>
+                <div class="description">Frame, TextLabel, and TextButton elements with click events and property control.</div>
+            </div>
         </div>
-        <div class="bar">
-            <div class="fill" data-width="70%"></div>
+
+        <div class="category">
+            <h2>In Active Development 🔨</h2>
+            
+            <div class="item progress">
+                <div class="label">
+                    <span>Lighting & Atmosphere</span>
+                    <span class="status progress">60%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="60%"></div>
+                </div>
+                <div class="description">Time of day system, ambient lighting, fog effects, and outdoor ambient settings.</div>
+            </div>
+
+            <div class="item progress">
+                <div class="label">
+                    <span>Game Creation Tools</span>
+                    <span class="status progress">70%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="70%"></div>
+                </div>
+                <div class="description">Visual editor for building worlds, placing objects, and managing scene hierarchy.</div>
+            </div>
+
+            <div class="item progress">
+                <div class="label">
+                    <span>Script Editor</span>
+                    <span class="status progress">65%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="65%"></div>
+                </div>
+                <div class="description">Built-in code editor with syntax highlighting, auto-complete, and error reporting.</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>Planned Features 📋</h2>
+            
+            <div class="item planned">
+                <div class="label">
+                    <span>Multiplayer Networking</span>
+                    <span class="status planned">0%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="0%"></div>
+                </div>
+                <div class="description">Server-client architecture for hosting and joining multiplayer games.</div>
+            </div>
+
+            <div class="item planned">
+                <div class="label">
+                    <span>Game Publishing Platform</span>
+                    <span class="status planned">0%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="0%"></div>
+                </div>
+                <div class="description">Share your games with the community and browse creations from other developers.</div>
+            </div>
+
+            <div class="item planned">
+                <div class="label">
+                    <span>Asset Marketplace</span>
+                    <span class="status planned">0%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="0%"></div>
+                </div>
+                <div class="description">Browse and import community-created models, scripts, and game assets.</div>
+            </div>
+
+            <div class="item planned">
+                <div class="label">
+                    <span>Advanced Materials</span>
+                    <span class="status planned">0%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="0%"></div>
+                </div>
+                <div class="description">PBR materials, textures, normal maps, and custom shaders for enhanced visuals.</div>
+            </div>
+
+            <div class="item planned">
+                <div class="label">
+                    <span>Sound & Music System</span>
+                    <span class="status planned">0%</span>
+                </div>
+                <div class="bar">
+                    <div class="fill" data-width="0%"></div>
+                </div>
+                <div class="description">3D spatial audio, music playback, and sound effect management.</div>
+            </div>
         </div>
     </div>
 
-    <h2>In Progress</h2>
+    <button class="toggle" onclick="toggleDark()" aria-label="Toggle dark mode">🌙</button>
 
-    <div class="item notdone">
-        <div class="label">
-            <span>Play Games</span>
-            <span>0%</span>
-        </div>
-        <div class="bar">
-            <div class="fill" data-width="0%"></div>
-        </div>
-    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.querySelectorAll(".fill").forEach(el => {
+                    el.style.width = el.dataset.width;
+                });
+            }, 100);
 
-    <div class="item notdone">
-        <div class="label">
-            <span>Customize</span>
-            <span>0%</span>
-        </div>
-        <div class="bar">
-            <div class="fill" data-width="0%"></div>
-        </div>
-    </div>
+            const saved = localStorage.getItem("theme");
+            if (saved === "dark") {
+                document.body.classList.add("dark");
+                document.querySelector(".toggle").textContent = "☀️";
+            }
+        });
 
-    <div class="item notdone">
-        <div class="label">
-            <span>Multiplayer</span>
-            <span>0%</span>
-        </div>
-        <div class="bar">
-            <div class="fill" data-width="0%"></div>
-        </div>
-    </div>
-
-</div>
-
-<button class="toggle" onclick="toggleDark()">🌙</button>
-
-<script>
-// Run when page is ready (more reliable)
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".fill").forEach(el => {
-        el.style.width = el.dataset.width;
-    });
-
-    const saved = localStorage.getItem("theme");
-    if (saved === "dark") {
-        document.body.classList.add("dark");
-        document.querySelector(".toggle").textContent = "☀️";
-    }
-});
-
-// Toggle dark mode
-function toggleDark() {
-    document.body.classList.toggle("dark");
-
-    const isDark = document.body.classList.contains("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-
-    document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
-}
-</script>
-
+        function toggleDark() {
+            document.body.classList.toggle("dark");
+            const isDark = document.body.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
+        }
+    </script>
 </body>
 </html>
