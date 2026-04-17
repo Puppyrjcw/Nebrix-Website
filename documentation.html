@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebrix Lua API Documentation</title>
+    <meta name="description" content="Complete Lua API documentation for Nebrix game engine scripting.">
+    <style>
+        :root {
+            --bg: #f2f4f7;
+            --text: #1f2937;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --primary: #e11d48;
+            --primary-hover: #be123c;
+            --code-bg: #f9fafb;
+            --code-border: #e5e7eb;
+            --sidebar-bg: #ffffff;
+            --shadow: rgba(0,0,0,0.1);
+            --accent: #9333ea;
+        }
+
+        body.dark {
+            --bg: #0f172a;
+            --text: #e5e7eb;
+            --card: #1e293b;
+            --border: #334155;
+            --code-bg: #0a0f1e;
+            --code-border: #1e293b;
+            --sidebar-bg: #1e293b;
+            --shadow: rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 30px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            padding: 8px 16px;
+            text-decoration: none;
+            color: var(--text);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--bg);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            position: sticky;
+            top: 61px;
+            height: calc(100vh - 61px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 20px 0 10px;
+            opacity: 0.6;
+            font-weight: 600;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: var(--text);
+            border-radius: 6px;
+            margin: 2px 0;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .sidebar a:hover {
+            background: var(--bg);
+            color: var(--primary);
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 35px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--code-border);
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--code-border);
+            overflow-x: auto;
+            margin: 16px 0;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .api-method {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .method-signature {
+            font-family: 'Courier New', monospace;
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .param {
+            margin-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .param strong {
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+        }
+
+        .returns {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--code-bg);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+        }
+
+        .toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: var(--card);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            cursor: pointer;
+            font-size: 24px;
+            transition: transform 0.2s ease;
+            z-index: 99;
+        }
+
+        .toggle:hover {
+            transform: scale(1.15);
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 99;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: -300px;
+                transition: left 0.3s ease;
+                z-index: 101;
+                top: 0;
+                height: 100vh;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        .intro {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .intro h1 {
+            color: white;
+        }
+
+        ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--code-bg);
+            font-weight: 600;
+        }
+
+        .note {
+            background: var(--code-bg);
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
+            Nebrix API Docs
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="progression.html">Progress</a>
+            <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <h3>Getting Started</h3>
+            <a href="#intro">Introduction</a>
+            <a href="#quickstart">Quick Start</a>
+
+            <h3>Data Types</h3>
+            <a href="#vector3">Vector3</a>
+            <a href="#vector2">Vector2</a>
+            <a href="#color3">Color3</a>
+
+            <h3>Objects</h3>
+            <a href="#instance">Instance</a>
+            <a href="#part">Part</a>
+            <a href="#model">Model</a>
+            <a href="#gui">GUI Elements</a>
+
+            <h3>Services</h3>
+            <a href="#game">game</a>
+            <a href="#workspace">Workspace</a>
+            <a href="#lighting">Lighting</a>
+
+            <h3>Physics</h3>
+            <a href="#physics-properties">Properties</a>
+            <a href="#physics-methods">Methods</a>
+
+            <h3>Utility</h3>
+            <a href="#math">Math Extensions</a>
+            <a href="#table">Table Extensions</a>
+            <a href="#string">String Extensions</a>
+            <a href="#task">Task Library</a>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <h1>Nebrix Lua API Documentation</h1>
+                <p>Complete reference for scripting games in Nebrix using Lua. Build games with powerful 3D objects, physics, GUI, and more.</p>
+            </div>
+
+            <section id="intro">
+                <h2>Introduction</h2>
+                <p>Nebrix uses Lua 5.4 as its scripting language. This API is designed to feel familiar to developers who have used similar game engines while providing powerful features for creating 3D games.</p>
+                
+                <div class="note">
+                    <strong>Note:</strong> All property names are case-insensitive (e.g., <code>Position</code> and <code>position</code> both work).
+                </div>
+            </section>
+
+            <section id="quickstart">
+                <h2>Quick Start</h2>
+                <p>Here's a simple example to get you started:</p>
+                <pre><code>-- Create a red part
+local part = Instance.new("Part", workspace)
+part.Position = Vector3.new(0, 10, 0)
+part.Color = Color3.fromRGB(255, 0, 0)
+part.Size = Vector3.new(4, 1, 2)
+
+-- Add physics
+part.Anchored = false
+part:ApplyImpulse(Vector3.new(0, 50, 0))
+
+-- Update loop
+function onUpdate(dt)
+    part:Rotate(Vector3.new(0, 1, 0))
+end</code></pre>
+            </section>
+
+            <section id="vector3">
+                <h2>Vector3</h2>
+                <p>Represents a 3D vector with X, Y, and Z components.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">Vector3.new(x: number, y: number, z: number): Vector3</div>
+                    <p>Creates a new Vector3.</p>
+                    <div class="param"><strong>x</strong> - The X component (default: 0)</div>
+                    <div class="param"><strong>y</strong> - The Y component (default: 0)</div>
+                    <div class="param"><strong>z</strong> - The Z component (default: 0)</div>
+                    <pre><code>local position = Vector3.new(10, 5, 0)
+local direction = Vector3.new(0, 1, 0)</code></pre>
+                </div>
+
+                <h3>Constants</h3>
+                <div class="api-method">
+                    <div class="method-signature">Vector3.zero</div>
+                    <p>Shorthand for <code>Vector3.new(0, 0, 0)</code></p>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">Vector3.one</div>
+                    <p>Shorthand for <code>Vector3.new(1, 1, 1)</code></p>
+                </div>
+
+                <h3>Properties</h3>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>X</code> or <code>x</code></td>
+                        <td>number</td>
+                        <td>The X component</td>
+                    </tr>
+                    <tr>
+                        <td><code>Y</code> or <code>y</code></td>
+                        <td>number</td>
+                        <td>The Y component</td>
+                    </tr>
+                    <tr>
+                        <td><code>Z</code> or <code>z</code></td>
+                        <td>number</td>
+                        <td>The Z component</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section id="vector2">
+                <h2>Vector2</h2>
+                <p>Represents a 2D vector with X and Y components. Used for GUI positioning and sizing.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">Vector2.new(x: number, y: number): Vector2</div>
+                    <p>Creates a new Vector2.</p>
+                    <pre><code>local guiPosition = Vector2.new(100, 50)</code></pre>
+                </div>
+
+                <h3>Constants</h3>
+                <ul>
+                    <li><code>Vector2.zero</code> - Equals <code>Vector2.new(0, 0)</code></li>
+                    <li><code>Vector2.one</code> - Equals <code>Vector2.new(1, 1)</code></li>
+                </ul>
+            </section>
+
+            <section id="color3">
+                <h2>Color3</h2>
+                <p>Represents an RGB color with values from 0 to 1.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">Color3.new(r: number, g: number, b: number): Color3</div>
+                    <p>Creates a new Color3 with values from 0 to 1.</p>
+                    <pre><code>local white = Color3.new(1, 1, 1)
+local black = Color3.new(0, 0, 0)</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">Color3.fromRGB(r: number, g: number, b: number): Color3</div>
+                    <p>Creates a Color3 from RGB values (0-255).</p>
+                    <pre><code>local red = Color3.fromRGB(255, 0, 0)
+local blue = Color3.fromRGB(0, 100, 255)</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">Color3.fromHSV(h: number, s: number, v: number): Color3</div>
+                    <p>Creates a Color3 from HSV values (0-1).</p>
+                    <pre><code>-- Hue 0.5 (cyan), full saturation and value
+local cyan = Color3.fromHSV(0.5, 1, 1)</code></pre>
+                </div>
+
+                <h3>Properties</h3>
+                <ul>
+                    <li><code>R</code> or <code>r</code> - Red component (0-1)</li>
+                    <li><code>G</code> or <code>g</code> - Green component (0-1)</li>
+                    <li><code>B</code> or <code>b</code> - Blue component (0-1)</li>
+                </ul>
+            </section>
+
+            <section id="instance">
+                <h2>Instance</h2>
+                <p>Base class for all objects in Nebrix.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">Instance.new(className: string, parent: Instance?): Instance</div>
+                    <p>Creates a new instance of the specified type.</p>
+                    <div class="param"><strong>className</strong> - Type: "Part", "Sphere", "Cylinder", "Wedge", "Model", "Folder", "Script", "Frame", "TextLabel", "TextButton"</div>
+                    <div class="param"><strong>parent</strong> - Optional parent object</div>
+                    <pre><code>local part = Instance.new("Part", workspace)
+local model = Instance.new("Model", workspace)
+local frame = Instance.new("Frame", game.PlayerGui)</code></pre>
+                </div>
+
+                <h3>Properties</h3>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>Name</code></td>
+                        <td>string</td>
+                        <td>The name of the instance</td>
+                    </tr>
+                    <tr>
+                        <td><code>Parent</code></td>
+                        <td>Instance</td>
+                        <td>The parent object</td>
+                    </tr>
+                    <tr>
+                        <td><code>ClassName</code></td>
+                        <td>string</td>
+                        <td>The type of the instance (read-only)</td>
+                    </tr>
+                </table>
+
+                <h3>Methods</h3>
+                <div class="api-method">
+                    <div class="method-signature">IsA(className: string): boolean</div>
+                    <p>Checks if the instance is of the specified type.</p>
+                    <pre><code>if part:IsA("Part") then
+    print("This is a part!")
+end</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">FindFirstChild(name: string): Instance?</div>
+                    <p>Returns the first child with the specified name, or nil.</p>
+                    <pre><code>local head = character:FindFirstChild("Head")</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">WaitForChild(name: string): Instance?</div>
+                    <p>Returns the first child with the specified name (currently same as FindFirstChild).</p>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">GetChildren(): {Instance}</div>
+                    <p>Returns an array of all children.</p>
+                    <pre><code>for i, child in pairs(workspace:GetChildren()) do
+    print(child.Name)
+end</code></pre>
+                </div>
+            </section>
+
+            <section id="part">
+                <h2>Part</h2>
+                <p>A 3D physical object with shape, position, and physics properties.</p>
+
+                <h3>Properties</h3>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>Position</code></td>
+                        <td>Vector3</td>
+                        <td>World position of the part</td>
+                    </tr>
+                    <tr>
+                        <td><code>Rotation</code></td>
+                        <td>Vector3</td>
+                        <td>Rotation in degrees (X, Y, Z)</td>
+                    </tr>
+                    <tr>
+                        <td><code>Size</code></td>
+                        <td>Vector3</td>
+                        <td>Dimensions of the part</td>
+                    </tr>
+                    <tr>
+                        <td><code>Color</code></td>
+                        <td>Color3</td>
+                        <td>The color of the part</td>
+                    </tr>
+                    <tr>
+                        <td><code>Transparency</code></td>
+                        <td>number</td>
+                        <td>Transparency from 0 (opaque) to 1 (invisible)</td>
+                    </tr>
+                    <tr>
+                        <td><code>Anchored</code></td>
+                        <td>boolean</td>
+                        <td>If true, the part won't move from physics</td>
+                    </tr>
+                    <tr>
+                        <td><code>CanCollide</code></td>
+                        <td>boolean</td>
+                        <td>If true, the part collides with other parts</td>
+                    </tr>
+                    <tr>
+                        <td><code>Mass</code></td>
+                        <td>number</td>
+                        <td>The mass of the part for physics</td>
+                    </tr>
+                    <tr>
+                        <td><code>Velocity</code></td>
+                        <td>Vector3</td>
+                        <td>Current velocity vector</td>
+                    </tr>
+                </table>
+
+                <pre><code>-- Create and configure a part
+local part = Instance.new("Part", workspace)
+part.Position = Vector3.new(0, 10, 0)
+part.Size = Vector3.new(4, 1, 2)
+part.Color = Color3.fromRGB(100, 150, 255)
+part.Transparency = 0.5
+part.Anchored = false
+part.CanCollide = true
+part.Mass = 10</code></pre>
+
+                <h3 id="physics-methods">Physics Methods</h3>
+
+                <div class="api-method">
+                    <div class="method-signature">SetPosition(position: Vector3)</div>
+                    <p>Instantly sets the position of the part.</p>
+                    <pre><code>part:SetPosition(Vector3.new(10, 5, 0))</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">Translate(offset: Vector3)</div>
+                    <p>Moves the part by the specified offset.</p>
+                    <pre><code>-- Move the part up by 5 units
+part:Translate(Vector3.new(0, 5, 0))</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">SetRotation(rotation: Vector3)</div>
+                    <p>Sets the rotation in degrees.</p>
+                    <pre><code>part:SetRotation(Vector3.new(0, 45, 0))</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">LookAt(position: Vector3)</div>
+                    <p>Rotates the part to face the target position.</p>
+                    <pre><code>part:LookAt(Vector3.new(10, 0, 10))</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">ApplyImpulse(impulse: Vector3)</div>
+                    <p>Applies an instant impulse to the part (impulse / mass = velocity change).</p>
+                    <pre><code>-- Launch the part upward
+part:ApplyImpulse(Vector3.new(0, 100, 0))</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">ApplyForce(force: Vector3)</div>
+                    <p>Applies continuous force over time (uses delta time).</p>
+                    <pre><code>-- Apply upward force in update loop
+function onUpdate(dt)
+    part:ApplyForce(Vector3.new(0, 50, 0))
+end</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">AddVelocity(velocity: Vector3)</div>
+                    <p>Directly adds to the part's velocity.</p>
+                    <pre><code>part:AddVelocity(Vector3.new(5, 0, 0))</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">GetVelocity(): Vector3</div>
+                    <p>Returns the current velocity of the part.</p>
+                    <pre><code>local vel = part:GetVelocity()
+print("Speed:", vel.Y)</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">IsGrounded(): boolean</div>
+                    <p>Returns true if the part is touching the ground.</p>
+                    <pre><code>if part:IsGrounded() then
+    print("On ground!")
+end</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">GetForwardVector(): Vector3</div>
+                    <p>Returns the forward direction vector based on rotation.</p>
+                    <pre><code>local forward = part:GetForwardVector()
+part:Translate(forward)</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">GetUpVector(): Vector3</div>
+                    <p>Returns the up direction vector (always 0, 1, 0).</p>
+                </div>
+            </section>
+
+            <section id="model">
+                <h2>Model & Folder</h2>
+                <p>Containers for organizing multiple objects.</p>
+
+                <pre><code>-- Create a model with multiple parts
+local car = Instance.new("Model", workspace)
+car.Name = "Car"
+
+local body = Instance.new("Part", car)
+body.Name = "Body"
+body.Size = Vector3.new(4, 2, 6)
+
+local wheel = Instance.new("Cylinder", car)
+wheel.Name = "Wheel"</code></pre>
+            </section>
+
+            <section id="gui">
+                <h2>GUI Elements</h2>
+                <p>Create user interfaces with Frame, TextLabel, and TextButton.</p>
+
+                <h3>Frame</h3>
+                <pre><code>local frame = Instance.new("Frame", game.PlayerGui)
+frame.Size = Vector2.new(200, 100)
+frame.Position = Vector2.new(50, 50)
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)</code></pre>
+
+                <h3>TextLabel</h3>
+                <pre><code>local label = Instance.new("TextLabel", frame)
+label.Text = "Hello Nebrix!"
+label.Size = Vector2.new(200, 50)
+label.Position = Vector2.new(0, 0)</code></pre>
+
+                <h3>TextButton</h3>
+                <div class="api-method">
+                    <div class="method-signature">Clicked Event</div>
+                    <p>Set a function to handle button clicks.</p>
+                    <pre><code>local button = Instance.new("TextButton", frame)
+button.Text = "Click Me"
+button.Size = Vector2.new(150, 40)
+
+button.Clicked = function()
+    print("Button was clicked!")
+end</code></pre>
+                </div>
+
+                <h3>GUI Properties</h3>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>Size</code></td>
+                        <td>Vector2</td>
+                        <td>Width and height in pixels</td>
+                    </tr>
+                    <tr>
+                        <td><code>Position</code></td>
+                        <td>Vector2</td>
+                        <td>X and Y position in pixels</td>
+                    </tr>
+                    <tr>
+                        <td><code>BackgroundColor3</code></td>
+                        <td>Color3</td>
+                        <td>Background color</td>
+                    </tr>
+                    <tr>
+                        <td><code>Text</code></td>
+                        <td>string</td>
+                        <td>Text content (TextLabel/TextButton only)</td>
+                    </tr>
+                    <tr>
+                        <td><code>Visible</code></td>
+                        <td>boolean</td>
+                        <td>Whether the element is visible</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section id="game">
+                <h2>game</h2>
+                <p>The root of the game hierarchy. Use it to access services.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">game:GetService(serviceName: string): Service</div>
+                    <p>Returns the specified service.</p>
+                    <pre><code>local workspace = game:GetService("Workspace")
+local lighting = game:GetService("Lighting")
+local gui = game:GetService("PlayerGui")</code></pre>
+                </div>
+
+                <h3>Direct Properties</h3>
+                <ul>
+                    <li><code>game.Workspace</code> - The 3D world container</li>
+                    <li><code>game.Lighting</code> - Lighting and atmosphere settings</li>
+                    <li><code>game.ScriptService</code> - Container for scripts</li>
+                    <li><code>game.PlayerGui</code> - Container for GUI elements</li>
+                </ul>
+            </section>
+
+            <section id="workspace">
+                <h2>Workspace</h2>
+                <p>The 3D world where all parts and models exist. Accessible via <code>workspace</code> or <code>game.Workspace</code>.</p>
+
+                <pre><code>-- Access workspace
+local ws = workspace
+-- or
+local ws = game:GetService("Workspace")
+
+-- Add parts to workspace
+local part = Instance.new("Part", workspace)</code></pre>
+            </section>
+
+            <section id="lighting">
+                <h2>Lighting</h2>
+                <p>Controls the lighting, atmosphere, and time of day in your game.</p>
+
+                <h3>Properties</h3>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>TimeOfDay</code></td>
+                        <td>number</td>
+                        <td>Time in hours (0-24)</td>
+                    </tr>
+                    <tr>
+                        <td><code>Brightness</code></td>
+                        <td>number</td>
+                        <td>Overall brightness multiplier</td>
+                    </tr>
+                    <tr>
+                        <td><code>Ambient</code></td>
+                        <td>Color3</td>
+                        <td>Ambient light color</td>
+                    </tr>
+                    <tr>
+                        <td><code>OutdoorAmbient</code></td>
+                        <td>Color3</td>
+                        <td>Outdoor ambient light color</td>
+                    </tr>
+                    <tr>
+                        <td><code>FogStart</code></td>
+                        <td>number</td>
+                        <td>Distance where fog starts</td>
+                    </tr>
+                    <tr>
+                        <td><code>FogEnd</code></td>
+                        <td>number</td>
+                        <td>Distance where fog is complete</td>
+                    </tr>
+                    <tr>
+                        <td><code>FogColor</code></td>
+                        <td>Color3</td>
+                        <td>Color of the fog</td>
+                    </tr>
+                </table>
+
+                <pre><code>local lighting = game.Lighting
+
+-- Set sunset
+lighting.TimeOfDay = 18.5
+lighting.Brightness = 2
+lighting.Ambient = Color3.fromRGB(150, 100, 100)
+
+-- Add fog
+lighting.FogStart = 50
+lighting.FogEnd = 500
+lighting.FogColor = Color3.fromRGB(200, 200, 220)</code></pre>
+
+                <h3>Methods</h3>
+                <div class="api-method">
+                    <div class="method-signature">SetTimeOfDay(time: number)</div>
+                    <p>Sets the time of day (0-24 hours).</p>
+                    <pre><code>-- Cycle day/night
+function onUpdate(dt)
+    local lighting = game.Lighting
+    lighting:SetTimeOfDay(lighting.TimeOfDay + dt * 0.1)
+    if lighting.TimeOfDay > 24 then
+        lighting.TimeOfDay = 0
+    end
+end</code></pre>
+                </div>
+            </section>
+
+            <section id="math">
+                <h2>Math Extensions</h2>
+                <p>Extended math functions beyond standard Lua math library.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">math.clamp(value: number, min: number, max: number): number</div>
+                    <p>Clamps a value between min and max.</p>
+                    <pre><code>local speed = math.clamp(speed, 0, 100)</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">math.lerp(a: number, b: number, t: number): number</div>
+                    <p>Linear interpolation between a and b.</p>
+                    <pre><code>local pos = math.lerp(0, 100, 0.5) -- Returns 50</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">math.sign(value: number): number</div>
+                    <p>Returns -1, 0, or 1 depending on the sign.</p>
+                    <pre><code>local dir = math.sign(-5) -- Returns -1</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">math.round(value: number): number</div>
+                    <p>Rounds to the nearest integer.</p>
+                    <pre><code>local rounded = math.round(4.7) -- Returns 5</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">math.randomFloat(min: number, max: number): number</div>
+                    <p>Returns a random float between min and max.</p>
+                    <pre><code>local randomSpeed = math.randomFloat(1.0, 5.0)</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">math.map(value: number, inMin: number, inMax: number, outMin: number, outMax: number): number</div>
+                    <p>Maps a value from one range to another.</p>
+                    <pre><code>-- Map 50 from range 0-100 to range 0-1
+local normalized = math.map(50, 0, 100, 0, 1) -- Returns 0.5</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">math.distance(vec1: Vector3, vec2: Vector3): number</div>
+                    <p>Returns the distance between two Vector3 points.</p>
+                    <pre><code>local dist = math.distance(
+    Vector3.new(0, 0, 0),
+    Vector3.new(10, 0, 0)
+) -- Returns 10</code></pre>
+                </div>
+            </section>
+
+            <section id="table">
+                <h2>Table Extensions</h2>
+                <p>Additional table manipulation functions.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">table.find(tbl: table, value: any): number?</div>
+                    <p>Returns the index of value in the table, or nil.</p>
+                    <pre><code>local fruits = {"apple", "banana", "orange"}
+local index = table.find(fruits, "banana") -- Returns 2</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">table.getn(tbl: table): number</div>
+                    <p>Returns the length of the table.</p>
+                    <pre><code>local count = table.getn({1, 2, 3, 4}) -- Returns 4</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">table.clear(tbl: table)</div>
+                    <p>Removes all elements from the table.</p>
+                    <pre><code>local list = {1, 2, 3}
+table.clear(list) -- list is now {}</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">table.clone(tbl: table): table</div>
+                    <p>Creates a shallow copy of the table.</p>
+                    <pre><code>local original = {a = 1, b = 2}
+local copy = table.clone(original)</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">table.merge(tbl1: table, tbl2: table): table</div>
+                    <p>Creates a new table with elements from both tables.</p>
+                    <pre><code>local merged = table.merge(
+    {a = 1, b = 2},
+    {c = 3, d = 4}
+) -- {a=1, b=2, c=3, d=4}</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">table.shuffle(tbl: table): table</div>
+                    <p>Randomly shuffles the table in place and returns it.</p>
+                    <pre><code>local deck = {1, 2, 3, 4, 5}
+table.shuffle(deck)</code></pre>
+                </div>
+            </section>
+
+            <section id="string">
+                <h2>String Extensions</h2>
+                <p>Additional string manipulation functions.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">string.split(str: string, separator: string): {string}</div>
+                    <p>Splits a string into an array.</p>
+                    <pre><code>local parts = string.split("hello,world,test", ",")
+-- Returns {"hello", "world", "test"}</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">string.trim(str: string): string</div>
+                    <p>Removes whitespace from both ends.</p>
+                    <pre><code>local clean = string.trim("  hello  ") -- Returns "hello"</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">string.startswith(str: string, prefix: string): boolean</div>
+                    <p>Checks if string starts with prefix.</p>
+                    <pre><code>if string.startswith(filename, "player_") then
+    print("This is a player file")
+end</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">string.endswith(str: string, suffix: string): boolean</div>
+                    <p>Checks if string ends with suffix.</p>
+                    <pre><code>if string.endswith(filename, ".lua") then
+    print("This is a Lua file")
+end</code></pre>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">string.replace(str: string, find: string, replace: string): string</div>
+                    <p>Replaces all occurrences of find with replace.</p>
+                    <pre><code>local text = string.replace("Hello World", "World", "Nebrix")
+-- Returns "Hello Nebrix"</code></pre>
+                </div>
+            </section>
+
+            <section id="task">
+                <h2>Task Library</h2>
+                <p>Functions for managing asynchronous tasks and timing.</p>
+
+                <div class="api-method">
+                    <div class="method-signature">task.wait()</div>
+                    <p>Yields execution (currently a placeholder).</p>
+                </div>
+
+                <div class="api-method">
+                    <div class="method-signature">wait()</div>
+                    <p>Global alias for task.wait().</p>
+                </div>
+
+                <div class="note">
+                    <strong>Note:</strong> The task library is minimal in the current version. More scheduling features are planned for future releases.
+                </div>
+            </section>
+
+            <section id="globals">
+                <h2>Global Functions</h2>
+
+                <h3>print(...)</h3>
+                <p>Outputs messages to the console.</p>
+                <pre><code>print("Hello, Nebrix!")
+print("Position:", part.Position)</code></pre>
+
+                <h3>warn(message: string)</h3>
+                <p>Outputs a warning message.</p>
+                <pre><code>warn("This feature is deprecated")</code></pre>
+
+                <h3>error(message: string)</h3>
+                <p>Throws an error and stops execution.</p>
+                <pre><code>if not player then
+    error("Player not found!")
+end</code></pre>
+
+                <h3>onUpdate(dt: number)</h3>
+                <p>Called every frame if defined in your script.</p>
+                <pre><code>function onUpdate(dt)
+    -- dt is delta time in seconds
+    part.Rotation = part.Rotation + Vector3.new(0, 90 * dt, 0)
+end</code></pre>
+
+                <h3>Global Variables</h3>
+                <ul>
+                    <li><code>script</code> - Reference to the current script object</li>
+                    <li><code>workspace</code> - Shorthand for game.Workspace</li>
+                </ul>
+            </section>
+
+            <section id="examples">
+                <h2>Complete Examples</h2>
+
+                <h3>Spinning Part</h3>
+                <pre><code>local part = Instance.new("Part", workspace)
+part.Position = Vector3.new(0, 10, 0)
+part.Color = Color3.fromRGB(255, 100, 100)
+part.Anchored = true
+
+function onUpdate(dt)
+    part.Rotation = part.Rotation + Vector3.new(0, 45 * dt, 0)
+end</code></pre>
+
+                <h3>Bouncing Ball</h3>
+                <pre><code>local ball = Instance.new("Sphere", workspace)
+ball.Position = Vector3.new(0, 50, 0)
+ball.Size = Vector3.new(2, 2, 2)
+ball.Color = Color3.fromRGB(100, 150, 255)
+ball.Anchored = false
+ball.CanCollide = true
+
+-- Add bounce on collision
+function onUpdate(dt)
+    if ball:IsGrounded() then
+        local vel = ball:GetVelocity()
+        if vel.Y < 0 then
+            ball:ApplyImpulse(Vector3.new(0, 80, 0))
+        end
+    end
+end</code></pre>
+
+                <h3>Simple Button Counter</h3>
+                <pre><code>local count = 0
+
+local frame = Instance.new("Frame", game.PlayerGui)
+frame.Size = Vector2.new(200, 100)
+frame.Position = Vector2.new(10, 10)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+
+local label = Instance.new("TextLabel", frame)
+label.Size = Vector2.new(200, 50)
+label.Text = "Count: 0"
+label.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+
+local button = Instance.new("TextButton", frame)
+button.Size = Vector2.new(200, 40)
+button.Position = Vector2.new(0, 55)
+button.Text = "Click Me!"
+button.BackgroundColor3 = Color3.fromRGB(225, 29, 72)
+
+button.Clicked = function()
+    count = count + 1
+    label.Text = "Count: " .. count
+end</code></pre>
+
+                <h3>Day/Night Cycle</h3>
+                <pre><code>local lighting = game.Lighting
+lighting.TimeOfDay = 12
+
+function onUpdate(dt)
+    -- Advance time by 0.1 hours per second
+    lighting.TimeOfDay = lighting.TimeOfDay + dt * 0.1
+    
+    if lighting.TimeOfDay >= 24 then
+        lighting.TimeOfDay = 0
+    end
+    
+    -- Adjust brightness based on time
+    local time = lighting.TimeOfDay
+    if time > 6 and time < 18 then
+        lighting.Brightness = 2 -- Day
+    else
+        lighting.Brightness = 0.3 -- Night
+    end
+end</code></pre>
+            </section>
+
+            <footer style="margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border);">
+                <p style="text-align: center; opacity: 0.6;">© 2026 Nebrix Corporation. Documentation for Lua API v1.0</p>
+            </footer>
+        </div>
+    </div>
+
+    <button class="toggle" onclick="toggleDark()" aria-label="Toggle dark mode">🌙</button>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+
+    <script>
+        function toggleDark() {
+            document.body.classList.toggle("dark");
+            const isDark = document.body.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
+        }
+
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+
+        // Close sidebar when clicking a link on mobile
+        document.querySelectorAll(".sidebar a").forEach(link => {
+            link.addEventListener("click", () => {
+                if (window.innerWidth <= 1024) {
+                    document.getElementById("sidebar").classList.remove("open");
+                }
+            });
+        });
+
+        window.onload = () => {
+            const saved = localStorage.getItem("theme");
+            if (saved === "dark") {
+                document.body.classList.add("dark");
+                document.querySelector(".toggle").textContent = "☀️";
+            }
+        };
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
