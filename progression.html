@@ -36,18 +36,14 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            transition: background 0.3s, color 0.3s;
-        }
+        body { background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
 
-        /* ─── NAVBAR ─────────────────────────────── */
+        /* ── NAVBAR ── */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 30px;
+            padding: 0 28px;
             height: 60px;
             background: var(--card);
             border-bottom: 1px solid var(--border);
@@ -69,17 +65,18 @@
 
         .logo img { width: 32px; height: 32px; }
 
-        .nav-links { display: flex; gap: 6px; align-items: center; }
+        .nav-links { display: flex; gap: 4px; align-items: center; }
 
         .nav-links a {
-            padding: 7px 15px;
+            padding: 7px 14px;
             text-decoration: none;
             color: var(--text);
-            opacity: 0.75;
+            opacity: 0.7;
             border-radius: 6px;
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
         .nav-links a:hover { opacity: 1; background: var(--bg); }
@@ -93,31 +90,73 @@
 
         .nav-links .btn-nav:hover { background: var(--primary-hover); }
 
-        /* ─── PAGE HEADER ────────────────────────── */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.5rem;
+            padding: 4px 6px;
+            line-height: 1;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 16px 16px;
+            gap: 2px;
+        }
+
+        .mobile-nav.open { display: flex; }
+
+        .mobile-nav a {
+            padding: 12px 14px;
+            text-decoration: none;
+            color: var(--text);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .mobile-nav a:hover { background: var(--bg); }
+
+        .mobile-nav .mobile-dl {
+            margin-top: 6px;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 8px;
+        }
+
+        .mobile-nav .mobile-dl:hover { background: var(--primary-hover); }
+
+        /* ── PAGE HEADER ── */
         .page-header {
             text-align: center;
-            padding: 60px 24px 50px;
+            padding: 54px 20px 44px;
             border-bottom: 1px solid var(--border);
         }
 
         .page-header h1 {
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(1.9rem, 5vw, 2.9rem);
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
-        .page-header p {
-            color: var(--muted);
-            font-size: 1.05rem;
-        }
+        .page-header p { color: var(--muted); font-size: 1rem; }
 
-        /* ─── SUMMARY PILLS ──────────────────────── */
+        /* ── SUMMARY PILLS ── */
         .summary-row {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            padding: 28px 24px 0;
+            padding: 26px 20px 0;
             max-width: 700px;
             margin: 0 auto;
         }
@@ -125,49 +164,40 @@
         .summary-pill {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 18px;
+            gap: 7px;
+            padding: 7px 16px;
             border-radius: 100px;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             font-weight: 600;
             border: 1px solid var(--border);
             background: var(--card);
         }
 
-        .pill-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
+        .pill-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 
-        /* ─── CONTAINER ──────────────────────────── */
+        /* ── CONTAINER ── */
         .container {
-            max-width: 900px;
+            max-width: 860px;
             margin: 0 auto;
-            padding: 40px 24px 80px;
+            padding: 36px 20px 72px;
         }
 
-        /* ─── CATEGORY ───────────────────────────── */
-        .category {
-            margin-bottom: 50px;
-        }
+        /* ── CATEGORY ── */
+        .category { margin-bottom: 44px; }
 
         .category-heading {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--border);
         }
 
-        .category-heading h2 {
-            font-size: 1.35rem;
-            font-weight: 700;
-        }
+        .category-heading h2 { font-size: 1.25rem; font-weight: 700; }
 
         .category-count {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 600;
             padding: 3px 10px;
             border-radius: 100px;
@@ -176,46 +206,40 @@
             border: 1px solid var(--border);
         }
 
-        /* ─── ITEM ───────────────────────────────── */
+        /* ── ITEM ── */
         .item {
             background: var(--card);
-            padding: 22px 24px;
+            padding: 20px 22px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             box-shadow: 0 2px 8px var(--shadow);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px var(--shadow-hover);
-        }
+        .item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px var(--shadow-hover); }
 
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-        .item-name {
-            font-size: 1rem;
-            font-weight: 700;
-        }
+        .item-name { font-size: 0.975rem; font-weight: 700; }
 
         .item-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-shrink: 0;
         }
 
         .status {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            padding: 4px 12px;
+            padding: 3px 11px;
             border-radius: 100px;
         }
 
@@ -227,21 +251,15 @@
         body.dark .status.progress { background: #451a03; color: #fcd34d; }
         body.dark .status.planned  { background: #450a0a; color: #fca5a5; }
 
-        .pct-label {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--muted);
-            min-width: 36px;
-            text-align: right;
-        }
+        .pct-label { font-size: 0.82rem; font-weight: 700; color: var(--muted); min-width: 34px; text-align: right; }
 
         .bar {
             width: 100%;
-            height: 8px;
+            height: 7px;
             background: var(--bar-bg);
             border-radius: 100px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 9px;
         }
 
         .fill {
@@ -255,25 +273,21 @@
         .fill.progress { background: var(--bar-progress); }
         .fill.planned  { background: var(--bar-planned); }
 
-        .item-desc {
-            font-size: 0.875rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
+        .item-desc { font-size: 0.855rem; color: var(--muted); line-height: 1.6; }
 
-        /* ─── TOGGLE ─────────────────────────────── */
+        /* ── TOGGLE ── */
         .toggle {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 50px;
-            height: 50px;
+            bottom: 20px;
+            right: 20px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             border: 1px solid var(--border);
             background: var(--card);
             box-shadow: 0 4px 14px var(--shadow);
             cursor: pointer;
-            font-size: 20px;
+            font-size: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -283,9 +297,18 @@
 
         .toggle:hover { transform: scale(1.1); }
 
-        @media (max-width: 600px) {
-            .item-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .item-right { flex-direction: row; }
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .container { padding: 28px 14px 60px; }
+            .page-header { padding: 40px 16px 32px; }
+        }
+
+        @media (max-width: 480px) {
+            .item-header { flex-wrap: wrap; }
+            .item-right { width: 100%; justify-content: flex-start; }
+            .status { font-size: 0.72rem; }
         }
     </style>
 </head>
@@ -299,28 +322,28 @@
     <div class="nav-links">
         <a href="documentation.html">Docs</a>
         <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://discord.com/invite/Dwha8GE3jw" target="_blank" rel="noopener">Discord</a>
         <a href="index.html" class="btn-nav">Home</a>
     </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">☰</button>
 </nav>
+
+<div class="mobile-nav" id="mobileNav">
+    <a href="documentation.html">📄 Docs</a>
+    <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank" rel="noopener">💻 GitHub</a>
+    <a href="https://discord.com/invite/Dwha8GE3jw" target="_blank" rel="noopener">💬 Discord</a>
+    <a href="index.html" class="mobile-dl">🏠 Home</a>
+</div>
 
 <div class="page-header">
     <h1>Development Roadmap</h1>
-    <p>Track the progress of Nebrix features and upcoming updates</p>
+    <p>What's shipped, what's in progress, and what's coming next</p>
 </div>
 
 <div class="summary-row">
-    <div class="summary-pill">
-        <div class="pill-dot" style="background:#16a34a;"></div>
-        4 Completed
-    </div>
-    <div class="summary-pill">
-        <div class="pill-dot" style="background:#f59e0b;"></div>
-        3 In Progress
-    </div>
-    <div class="summary-pill">
-        <div class="pill-dot" style="background:#dc2626;"></div>
-        5 Planned
-    </div>
+    <div class="summary-pill"><div class="pill-dot" style="background:#16a34a;"></div>4 Completed</div>
+    <div class="summary-pill"><div class="pill-dot" style="background:#f59e0b;"></div>3 In Progress</div>
+    <div class="summary-pill"><div class="pill-dot" style="background:#dc2626;"></div>5 Planned</div>
 </div>
 
 <div class="container">
@@ -512,6 +535,10 @@
         const isDark = document.body.classList.contains('dark');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+    }
+
+    function toggleMenu() {
+        document.getElementById('mobileNav').classList.toggle('open');
     }
 </script>
 </body>
