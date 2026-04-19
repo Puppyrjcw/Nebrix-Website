@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="nebrixlogo.png">
-    <title>Nebrix Development Progress</title>
+    <title>Nebrix - Development Roadmap</title>
     <meta name="description" content="Track the development progress of Nebrix game engine features.">
     <style>
         :root {
@@ -16,9 +16,11 @@
             --primary-hover: #be123c;
             --bar-bg: #e5e7eb;
             --bar-fill: #16a34a;
-            --bar-fill-progress: #f59e0b;
-            --bar-fill-planned: #dc2626;
-            --shadow: rgba(0,0,0,0.1);
+            --bar-progress: #f59e0b;
+            --bar-planned: #dc2626;
+            --shadow: rgba(0,0,0,0.08);
+            --shadow-hover: rgba(0,0,0,0.14);
+            --muted: #6b7280;
         }
 
         body.dark {
@@ -27,27 +29,26 @@
             --card: #1e293b;
             --border: #334155;
             --bar-bg: #334155;
-            --shadow: rgba(0,0,0,0.4);
+            --shadow: rgba(0,0,0,0.35);
+            --shadow-hover: rgba(0,0,0,0.5);
+            --muted: #94a3b8;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
             transition: background 0.3s, color 0.3s;
         }
 
+        /* ─── NAVBAR ─────────────────────────────── */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 30px;
+            padding: 0 30px;
+            height: 60px;
             background: var(--card);
             border-bottom: 1px solid var(--border);
             box-shadow: 0 2px 8px var(--shadow);
@@ -60,370 +61,458 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 1.2rem;
-        }
-
-        .logo img {
-            width: 32px;
-            height: 32px;
-        }
-
-        .navbar a {
             text-decoration: none;
-            color: white;
-            background: var(--primary);
-            padding: 8px 18px;
+            color: var(--text);
+        }
+
+        .logo img { width: 32px; height: 32px; }
+
+        .nav-links { display: flex; gap: 6px; align-items: center; }
+
+        .nav-links a {
+            padding: 7px 15px;
+            text-decoration: none;
+            color: var(--text);
+            opacity: 0.75;
             border-radius: 6px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover { opacity: 1; background: var(--bg); }
+
+        .nav-links .btn-nav {
+            background: var(--primary);
+            color: white;
+            opacity: 1;
             font-weight: 600;
-            transition: all 0.2s ease;
         }
 
-        .navbar a:hover {
-            background: var(--primary-hover);
-            transform: scale(1.05);
+        .nav-links .btn-nav:hover { background: var(--primary-hover); }
+
+        /* ─── PAGE HEADER ────────────────────────── */
+        .page-header {
+            text-align: center;
+            padding: 60px 24px 50px;
+            border-bottom: 1px solid var(--border);
         }
 
+        .page-header h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        /* ─── SUMMARY PILLS ──────────────────────── */
+        .summary-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 28px 24px 0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .summary-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            background: var(--card);
+        }
+
+        .pill-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* ─── CONTAINER ──────────────────────────── */
         .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .subtitle {
-            text-align: center;
-            opacity: 0.7;
-            margin-bottom: 50px;
-            font-size: 1.1rem;
-        }
-
-        h2 {
-            margin-top: 40px;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            color: var(--primary);
-        }
-
+        /* ─── CATEGORY ───────────────────────────── */
         .category {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
+        .category-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .category-heading h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .category-count {
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            background: var(--bg);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        /* ─── ITEM ───────────────────────────────── */
         .item {
             background: var(--card);
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px 24px;
+            border-radius: 12px;
             border: 1px solid var(--border);
-            margin-bottom: 16px;
-            transition: all 0.3s ease;
+            margin-bottom: 14px;
             box-shadow: 0 2px 8px var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px var(--shadow);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-hover);
         }
 
-        .label {
+        .item-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 1.05rem;
+            gap: 12px;
             margin-bottom: 12px;
-            font-weight: 600;
+        }
+
+        .item-name {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .item-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
         .status {
-            font-size: 0.85rem;
-            padding: 4px 12px;
-            border-radius: 20px;
+            font-size: 0.78rem;
             font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 100px;
         }
 
-        .status.complete {
-            background: #dcfce7;
-            color: #166534;
-        }
+        .status.complete { background: #dcfce7; color: #166534; }
+        .status.progress { background: #fef3c7; color: #92400e; }
+        .status.planned  { background: #fee2e2; color: #991b1b; }
 
-        body.dark .status.complete {
-            background: #14532d;
-            color: #86efac;
-        }
+        body.dark .status.complete { background: #14532d; color: #86efac; }
+        body.dark .status.progress { background: #451a03; color: #fcd34d; }
+        body.dark .status.planned  { background: #450a0a; color: #fca5a5; }
 
-        .status.progress {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        body.dark .status.progress {
-            background: #451a03;
-            color: #fcd34d;
-        }
-
-        .status.planned {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        body.dark .status.planned {
-            background: #450a0a;
-            color: #fca5a5;
+        .pct-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--muted);
+            min-width: 36px;
+            text-align: right;
         }
 
         .bar {
             width: 100%;
-            height: 12px;
+            height: 8px;
             background: var(--bar-bg);
-            border-radius: 20px;
+            border-radius: 100px;
             overflow: hidden;
+            margin-bottom: 10px;
         }
 
         .fill {
             height: 100%;
             width: 0;
-            border-radius: 20px;
+            border-radius: 100px;
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .complete .fill {
-            background: var(--bar-fill);
-        }
+        .fill.complete { background: var(--bar-fill); }
+        .fill.progress { background: var(--bar-progress); }
+        .fill.planned  { background: var(--bar-planned); }
 
-        .progress .fill {
-            background: var(--bar-fill-progress);
-        }
-
-        .planned .fill {
-            background: var(--bar-fill-planned);
-        }
-
-        .description {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            opacity: 0.7;
+        .item-desc {
+            font-size: 0.875rem;
+            color: var(--muted);
             line-height: 1.6;
         }
 
+        /* ─── TOGGLE ─────────────────────────────── */
         .toggle {
             position: fixed;
             bottom: 24px;
-            left: 24px;
-            width: 56px;
-            height: 56px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border: none;
+            border: 1px solid var(--border);
             background: var(--card);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 14px var(--shadow);
             cursor: pointer;
-            font-size: 24px;
-            transition: transform 0.2s ease;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
             z-index: 99;
         }
 
-        .toggle:hover {
-            transform: scale(1.15);
-        }
+        .toggle:hover { transform: scale(1.1); }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .label {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
+        @media (max-width: 600px) {
+            .item-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .item-right { flex-direction: row; }
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo">
-            <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
-            Nebrix Progress
-        </div>
-        <a href="index.html">Home</a>
+
+<nav class="navbar">
+    <a href="index.html" class="logo">
+        <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
+        Nebrix
+    </a>
+    <div class="nav-links">
+        <a href="documentation.html">Docs</a>
+        <a href="https://github.com/Puppyrjcw/Nebrix" target="_blank" rel="noopener">GitHub</a>
+        <a href="index.html" class="btn-nav">Home</a>
     </div>
+</nav>
 
-    <div class="container">
-        <h1>Development Roadmap</h1>
-        <p class="subtitle">Track the progress of Nebrix features and upcoming updates</p>
+<div class="page-header">
+    <h1>Development Roadmap</h1>
+    <p>Track the progress of Nebrix features and upcoming updates</p>
+</div>
 
-        <div class="category">
-            <h2>Core Features - Completed ✓</h2>
-            
-            <div class="item complete">
-                <div class="label">
-                    <span>Lua Scripting Engine</span>
-                    <span class="status complete">100%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="100%"></div>
-                </div>
-                <div class="description">Full Lua 5.4 integration with custom API bindings for game objects, physics, and rendering.</div>
-            </div>
+<div class="summary-row">
+    <div class="summary-pill">
+        <div class="pill-dot" style="background:#16a34a;"></div>
+        4 Completed
+    </div>
+    <div class="summary-pill">
+        <div class="pill-dot" style="background:#f59e0b;"></div>
+        3 In Progress
+    </div>
+    <div class="summary-pill">
+        <div class="pill-dot" style="background:#dc2626;"></div>
+        5 Planned
+    </div>
+</div>
 
-            <div class="item complete">
-                <div class="label">
-                    <span>3D Part System</span>
-                    <span class="status complete">95%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="95%"></div>
-                </div>
-                <div class="description">Box, Sphere, Cylinder, and Wedge primitive shapes with full transform and physics support.</div>
-            </div>
+<div class="container">
 
-            <div class="item complete">
-                <div class="label">
-                    <span>Physics Engine</span>
-                    <span class="status complete">85%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="85%"></div>
-                </div>
-                <div class="description">Collision detection, velocity, mass, anchoring, and force application on parts.</div>
-            </div>
-
-            <div class="item complete">
-                <div class="label">
-                    <span>GUI System</span>
-                    <span class="status complete">75%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="75%"></div>
-                </div>
-                <div class="description">Frame, TextLabel, and TextButton elements with click events and property control.</div>
-            </div>
+    <div class="category">
+        <div class="category-heading">
+            <h2>✅ Core Features</h2>
+            <span class="category-count">Completed</span>
         </div>
 
-        <div class="category">
-            <h2>In Active Development 🔨</h2>
-            
-            <div class="item progress">
-                <div class="label">
-                    <span>Lighting & Atmosphere</span>
-                    <span class="status progress">60%</span>
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Lua Scripting Engine</span>
+                <div class="item-right">
+                    <span class="status complete">Complete</span>
+                    <span class="pct-label">100%</span>
                 </div>
-                <div class="bar">
-                    <div class="fill" data-width="60%"></div>
-                </div>
-                <div class="description">Time of day system, ambient lighting, fog effects, and outdoor ambient settings.</div>
             </div>
-
-            <div class="item progress">
-                <div class="label">
-                    <span>Game Creation Tools</span>
-                    <span class="status progress">70%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="70%"></div>
-                </div>
-                <div class="description">Visual editor for building worlds, placing objects, and managing scene hierarchy.</div>
-            </div>
-
-            <div class="item progress">
-                <div class="label">
-                    <span>Script Editor</span>
-                    <span class="status progress">65%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="65%"></div>
-                </div>
-                <div class="description">Built-in code editor with syntax highlighting, auto-complete, and error reporting.</div>
-            </div>
+            <div class="bar"><div class="fill complete" data-width="100%"></div></div>
+            <p class="item-desc">Full Lua 5.4 integration with custom API bindings for game objects, physics, and rendering.</p>
         </div>
 
-        <div class="category">
-            <h2>Planned Features 📋</h2>
-            
-            <div class="item planned">
-                <div class="label">
-                    <span>Multiplayer Networking</span>
-                    <span class="status planned">0%</span>
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">3D Part System</span>
+                <div class="item-right">
+                    <span class="status complete">Complete</span>
+                    <span class="pct-label">95%</span>
                 </div>
-                <div class="bar">
-                    <div class="fill" data-width="0%"></div>
-                </div>
-                <div class="description">Server-client architecture for hosting and joining multiplayer games.</div>
             </div>
+            <div class="bar"><div class="fill complete" data-width="95%"></div></div>
+            <p class="item-desc">Box, Sphere, Cylinder, and Wedge primitive shapes with full transform and physics support.</p>
+        </div>
 
-            <div class="item planned">
-                <div class="label">
-                    <span>Game Publishing Platform</span>
-                    <span class="status planned">0%</span>
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Physics Engine</span>
+                <div class="item-right">
+                    <span class="status complete">Complete</span>
+                    <span class="pct-label">85%</span>
                 </div>
-                <div class="bar">
-                    <div class="fill" data-width="0%"></div>
-                </div>
-                <div class="description">Share your games with the community and browse creations from other developers.</div>
             </div>
+            <div class="bar"><div class="fill complete" data-width="85%"></div></div>
+            <p class="item-desc">Collision detection, velocity, mass, anchoring, and force application on parts.</p>
+        </div>
 
-            <div class="item planned">
-                <div class="label">
-                    <span>Asset Marketplace</span>
-                    <span class="status planned">0%</span>
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">GUI System</span>
+                <div class="item-right">
+                    <span class="status complete">Complete</span>
+                    <span class="pct-label">75%</span>
                 </div>
-                <div class="bar">
-                    <div class="fill" data-width="0%"></div>
-                </div>
-                <div class="description">Browse and import community-created models, scripts, and game assets.</div>
             </div>
-
-            <div class="item planned">
-                <div class="label">
-                    <span>Advanced Materials</span>
-                    <span class="status planned">0%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="0%"></div>
-                </div>
-                <div class="description">PBR materials, textures, normal maps, and custom shaders for enhanced visuals.</div>
-            </div>
-
-            <div class="item planned">
-                <div class="label">
-                    <span>Sound & Music System</span>
-                    <span class="status planned">0%</span>
-                </div>
-                <div class="bar">
-                    <div class="fill" data-width="0%"></div>
-                </div>
-                <div class="description">3D spatial audio, music playback, and sound effect management.</div>
-            </div>
+            <div class="bar"><div class="fill complete" data-width="75%"></div></div>
+            <p class="item-desc">Frame, TextLabel, and TextButton elements with click events and property control.</p>
         </div>
     </div>
 
-    <button class="toggle" onclick="toggleDark()" aria-label="Toggle dark mode">🌙</button>
+    <div class="category">
+        <div class="category-heading">
+            <h2>🔨 In Active Development</h2>
+            <span class="category-count">In Progress</span>
+        </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.querySelectorAll(".fill").forEach(el => {
-                    el.style.width = el.dataset.width;
-                });
-            }, 100);
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Game Creation Tools</span>
+                <div class="item-right">
+                    <span class="status progress">In Progress</span>
+                    <span class="pct-label">70%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill progress" data-width="70%"></div></div>
+            <p class="item-desc">Visual editor for building worlds, placing objects, and managing scene hierarchy.</p>
+        </div>
 
-            const saved = localStorage.getItem("theme");
-            if (saved === "dark") {
-                document.body.classList.add("dark");
-                document.querySelector(".toggle").textContent = "☀️";
-            }
-        });
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Script Editor</span>
+                <div class="item-right">
+                    <span class="status progress">In Progress</span>
+                    <span class="pct-label">65%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill progress" data-width="65%"></div></div>
+            <p class="item-desc">Built-in code editor with syntax highlighting, auto-complete, and error reporting.</p>
+        </div>
 
-        function toggleDark() {
-            document.body.classList.toggle("dark");
-            const isDark = document.body.classList.contains("dark");
-            localStorage.setItem("theme", isDark ? "dark" : "light");
-            document.querySelector(".toggle").textContent = isDark ? "☀️" : "🌙";
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Lighting & Atmosphere</span>
+                <div class="item-right">
+                    <span class="status progress">In Progress</span>
+                    <span class="pct-label">60%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill progress" data-width="60%"></div></div>
+            <p class="item-desc">Time of day system, ambient lighting, fog effects, and outdoor ambient settings.</p>
+        </div>
+    </div>
+
+    <div class="category">
+        <div class="category-heading">
+            <h2>📋 Planned Features</h2>
+            <span class="category-count">Upcoming</span>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Multiplayer Networking</span>
+                <div class="item-right">
+                    <span class="status planned">Planned</span>
+                    <span class="pct-label">0%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill planned" data-width="0%"></div></div>
+            <p class="item-desc">Server-client architecture for hosting and joining multiplayer games.</p>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Game Publishing Platform</span>
+                <div class="item-right">
+                    <span class="status planned">Planned</span>
+                    <span class="pct-label">0%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill planned" data-width="0%"></div></div>
+            <p class="item-desc">Share your games with the community and browse creations from other developers.</p>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Asset Marketplace</span>
+                <div class="item-right">
+                    <span class="status planned">Planned</span>
+                    <span class="pct-label">0%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill planned" data-width="0%"></div></div>
+            <p class="item-desc">Browse and import community-created models, scripts, and game assets.</p>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Advanced Materials</span>
+                <div class="item-right">
+                    <span class="status planned">Planned</span>
+                    <span class="pct-label">0%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill planned" data-width="0%"></div></div>
+            <p class="item-desc">PBR materials, textures, normal maps, and custom shaders for enhanced visuals.</p>
+        </div>
+
+        <div class="item">
+            <div class="item-header">
+                <span class="item-name">Sound & Music System</span>
+                <div class="item-right">
+                    <span class="status planned">Planned</span>
+                    <span class="pct-label">0%</span>
+                </div>
+            </div>
+            <div class="bar"><div class="fill planned" data-width="0%"></div></div>
+            <p class="item-desc">3D spatial audio, music playback, and sound effect management.</p>
+        </div>
+    </div>
+
+</div>
+
+<button class="toggle" onclick="toggleDark()" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            document.querySelectorAll('.fill').forEach(el => {
+                el.style.width = el.dataset.width;
+            });
+        }, 100);
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark');
+            document.getElementById('themeToggle').textContent = '☀️';
         }
-    </script>
+    });
+
+    function toggleDark() {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+    }
+</script>
 </body>
 </html>
