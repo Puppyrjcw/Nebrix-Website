@@ -400,12 +400,12 @@ async function registerUser() {
     const password = document.getElementById("password").value;
 
     if (!username || !email || !password) {
-        alert("Please fill in all fields");
+        alert("Fill in all fields");
         return;
     }
 
     try {
-        const res = await fetch("https://159.203.123.161:3000/register", {
+        const res = await fetch("https://YOUR_DOMAIN_OR_IP/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -420,13 +420,13 @@ async function registerUser() {
         const data = await res.json();
 
         if (res.ok) {
-            alert("Account created successfully!");
+            alert("Account created!");
         } else {
-            alert(data.error || "Registration failed");
+            alert(data.error || "Failed to register");
         }
 
     } catch (err) {
-        console.error(err);
+        console.log(err);
         alert("Cannot connect to server");
     }
 }
