@@ -331,7 +331,7 @@ footer {
           <path fill="currentColor" d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
         </svg>
       </span>
-      <input type="text" placeholder="Username">
+      <input id="username" type="text" placeholder="Username">
     </div>
     <div class="input-group">
       <span class="input-icon">
@@ -339,7 +339,7 @@ footer {
           <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h404q-4 20-4 40t4 40H160l320 200 146-91q14 13 30.5 22.5T691-572L480-440 160-640v400h640v-324q23-5 43-14t37-22v360q0 33-23.5 56.5T800-160H160Z"/>
         </svg>
       </span>
-      <input type="email" placeholder="Email">
+      <input id="email" type="email" placeholder="Email">
     </div>
     <div class="input-group">
       <span class="input-icon">
@@ -347,9 +347,9 @@ footer {
           <path d="M223.5-423.5Q200-447 200-480t23.5-56.5Q247-560 280-560t56.5 23.5Q360-513 360-480t-23.5 56.5Q313-400 280-400t-56.5-23.5ZM280-240q-100 0-170-70T40-480q0-100 70-170t170-70q67 0 121.5 33t86.5 87h352l120 120-180 180-80-60-80 60-85-60h-47q-32 54-86.5 87T280-240Zm0-80q56 0 98.5-34t56.5-86h125l58 41 82-61 71 55 75-75-40-40H435q-14-52-56.5-86T280-640q-66 0-113 47t-47 113q0 66 47 113t113 47Z"/>
         </svg>
       </span>
-      <input type="password" placeholder="Password">
+      <input id="password" type="password" placeholder="Password">
     </div>
-    <button class="btn-play">▶ Get Started</button>
+    <button class="btn-play" onclick="registerUser()">▶ Get Started</button>
 </div>
 </section>
 
@@ -393,5 +393,44 @@ footer {
   </div>
 </footer>
 
+<script>
+async function registerUser() {
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!username || !email || !password) {
+        alert("Please fill in all fields");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://159.203.123.161:3000/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                email,
+                password
+            })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            alert("Account created successfully!");
+        } else {
+            alert(data.error || "Registration failed");
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert("Cannot connect to server");
+    }
+}
+</script>
+ 
 </body>
 </html>
