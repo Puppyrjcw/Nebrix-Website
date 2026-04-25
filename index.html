@@ -410,23 +410,6 @@ async function registerUser() {
 
     const data = await res.json();
     alert(data.message || data.error);
-
-    if (res.ok) {
-        const code = prompt("Enter verification code sent to your email:");
-        verifyUser(email, code);
-    }
-}
-
-// VERIFY
-async function verifyUser(email, code) {
-    const res = await fetch(API + "/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code })
-    });
-
-    const data = await res.json();
-    alert(data.message || data.error);
 }
 
 // LOGIN
