@@ -194,9 +194,25 @@ function injectAuthModal() {
 
 // ── Redirect logic ───────────────────────────────────────────────────────────
 
-// Call on index.html — if already logged in, go to home
-function redirectIfLoggedIn() {
-    if (isLoggedIn()) window.location.replace("home.html");
+// Call on index.html — validates token with server before redirecting
+async function redirectIfLoggedIn() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res = await fetch(API + "/profile", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (res.ok) {
+            window.location.replace("home.html");
+        } else {
+            // Token expired or invalid — wipe it so user sees the login form
+            clearSession();
+        }
+    } catch {
+        // Server unreachable — clear stale token so user can still see the page
+        clearSession();
+    }
 }
 
 // Call on home/settings — if not logged in, go to index
