@@ -1,6 +1,6 @@
 // ── nebrix.js — shared auth, nav, theme ──────────────────────────────────────
 
-const API = "https://nebrixgames.com";
+const API = "https://www.nebrixgames.com";
 
 // ── Auth helpers ─────────────────────────────────────────────────────────────
 
