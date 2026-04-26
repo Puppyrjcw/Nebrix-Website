@@ -17,7 +17,7 @@
   body { font-family: 'Rubik', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
   a { color: inherit; text-decoration: none; }
 
-  /* ── NAV ── */
+  /* -- NAV -- */
   #nebrix-nav {
     position: sticky; top: 0; z-index: 100;
     display: flex; align-items: center; padding: 0 2.5rem; height: 58px;
@@ -25,7 +25,7 @@
     border-bottom: 1px solid var(--border);
   }
 
-  /* ── WELCOME BANNER ── */
+  /* -- WELCOME BANNER -- */
   .welcome-banner {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -40,15 +40,15 @@
   .btn-secondary { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); cursor: pointer; font-family: 'Rubik', sans-serif; font-size: 0.9rem; font-weight: 600; color: #fff; padding: 10px 22px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; }
   .btn-secondary:hover { background: rgba(255,255,255,0.12); }
 
-  /* ── MAIN CONTENT ── */
+  /* -- MAIN CONTENT -- */
   .main { max-width: 1300px; margin: 0 auto; padding: 2.5rem 3rem 4rem; }
 
-  /* ── SECTION ── */
+  /* -- SECTION -- */
   .section { margin-bottom: 3rem; }
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
-  .section-title { font-size: 1.1rem; font-weight: 800; color: #fff; }
+  .section-title { font-size: 1.1rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
 
-  /* ── GAME GRID ── */
+  /* -- GAME GRID -- */
   .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
   .game-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; cursor: pointer; }
   .game-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
@@ -57,19 +57,19 @@
   .game-name { font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .game-meta { font-size: 0.76rem; color: var(--muted); }
 
-  /* ── EMPTY & LOADING STATES ── */
+  /* -- EMPTY & LOADING STATES -- */
   .empty-state { text-align: center; padding: 3rem 1rem; color: var(--muted); }
   .status-msg { grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--muted); font-size: 0.9rem; }
 
-  /* ── QUICK LINKS ── */
+  /* -- QUICK LINKS -- */
   .quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
   .quick-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 12px; transition: transform 0.15s, border-color 0.15s; cursor: pointer; text-decoration: none; }
   .quick-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.18); }
-  .quick-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .quick-icon { font-size: 1.2rem; font-weight: 900; color: var(--green); flex-shrink: 0; }
   .quick-label { font-size: 0.88rem; font-weight: 700; color: #fff; }
   .quick-sub { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
 
-  /* ── FOOTER ── */
+  /* -- FOOTER -- */
   footer { background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.05); padding: 1.5rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
   .footer-left { display: flex; align-items: center; gap: 8px; font-weight: 800; color: #fff; }
   .footer-left img { width: 22px; height: 22px; object-fit: contain; }
@@ -96,10 +96,10 @@
   </div>
   <div class="welcome-actions">
     <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank">
-      ↓ Download Studio
+      Download Studio
     </a>
     <a href="documentation.html" class="btn-secondary">
-      📖 Docs
+      Docs
     </a>
   </div>
 </div>
@@ -108,41 +108,41 @@
 
   <div class="section">
     <div class="section-header">
-      <span class="section-title">🎮 My Games</span>
+      <span class="section-title">My Games</span>
     </div>
     <div id="my-games-grid" class="game-grid">
-      <div id="GAMES_LOADING" class="status-msg">Fetching your projects...</div>
+      <div id="GAMES_LOADING" class="status-msg">Fetching projects...</div>
     </div>
   </div>
 
   <div class="section">
     <div class="section-header">
-      <span class="section-title">🔗 Quick Links</span>
+      <span class="section-title">Quick Links</span>
     </div>
     <div class="quick-grid">
       <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="quick-card" target="_blank">
-        <span class="quick-icon">↓</span>
-        <div><div class="quick-label">Download Studio</div><div class="quick-sub">Latest release</div></div>
+        <span class="quick-icon">#</span>
+        <div><div class="quick-label">Studio</div><div class="quick-sub">Latest release</div></div>
       </a>
       <a href="documentation.html" class="quick-card">
-        <span class="quick-icon">📖</span>
-        <div><div class="quick-label">Documentation</div><div class="quick-sub">Lua API reference</div></div>
+        <span class="quick-icon">?</span>
+        <div><div class="quick-label">API</div><div class="quick-sub">Documentation</div></div>
       </a>
       <a href="progression.html" class="quick-card">
-        <span class="quick-icon">🗺️</span>
-        <div><div class="quick-label">Roadmap</div><div class="quick-sub">What's coming next</div></div>
+        <span class="quick-icon">></span>
+        <div><div class="quick-label">Roadmap</div><div class="quick-sub">Future updates</div></div>
       </a>
       <a href="https://discord.com/invite/XTa4GwaJFY" class="quick-card" target="_blank">
-        <span class="quick-icon">💬</span>
-        <div><div class="quick-label">Discord</div><div class="quick-sub">Join the community</div></div>
+        <span class="quick-icon">@</span>
+        <div><div class="quick-label">Discord</div><div class="quick-sub">Community</div></div>
       </a>
       <a href="https://github.com/Puppyrjcw/Nebrix" class="quick-card" target="_blank">
-        <span class="quick-icon">⭐</span>
-        <div><div class="quick-label">GitHub</div><div class="quick-sub">Star the project</div></div>
+        <span class="quick-icon">*</span>
+        <div><div class="quick-label">GitHub</div><div class="quick-sub">Source code</div></div>
       </a>
       <a href="settings.html" class="quick-card">
-        <span class="quick-icon">⚙️</span>
-        <div><div class="quick-label">Settings</div><div class="quick-sub">Theme & account</div></div>
+        <span class="quick-icon">%</span>
+        <div><div class="quick-label">Settings</div><div class="quick-sub">Account</div></div>
       </a>
     </div>
   </div>
@@ -151,7 +151,7 @@
 
 <footer>
   <div class="footer-left">
-    <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
+    <img src="nebrixlogo.png" alt="Nebrix" onerror="this.style.display='none'">
     <span>Nebrix</span>
   </div>
   <div class="footer-links">
@@ -159,12 +159,11 @@
     <a href="#">Terms</a>
     <a href="#">Privacy</a>
   </div>
-  <div class="footer-copy">© 2026 Nebrix</div>
+  <div class="footer-copy">&copy; 2026 Nebrix</div>
 </footer>
 
 <script src="nebrix.js"></script>
 <script>
-// -- FETCH LOGIC --
 async function LOAD_USER_GAMES() {
     const TOKEN = getToken();
     const GRID = document.getElementById("my-games-grid");
@@ -179,35 +178,35 @@ async function LOAD_USER_GAMES() {
             }
         });
 
-        if (!RESPONSE.ok) throw new Error("Connection error");
+        if (!RESPONSE.ok) throw new Error("CONN_ERROR");
 
         const GAMES = await RESPONSE.json();
-        GRID.innerHTML = ""; // Clear loader
+        GRID.innerHTML = "";
 
         if (!GAMES || GAMES.length === 0) {
             GRID.innerHTML = `
                 <div class="empty-state" style="grid-column:1/-1;">
-                    <p>You haven't created any games yet.<br>Download Nebrix Studio to get started!</p>
-                    <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank" style="margin-top:10px;">↓ Get Studio</a>
+                    <p>No projects found.<br>Use Nebrix Studio to create your first game!</p>
+                    <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank" style="margin-top:10px;">Get Studio</a>
                 </div>`;
             return;
         }
 
-        GAMES.forEach(GAME => {
+        GAMES.forEach(GAME_DATA => {
             const CARD = document.createElement("div");
             CARD.className = "game-card";
             CARD.innerHTML = `
-                <div class="game-thumb">NEBRIX ENGINE</div>
+                <div class="game-thumb">NEBRIX PROJECT</div>
                 <div class="game-info">
-                    <div class="game-name">${GAME.name}</div>
-                    <div class="game-meta">v${GAME.version} · ${GAME.status}</div>
+                    <div class="game-name">${GAME_DATA.name}</div>
+                    <div class="game-meta">v${GAME_DATA.version} · ${GAME_DATA.status}</div>
                 </div>
             `;
             GRID.appendChild(CARD);
         });
 
     } catch (ERR) {
-        LOADING_TEXT.textContent = "Failed to load games. Ensure server is running.";
+        LOADING_TEXT.textContent = "Server connection failed.";
         LOADING_TEXT.style.color = "#ff4d7e";
     }
 }
@@ -216,18 +215,18 @@ document.addEventListener("DOMContentLoaded", () => {
     requireAuth();
     renderNav("home");
 
-    const NR = document.querySelector(".nav-right");
-    if (NR) {
-        const S = document.createElement("a");
-        S.href = "settings.html";
-        S.className = "btn-settings";
-        S.textContent = "⚙ Settings";
-        NR.appendChild(S);
+    const NAV_RIGHT = document.querySelector(".nav-right");
+    if (NAV_RIGHT) {
+        const SETTINGS_BTN = document.createElement("a");
+        SETTINGS_BTN.href = "settings.html";
+        SETTINGS_BTN.className = "btn-settings";
+        SETTINGS_BTN.textContent = "Settings";
+        NAV_RIGHT.appendChild(SETTINGS_BTN);
     }
 
-    const CURRENT_USER = getUsername();
-    if (CURRENT_USER) {
-        document.getElementById("welcome-heading").textContent = `Welcome back, ${CURRENT_USER}!`;
+    const USERNAME = getUsername();
+    if (USERNAME) {
+        document.getElementById("welcome-heading").textContent = `Welcome back, ${USERNAME}!`;
     }
 
     LOAD_USER_GAMES();
