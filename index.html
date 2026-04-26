@@ -129,7 +129,7 @@
         <span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-160q33 0 56.5-23.5T560-320q0-33-23.5-56.5T480-400q-33 0-56.5 23.5T400-320q0 33 23.5 56.5T480-240ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg></span>
         <input id="card-reg-pass" type="password" placeholder="Password">
       </div>
-      <p id="card-error" style="color:#ff4d7e;font-size:0.82rem;min-height:16px;margin-bottom:8px;"></p>
+      <p id="card-reg-error" style="color:#ff4d7e;font-size:0.82rem;min-height:16px;margin-bottom:8px;"></p>
       <button class="btn-play" onclick="cardRegister()">▶ Get Started</button>
       <p class="switch-link">Already have an account? <a onclick="cardShowLogin()">Sign in</a></p>
     </div>
@@ -145,7 +145,7 @@
         <span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-160q33 0 56.5-23.5T560-320q0-33-23.5-56.5T480-400q-33 0-56.5 23.5T400-320q0 33 23.5 56.5T480-240ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg></span>
         <input id="card-login-pass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')cardLogin()">
       </div>
-      <p id="card-error" style="color:#ff4d7e;font-size:0.82rem;min-height:16px;margin-bottom:8px;"></p>
+      <p id="card-login-error" style="color:#ff4d7e;font-size:0.82rem;min-height:16px;margin-bottom:8px;"></p>
       <button class="btn-play" onclick="cardLogin()">→ Sign In</button>
       <p class="switch-link">No account? <a onclick="cardShowRegister()">Create one</a></p>
     </div>
@@ -185,43 +185,94 @@
 
 <script src="nebrix.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    redirectIfLoggedIn();
+document.addEventListener("DOMContentLoaded", async () => {
+    // Wait for token validation before rendering nav so the nav
+    // reflects the correct logged-in state (or clears a stale token).
+    await redirectIfLoggedIn();
     renderNav("home");
 });
 
-function cardShowLogin()    { document.getElementById("card-register").style.display="none"; document.getElementById("card-login").style.display="block"; document.getElementById("card-error").textContent=""; }
-function cardShowRegister() { document.getElementById("card-login").style.display="none"; document.getElementById("card-register").style.display="block"; document.getElementById("card-error").textContent=""; }
+function cardShowLogin() {
+    document.getElementById("card-register").style.display = "none";
+    document.getElementById("card-login").style.display = "block";
+    document.getElementById("card-login-error").textContent = "";
+}
+
+function cardShowRegister() {
+    document.getElementById("card-login").style.display = "none";
+    document.getElementById("card-register").style.display = "block";
+    document.getElementById("card-reg-error").textContent = "";
+}
 
 async function cardRegister() {
     const username = document.getElementById("card-reg-user").value.trim();
     const email    = document.getElementById("card-reg-email").value.trim();
     const password = document.getElementById("card-reg-pass").value;
-    const err = document.getElementById("card-error");
-    if (!username || !email || !password) { err.textContent = "Please fill in all fields."; return; }
+    const err = document.getElementById("card-reg-error");
+
+    if (!username || !email || !password) {
+        err.textContent = "Please fill in all fields.";
+        return;
+    }
+
     try {
-        const res  = await fetch(API + "/register", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({username,email,password}) });
+        const res  = await fetch(API + "/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, email, password })
+        });
         const data = await res.json();
+
         if (data.message) {
-            const lr   = await fetch(API + "/login", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({username,password}) });
-            const ld   = await lr.json();
-            if (ld.token) { saveSession(ld.token, username); window.location.href="home.html"; }
-            else { err.textContent = "Account created! Please sign in."; cardShowLogin(); }
-        } else { err.textContent = data.error || "Registration failed."; }
-    } catch { err.textContent = "Could not reach server."; }
+            // Auto-login after successful registration
+            const lr   = await fetch(API + "/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+            const ld = await lr.json();
+            if (ld.token) {
+                saveSession(ld.token, username);
+                window.location.href = "home.html";
+            } else {
+                err.textContent = "Account created! Please sign in.";
+                cardShowLogin();
+            }
+        } else {
+            err.textContent = data.error || "Registration failed.";
+        }
+    } catch {
+        err.textContent = "Could not reach server.";
+    }
 }
 
 async function cardLogin() {
     const username = document.getElementById("card-login-user").value.trim();
     const password = document.getElementById("card-login-pass").value;
-    const err = document.getElementById("card-error");
-    if (!username || !password) { err.textContent = "Please fill in all fields."; return; }
+    const err = document.getElementById("card-login-error");
+
+    if (!username || !password) {
+        err.textContent = "Please fill in all fields.";
+        return;
+    }
+
     try {
-        const res  = await fetch(API + "/login", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({username,password}) });
+        const res  = await fetch(API + "/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
         const data = await res.json();
-        if (data.token) { saveSession(data.token, username); window.location.href="home.html"; }
-        else { err.textContent = data.error || "Invalid credentials."; }
-    } catch { err.textContent = "Could not reach server."; }
+
+        if (data.token) {
+            saveSession(data.token, username);
+            window.location.href = "home.html";
+        } else {
+            err.textContent = data.error || "Invalid credentials.";
+        }
+    } catch {
+        err.textContent = "Could not reach server.";
+    }
 }
 </script>
 </body>
