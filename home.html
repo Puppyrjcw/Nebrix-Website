@@ -58,23 +58,69 @@
   .section { margin-bottom: 3rem; }
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
   .section-title { font-size: 1.1rem; font-weight: 800; color: #fff; }
-  .section-more { font-size: 0.83rem; color: var(--muted); transition: color 0.15s; cursor: pointer; }
-  .section-more:hover { color: #fff; }
+  .section-meta { font-size: 0.83rem; color: var(--muted); }
 
   /* ── GAME GRID ── */
-  .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
-  .game-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; cursor: pointer; }
-  .game-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
-  .game-thumb { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #1e1e2e, #2a2a3e); display: flex; align-items: center; justify-content: center; font-size: 2rem; }
-  .game-info { padding: 12px 14px; }
-  .game-name { font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .game-meta { font-size: 0.76rem; color: var(--muted); }
-  .game-badge { display: inline-block; background: rgba(62,207,90,0.15); color: #3ecf5a; border: 1px solid rgba(62,207,90,0.3); font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 100px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
 
-  /* ── EMPTY STATE ── */
-  .empty-state { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+  .game-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    display: flex; flex-direction: column;
+  }
+  .game-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+
+  .game-thumb {
+    width: 100%; aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem; position: relative;
+  }
+  .game-thumb .thumb-emoji { filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+
+  .game-info { padding: 12px 14px 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .game-name { font-size: 0.9rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .game-author { font-size: 0.76rem; color: var(--muted); }
+  .game-desc { font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+  .game-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+  .game-plays { font-size: 0.74rem; color: var(--muted); }
+
+  .btn-play {
+    background: var(--green);
+    border: none; cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: filter 0.15s, transform 0.1s;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .btn-play:hover { filter: brightness(1.12); transform: scale(1.04); }
+
+  /* install prompt badge */
+  .install-note {
+    font-size: 0.72rem; color: rgba(255,255,255,0.4);
+    text-align: center; margin-top: 4px;
+  }
+
+  /* ── EMPTY / LOADING STATE ── */
+  .empty-state { text-align: center; padding: 3rem 1rem; color: var(--muted); grid-column: 1 / -1; }
   .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
   .empty-state p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.2rem; }
+
+  .skeleton {
+    background: linear-gradient(90deg, #1c1c1c 25%, #252525 50%, #1c1c1c 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 12px;
+    aspect-ratio: 16/10;
+  }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
   /* ── QUICK LINKS ── */
   .quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
@@ -83,6 +129,18 @@
   .quick-icon { font-size: 1.5rem; flex-shrink: 0; }
   .quick-label { font-size: 0.88rem; font-weight: 700; color: #fff; }
   .quick-sub { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── CLIENT DOWNLOAD BANNER ── */
+  .client-banner {
+    background: linear-gradient(135deg, #0d2b1a, #1a4a2e);
+    border: 1px solid rgba(62,207,90,0.25);
+    border-radius: 12px;
+    padding: 1.4rem 1.8rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .client-banner-text h3 { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 3px; }
+  .client-banner-text p  { font-size: 0.83rem; color: rgba(255,255,255,0.6); }
 
   /* ── FOOTER ── */
   footer { background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.05); padding: 1.5rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
@@ -113,21 +171,31 @@
     <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank">
       ↓ Download Studio
     </a>
-    <a href="documentation.html" class="btn-secondary">
-      📖 Docs
-    </a>
+    <a href="documentation.html" class="btn-secondary">📖 Docs</a>
   </div>
 </div>
 
 <div class="main">
 
+  <!-- Client install banner (shown when Nebrix Client is not detected) -->
+  <div class="client-banner" id="client-banner" style="display:none;">
+    <div class="client-banner-text">
+      <h3>🎮 Install Nebrix Client to play games</h3>
+      <p>Clicking "Play" opens Nebrix Client, a lightweight player app that loads and runs any published game.</p>
+    </div>
+    <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank" style="white-space:nowrap;">
+      ↓ Get Client
+    </a>
+  </div>
+
   <!-- My Games -->
   <div class="section">
     <div class="section-header">
-      <span class="section-title">🎮 My Games</span>
+      <span class="section-title">🗂️ My Games</span>
+      <span class="section-meta" id="my-games-meta"></span>
     </div>
     <div id="my-games-grid" class="game-grid">
-      <div class="empty-state" style="grid-column:1/-1;">
+      <div class="empty-state">
         <div class="empty-icon">🎮</div>
         <p>You haven't created any games yet.<br>Download Nebrix Studio to get started!</p>
         <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank" style="display:inline-flex;">↓ Get Studio</a>
@@ -135,45 +203,18 @@
     </div>
   </div>
 
-  <!-- Featured Games -->
+  <!-- All Published Games -->
   <div class="section">
     <div class="section-header">
-      <span class="section-title">⭐ Featured Games</span>
-      <span class="section-more">Coming soon</span>
+      <span class="section-title">🌐 All Games</span>
+      <span class="section-meta" id="pub-games-meta">Loading...</span>
     </div>
-    <div class="game-grid">
-      <div class="game-card">
-        <div class="game-thumb">🏰</div>
-        <div class="game-info">
-          <span class="game-badge">Featured</span>
-          <div class="game-name">Castle Builder</div>
-          <div class="game-meta">by Nebrix Team · Coming soon</div>
-        </div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb">🚀</div>
-        <div class="game-info">
-          <span class="game-badge">Featured</span>
-          <div class="game-name">Space Explorer</div>
-          <div class="game-meta">by Nebrix Team · Coming soon</div>
-        </div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb">⚔️</div>
-        <div class="game-info">
-          <span class="game-badge">Featured</span>
-          <div class="game-name">Arena Combat</div>
-          <div class="game-meta">by Nebrix Team · Coming soon</div>
-        </div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb">🌍</div>
-        <div class="game-info">
-          <span class="game-badge">Featured</span>
-          <div class="game-name">Open World</div>
-          <div class="game-meta">by Nebrix Team · Coming soon</div>
-        </div>
-      </div>
+    <div id="pub-games-grid" class="game-grid">
+      <!-- skeleton cards while loading -->
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
     </div>
   </div>
 
@@ -227,24 +268,167 @@
 
 <script src="nebrix.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    requireAuth();
-    renderNav("home");
+// ── Config ────────────────────────────────────────────────────
+const API_BASE = 'http://159.203.123.161:7778'; // HTTP API port
 
-    // Add settings button to nav-right
-    const nr = document.querySelector(".nav-right");
-    if (nr) {
-        const s = document.createElement("a");
-        s.href = "settings.html";
-        s.className = "btn-settings";
-        s.textContent = "⚙ Settings";
-        nr.appendChild(s);
+// Emoji pool for game thumbnails (cycled by index)
+const THUMBS = ['🏰','🚀','⚔️','🌍','🏎️','🧱','🌊','🎯',
+                 '🗻','🤖','🏝️','🎲','🌌','🔥','⚡','🎪'];
+
+// ── Utility ───────────────────────────────────────────────────
+function timeAgo(ts) {
+  const secs = Math.floor(Date.now() / 1000) - ts;
+  if (secs < 60)   return 'just now';
+  if (secs < 3600) return Math.floor(secs/60) + 'm ago';
+  if (secs < 86400) return Math.floor(secs/3600) + 'h ago';
+  return Math.floor(secs/86400) + 'd ago';
+}
+
+function playCount(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M plays';
+  if (n >= 1000)    return (n/1000).toFixed(1) + 'K plays';
+  return n + (n === 1 ? ' play' : ' plays');
+}
+
+// ── Build a game card ─────────────────────────────────────────
+function buildGameCard(game, index) {
+  const emoji = THUMBS[index % THUMBS.length];
+  const desc  = game.description ? game.description : 'No description.';
+  const plays = typeof game.play_count === 'number' ? playCount(game.play_count) : '';
+  const ago   = game.published_at ? timeAgo(game.published_at) : '';
+
+  const card = document.createElement('div');
+  card.className = 'game-card';
+  card.innerHTML = `
+    <div class="game-thumb">
+      <span class="thumb-emoji">${emoji}</span>
+    </div>
+    <div class="game-info">
+      <div class="game-name">${escHtml(game.name)}</div>
+      <div class="game-author">by ${escHtml(game.author || game.username || '?')}${ago ? ' · ' + ago : ''}</div>
+      <div class="game-desc">${escHtml(desc)}</div>
+      <div class="game-footer">
+        <span class="game-plays">${plays}</span>
+        <a class="btn-play" href="nebrix://${encodeURIComponent(game.game_id)}"
+           onclick="onPlayClick(event, '${escHtml(game.game_id)}')">
+          ▶ Play
+        </a>
+      </div>
+    </div>`;
+  return card;
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ── Play button handler ───────────────────────────────────────
+// Opens  nebrix://<game_id>  which Windows routes to NebrixClient.exe
+// If the user doesn't have it, we show the install banner after a delay.
+let clientInstalled = null; // unknown until tested
+
+function onPlayClick(e, gameId) {
+  // Let the href fire (opens nebrix:// URI)
+  // After 2 seconds, if the page is still focused the user likely
+  // doesn't have NebrixClient installed — show the banner.
+  setTimeout(() => {
+    if (!document.hidden) {
+      document.getElementById('client-banner').style.display = 'flex';
+    }
+  }, 2000);
+}
+
+// ── Fetch & render published games ───────────────────────────
+async function loadPublishedGames() {
+  const grid = document.getElementById('pub-games-grid');
+  const meta = document.getElementById('pub-games-meta');
+
+  try {
+    const res  = await fetch(`${API_BASE}/published`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const games = await res.json();
+
+    grid.innerHTML = '';
+
+    if (!Array.isArray(games) || games.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">🌐</div>
+          <p>No games have been published yet.<br>
+             Build something in Nebrix Studio and hit <strong>Publish</strong>!</p>
+        </div>`;
+      meta.textContent = '0 games';
+      return;
     }
 
-    const username = getUsername();
-    if (username) {
-        document.getElementById("welcome-heading").textContent = `Welcome back, ${username}!`;
-    }
+    meta.textContent = games.length + ' game' + (games.length !== 1 ? 's' : '');
+    games.forEach((g, i) => grid.appendChild(buildGameCard(g, i)));
+
+  } catch (err) {
+    console.warn('[Nebrix] Could not fetch published games:', err);
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">⚠️</div>
+        <p>Couldn't reach the Nebrix server.<br>Check your connection or try again later.</p>
+      </div>`;
+    meta.textContent = '';
+  }
+}
+
+// ── Fetch & render user's own games ──────────────────────────
+// The studio saves games to the server; we show them here from
+// the same published list filtered by the logged-in username.
+async function loadMyGames() {
+  const username = typeof getUsername === 'function' ? getUsername() : null;
+  if (!username) return; // not logged in, leave default empty state
+
+  const grid = document.getElementById('my-games-grid');
+  const meta = document.getElementById('my-games-meta');
+
+  try {
+    const res   = await fetch(`${API_BASE}/published`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const all   = await res.json();
+    const mine  = all.filter(g =>
+      (g.author || '').toLowerCase() === username.toLowerCase());
+
+    if (mine.length === 0) return; // keep default "no games" empty state
+
+    grid.innerHTML = '';
+    meta.textContent = mine.length + ' published';
+    mine.forEach((g, i) => grid.appendChild(buildGameCard(g, i)));
+  } catch (_) { /* silently skip */ }
+}
+
+// ── Init ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // nebrix.js helpers
+  if (typeof requireAuth === 'function') requireAuth();
+  if (typeof renderNav   === 'function') renderNav('home');
+
+  // Settings button
+  const nr = document.querySelector('.nav-right');
+  if (nr) {
+    const s = document.createElement('a');
+    s.href = 'settings.html';
+    s.className = 'btn-settings';
+    s.textContent = '⚙ Settings';
+    nr.appendChild(s);
+  }
+
+  // Welcome heading
+  const username = typeof getUsername === 'function' ? getUsername() : null;
+  if (username)
+    document.getElementById('welcome-heading').textContent =
+      `Welcome back, ${username}!`;
+
+  // Kick off both fetches in parallel
+  loadPublishedGames();
+  loadMyGames();
 });
 </script>
 </body>
