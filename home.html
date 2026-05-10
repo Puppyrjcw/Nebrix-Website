@@ -270,7 +270,6 @@
 <script>
 // ── Config ────────────────────────────────────────────────────
 const API_BASE = 'https://api.nebrixgames.com';
-// Emoji pool for game thumbnails (cycled by index)
 const THUMBS = ['🏰','🚀','⚔️','🌍','🏎️','🧱','🌊','🎯',
                  '🗻','🤖','🏝️','🎲','🌌','🔥','⚡','🎪'];
 
@@ -289,7 +288,6 @@ function playCount(n) {
   return n + (n === 1 ? ' play' : ' plays');
 }
 
-// ── Build a game card ─────────────────────────────────────────
 function buildGameCard(game, index) {
   const emoji = THUMBS[index % THUMBS.length];
   const desc  = game.description ? game.description : 'No description.';
@@ -318,22 +316,10 @@ function buildGameCard(game, index) {
 }
 
 function escHtml(s) {
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── Play button handler ───────────────────────────────────────
-// Opens  nebrix://<game_id>  which Windows routes to NebrixClient.exe
-// If the user doesn't have it, we show the install banner after a delay.
-let clientInstalled = null; // unknown until tested
-
 function onPlayClick(e, gameId) {
-  // Let the href fire (opens nebrix:// URI)
-  // After 2 seconds, if the page is still focused the user likely
-  // doesn't have NebrixClient installed — show the banner.
   setTimeout(() => {
     if (!document.hidden) {
       document.getElementById('client-banner').style.display = 'flex';
@@ -347,13 +333,16 @@ async function loadPublishedGames() {
   const meta = document.getElementById('pub-games-meta');
 
   try {
-    const res  = await fetch(`${API_BASE}/published`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE}/published`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const games = await res.json();
+    
+    const data = await res.json();
+    // FIX: Extract the array if it's wrapped in an object { games: [...] }
+    const games = Array.isArray(data) ? data : (data.games || []);
 
     grid.innerHTML = '';
 
-    if (!Array.isArray(games) || games.length === 0) {
+    if (games.length === 0) {
       grid.innerHTML = `
         <div class="empty-state">
           <div class="empty-icon">🌐</div>
@@ -369,49 +358,42 @@ async function loadPublishedGames() {
 
   } catch (err) {
     console.warn('[Nebrix] Could not fetch published games:', err);
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">⚠️</div>
-        <p>Couldn't reach the Nebrix server.<br>Check your connection or try again later.</p>
-      </div>`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><p>Couldn't reach the server.</p></div>`;
     meta.textContent = '';
   }
 }
 
 // ── Fetch & render user's own games ──────────────────────────
-// The studio saves games to the server; we show them here from
-// the same published list filtered by the logged-in username.
 async function loadMyGames() {
   const username = typeof getUsername === 'function' ? getUsername() : null;
-  if (!username) return; // not logged in, leave default empty state
+  if (!username) return;
 
   const grid = document.getElementById('my-games-grid');
   const meta = document.getElementById('my-games-meta');
 
   try {
-    const res   = await fetch(`${API_BASE}/published`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const all   = await res.json();
-    const mine  = all.filter(g =>
-      (g.author || '').toLowerCase() === username.toLowerCase());
+    const res = await fetch(`${API_BASE}/published`, { cache: 'no-store' });
+    const data = await res.json();
+    // FIX: Extract the array here as well
+    const all = Array.isArray(data) ? data : (data.games || []);
+    
+    const mine = all.filter(g => (g.author || '').toLowerCase() === username.toLowerCase());
 
-    if (mine.length === 0) return; // keep default "no games" empty state
+    if (mine.length === 0) return;
 
     grid.innerHTML = '';
     meta.textContent = mine.length + ' published';
     mine.forEach((g, i) => grid.appendChild(buildGameCard(g, i)));
-  } catch (_) { /* silently skip */ }
+  } catch (_) { }
 }
 
 // ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // nebrix.js helpers
   if (typeof requireAuth === 'function') requireAuth();
-  if (typeof renderNav   === 'function') renderNav('home');
+  if (typeof renderNav === 'function') renderNav('home');
 
-  // Settings button
   const nr = document.querySelector('.nav-right');
-  if (nr) {
+  if (nr && !document.querySelector('.btn-settings')) {
     const s = document.createElement('a');
     s.href = 'settings.html';
     s.className = 'btn-settings';
@@ -419,13 +401,9 @@ document.addEventListener('DOMContentLoaded', () => {
     nr.appendChild(s);
   }
 
-  // Welcome heading
   const username = typeof getUsername === 'function' ? getUsername() : null;
-  if (username)
-    document.getElementById('welcome-heading').textContent =
-      `Welcome back, ${username}!`;
+  if (username) document.getElementById('welcome-heading').textContent = `Welcome back, ${username}!`;
 
-  // Kick off both fetches in parallel
   loadPublishedGames();
   loadMyGames();
 });
