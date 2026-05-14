@@ -48,7 +48,7 @@ function renderNav(activePage) {
     const username = getUsername();
 
     const links = [
-        { label: "Home",     href: "index.html",    key: "home"    },
+        { label: "Home", href: "index.html", key: "home" },
         { label: "Roadmap",  href: "progression.html", key: "roadmap" },
         { label: "Docs",     href: "documentation.html", key: "docs" },
         { label: "GitHub",   href: "https://github.com/Puppyrjcw/Nebrix/releases", key: "github", external: true },
@@ -68,7 +68,7 @@ function renderNav(activePage) {
            <button class="btn-register" onclick="showRegisterModal()">+ Register</button>`;
 
     document.getElementById("nebrix-nav").innerHTML = `
-        <a href="${loggedIn ? 'home.html' : 'index.html'}" class="logo">
+        <a href="${loggedIn ? 'home.html' : 'home.html'}" class="logo">
             <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
             <span>Nebrix</span>
         </a>
@@ -165,27 +165,27 @@ function logout() {
 
 function injectAuthModal() {
     const html = `
-    <div id="auth-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center;">
-        <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:2rem;width:340px;position:relative;">
-            <button onclick="closeAuthModal()" style="position:absolute;top:14px;right:14px;background:none;border:none;color:#888;font-size:1.2rem;cursor:pointer;">✕</button>
+    <div id="auth-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+        <div style="background:#fff;border:1px solid #aaa;padding:0;width:340px;position:relative;">
+            <button onclick="closeAuthModal()" style="position:absolute;top:8px;right:12px;background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;font-weight:700;">✕</button>
 
-            <div id="auth-modal-login">
-                <h2 style="font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:1.2rem;">Sign In to Nebrix</h2>
-                <input id="modal-login-user" type="text" placeholder="Username" style="width:100%;padding:11px 14px;background:#2a2a2a;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
-                <input id="modal-login-pass" type="password" placeholder="Password" style="width:100%;padding:11px 14px;background:#2a2a2a;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;" onkeydown="if(event.key==='Enter')doLogin()">
-                <p id="auth-error" style="color:#ff4d7e;font-size:0.82rem;min-height:18px;margin-bottom:8px;"></p>
-                <button onclick="doLogin()" style="width:100%;padding:11px;background:#3ecf5a;border:none;border-radius:8px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;font-size:0.9rem;">Sign In</button>
-                <p style="text-align:center;margin-top:14px;font-size:0.83rem;color:#777;">No account? <a href="#" onclick="showRegisterModal()" style="color:#3ecf5a;">Create one</a></p>
+            <div id="auth-modal-login" style="padding:0 16px 16px;">
+                <div style="background:#0066cc;padding:10px 16px;margin-bottom:14px;font-size:0.84rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.04em;">Sign In to Nebrix</div>
+                <input id="modal-login-user" type="text" placeholder="Username" style="width:100%;padding:11px 14px;background:#fff;border:1px solid #aaa;border-radius:0;color:#1a1a1a;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
+                <input id="modal-login-pass" type="password" placeholder="Password" style="width:100%;padding:11px 14px;background:#fff;border:1px solid #aaa;border-radius:0;color:#1a1a1a;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;" onkeydown="if(event.key==='Enter')doLogin()">
+                <p id="auth-error" style="color:#cc2200;font-size:0.82rem;min-height:18px;margin-bottom:8px;"></p>
+                <button onclick="doLogin()" style="width:100%;padding:11px;background:#00b06f;border:none;border-radius:0;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;font-size:0.84rem;text-transform:uppercase;letter-spacing:0.04em;">Sign In</button>
+                <p style="text-align:center;margin-top:14px;font-size:0.83rem;color:#777;">No account? <a href="#" onclick="showRegisterModal()" style="color:#0066cc;text-decoration:underline;">Create one</a></p>
             </div>
 
-            <div id="auth-modal-register" style="display:none;">
-                <h2 style="font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:1.2rem;">Create Account</h2>
-                <input id="modal-reg-user" type="text" placeholder="Username" style="width:100%;padding:11px 14px;background:#2a2a2a;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
-                <input id="modal-reg-email" type="email" placeholder="Email" style="width:100%;padding:11px 14px;background:#2a2a2a;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
-                <input id="modal-reg-pass" type="password" placeholder="Password" style="width:100%;padding:11px 14px;background:#2a2a2a;border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
-                <p id="auth-error" style="color:#ff4d7e;font-size:0.82rem;min-height:18px;margin-bottom:8px;"></p>
-                <button onclick="doRegister()" style="width:100%;padding:11px;background:#3ecf5a;border:none;border-radius:8px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;font-size:0.9rem;">Create Account</button>
-                <p style="text-align:center;margin-top:14px;font-size:0.83rem;color:#777;">Have an account? <a href="#" onclick="showLoginModal()" style="color:#3ecf5a;">Sign in</a></p>
+            <div id="auth-modal-register" style="display:none;padding:0 16px 16px;">
+                <div style="background:#0066cc;padding:10px 16px;margin-bottom:14px;font-size:0.84rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.04em;">Create Account</div>
+                <input id="modal-reg-user" type="text" placeholder="Username" style="width:100%;padding:11px 14px;background:#fff;border:1px solid #aaa;border-radius:0;color:#1a1a1a;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
+                <input id="modal-reg-email" type="email" placeholder="Email" style="width:100%;padding:11px 14px;background:#fff;border:1px solid #aaa;border-radius:0;color:#1a1a1a;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
+                <input id="modal-reg-pass" type="password" placeholder="Password" style="width:100%;padding:11px 14px;background:#fff;border:1px solid #aaa;border-radius:0;color:#1a1a1a;font-family:inherit;font-size:0.9rem;margin-bottom:10px;outline:none;">
+                <p id="auth-error" style="color:#cc2200;font-size:0.82rem;min-height:18px;margin-bottom:8px;"></p>
+                <button onclick="doRegister()" style="width:100%;padding:11px;background:#00b06f;border:none;border-radius:0;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;font-size:0.84rem;text-transform:uppercase;letter-spacing:0.04em;">Create Account</button>
+                <p style="text-align:center;margin-top:14px;font-size:0.83rem;color:#777;">Have an account? <a href="#" onclick="showLoginModal()" style="color:#0066cc;text-decoration:underline;">Sign in</a></p>
             </div>
         </div>
     </div>`;
