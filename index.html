@@ -164,47 +164,6 @@
     </style>
 </head>
 
-<script>
-const API = "https://api.nebrixgames.com";
-
-document.getElementById("card-register").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const inputs = e.target.querySelectorAll("input");
-
-    const username = inputs[0].value.trim();
-    const email = inputs[1].value.trim();
-    const password = inputs[2].value;
-
-    try {
-        const res = await fetch(API + "/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username,
-                email,
-                password
-            })
-        });
-
-        const data = await res.json();
-
-        if (data.message) {
-            alert("Account created!");
-            window.location.href = "home.html";
-        } else {
-            alert(data.error || "Registration failed.");
-        }
-
-    } catch (err) {
-        alert("Could not connect to server.");
-        console.error(err);
-    }
-});
-</script>
-
 <body>
 
 <nav id="nebrix-nav">
@@ -237,7 +196,7 @@ document.getElementById("card-register").addEventListener("submit", async (e) =>
         <aside class="signup-card">
             <div class="signup-card-header">Create Your Account</div>
             <div class="signup-card-body">
-                <form id="card-register" action="home.html" method="POST">
+                <form id="card-register">
                     <div class="input-group">
                         <input type="text" placeholder="Username" required aria-label="Username">
                     </div>
@@ -285,6 +244,47 @@ document.getElementById("card-register").addEventListener("submit", async (e) =>
     <div class="footer-logo">NEBRIX</div>
     <div class="footer-copy">© 2026 Nebrix Platforms Inc.</div>
 </footer>
+
+<script>
+const API = "https://api.nebrixgames.com";
+
+document.getElementById("card-register").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const inputs = e.target.querySelectorAll("input");
+
+    const username = inputs[0].value.trim();
+    const email = inputs[1].value.trim();
+    const password = inputs[2].value;
+
+    try {
+        const res = await fetch(API + "/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                email,
+                password
+            })
+        });
+
+        const data = await res.json();
+
+        if (data.message) {
+            alert("Account created!");
+            window.location.href = "home.html";
+        } else {
+            alert(data.error || "Registration failed.");
+        }
+
+    } catch (err) {
+        alert("Could not connect to server.");
+        console.error(err);
+    }
+});
+</script>
 
 </body>
 </html>
