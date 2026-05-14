@@ -195,11 +195,18 @@
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-    // Logic to set the player name
-    // Replace 'Guest' with your logic (e.g., localStorage.getItem('username'))
-    const playerName = "Player"; 
-    document.getElementById('player-display').innerText = playerName;
+    // 1. Try to find the name saved in the browser's memory
+    const savedName = localStorage.getItem('nebrix_user');
+    const display = document.getElementById('player-display');
+
+    // 2. If a name exists, show it; otherwise, keep it as "Player"
+    if (savedName) {
+        display.innerText = savedName;
+    } else {
+        display.innerText = "Player";
+    }
 });
+</script>
 </script>
 
 </body>
