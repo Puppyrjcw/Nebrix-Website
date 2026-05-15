@@ -1,10 +1,6 @@
 // ── nebrix.js — shared auth, nav, theme ──────────────────────────────────────
 
-// FIX 1: The original API const pointed to https://api.nebrixgames.com which
-// doesn't exist — the server only exposes HTTP on port 7778 on the same host.
-// Using window.location.hostname keeps this working both locally and in production.
-const API_HOST = window.location.hostname || "localhost";
-const API      = `https://api.nebrixgames.com`;
+const API = "https://api.nebrixgames.com";
 
 // ── Auth helpers ─────────────────────────────────────────────────────────────
 
@@ -109,47 +105,63 @@ function closeAuthModal() {
     document.getElementById("auth-modal-overlay").style.display = "none";
 }
 
-// FIX 1 + 2: The server has no REST /login or /register endpoints — it speaks
-// ENet on port 7777. Authentication from the website is therefore token-only:
-// the user logs in once via Nebrix Studio (which connects over ENet), and the
-// Studio saves the session token to disk. The website can only store/read that
-// token from localStorage after the user pastes it in, OR the Studio sets it.
-//
-// For now, doLogin accepts a username + token directly (the user copies their
-// session token from Studio settings). This is a stop-gap until a proper
-// REST auth endpoint is added to the server.
 async function doLogin() {
     const username = document.getElementById("modal-login-user").value.trim();
-    const token    = document.getElementById("modal-login-pass").value.trim(); // treated as token
+    const password = document.getElementById("modal-login-pass").value;
     const err      = document.getElementById("auth-error-login");
+    if (!username || !password) { err.textContent = "Please fill in all fields."; return; }
 
-    if (!username || !token) {
-        err.textContent = "Enter your username and session token from Nebrix Studio.";
-        return;
-    }
-
-    // Verify the token by checking if we can fetch the published list (a live
-    // server ping — the only unauthenticated endpoint we can test against).
-    // A real /profile endpoint would be better; add one to server.cpp when ready.
     try {
-        const res = await fetch(`${API}/published`);
-        if (!res.ok) throw new Error("Server unreachable");
-        // Server is up — accept the token on trust for now.
-        saveSession(token, username);
-        closeAuthModal();
-        window.location.href = "home.html";
-    } catch {
-        err.textContent = "Could not reach the Nebrix server. Is it running?";
-    }
+        const res = await fetch(API + "/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (data.token) {
+            saveSession(data.token, username);
+            closeAuthModal();
+            window.location.href = "home.html";
+        } else {
+            err.textContent = data.error || "Invalid credentials.";
+        }
+    } catch { err.textContent = "Could not reach server."; }
 }
 
-// doRegister: same situation — no REST endpoint exists.
-// Direct user to Studio to create their account, then paste token here.
 async function doRegister() {
-    const err = document.getElementById("auth-error-register");
-    err.textContent =
-        "Account creation is done inside Nebrix Studio. " +
-        "Download Studio, create your account there, then paste your session token here to log in on the website.";
+    const username = document.getElementById("modal-reg-user").value.trim();
+    const email    = document.getElementById("modal-reg-email").value.trim();
+    const password = document.getElementById("modal-reg-pass").value;
+    const err      = document.getElementById("auth-error-register");
+    if (!username || !email || !password) { err.textContent = "Please fill in all fields."; return; }
+
+    try {
+        const res = await fetch(API + "/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, email, password })
+        });
+        const data = await res.json();
+        if (data.message) {
+            // Auto-login after register
+            const loginRes = await fetch(API + "/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+            const loginData = await loginRes.json();
+            if (loginData.token) {
+                saveSession(loginData.token, username);
+                closeAuthModal();
+                window.location.href = "home.html";
+            } else {
+                err.textContent = "Account created! Please log in.";
+                showLoginModal();
+            }
+        } else {
+            err.textContent = data.error || "Registration failed.";
+        }
+    } catch { err.textContent = "Could not reach server."; }
 }
 
 function logout() {
@@ -232,23 +244,26 @@ function injectAuthModal() {
 
 // ── Redirect helpers ──────────────────────────────────────────────────────────
 
-// FIX 3: Original redirectIfLoggedIn called GET /profile which doesn't exist
-// on the server. Replaced with a lightweight ping to /published (which does
-// exist) just to confirm the server is reachable, then trusts the stored token.
+// FIX 3: Original called GET /profile but never checked the response correctly.
+// Now properly clears the stale token if the server says it's invalid, but does
+// NOT clear it if the server is simply unreachable (e.g. offline temporarily).
 async function redirectIfLoggedIn() {
     const token = getToken();
     if (!token) return;
 
     try {
-        const res = await fetch(`${API}/published`);
+        const res = await fetch(API + "/profile", {
+            headers: { "Authorization": "Bearer " + token }
+        });
         if (res.ok) {
             window.location.replace("home.html");
         } else {
+            // Token is expired or invalid — wipe it so user sees the login form
             clearSession();
         }
     } catch {
-        // Server unreachable — leave token alone, don't redirect.
-        // (Don't wipe a valid token just because the server is temporarily down.)
+        // Server unreachable — leave the token alone, don't wipe a valid session
+        // just because the network is temporarily down.
     }
 }
 
