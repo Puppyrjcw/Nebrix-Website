@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="nebrixlogo.png">
+    <title>Nebrix - Development Progress</title>
+    <meta name="description" content="Track the development progress of Nebrix game engine features.">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            border-radius: 0 !important; 
+        }
+        
+        :root {
+            --green: #00b06f; 
+            --green-dark: #008a56;
+            --blue-nav: #00b06f; 
+            --bg: #e2e2e2;      
+            --bg-panel: #ffffff;
+            --text: #1a1a1a; 
+            --text-light: #555555; 
+            --muted: #767676;
+            --border: #ffffff; 
+            --white: #ffffff;
+
+            /* Status Colors */
+            --status-complete: #00b06f;
+            --status-progress: #f39c12;
+            --status-planned: #c0392b;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Source Sans 3', 'Arial', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; }
+
+        /* NAVIGATION */
+        #nebrix-nav {
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; align-items: stretch; height: 44px;
+            background: var(--blue-nav); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .logo { 
+            display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1rem; color: #fff; 
+            padding: 0 16px; background: rgba(0,0,0,0.1); border-right: 1px solid rgba(255,255,255,0.1); 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .logo img { width: 20px; height: 20px; }
+
+        .nav-links { display: flex; }
+        .nav-links a { 
+            display: flex; align-items: center; padding: 0 14px; 
+            font-size: 0.84rem; font-weight: 700; color: var(--white); 
+            border-right: 1px solid rgba(255,255,255,0.1); 
+            text-transform: uppercase; transition: background 0.2s; 
+        }
+        .nav-links a:hover, .nav-links a.active { background: rgba(0,0,0,0.1); }
+        
+        .nav-right { display: flex; margin-left: auto; }
+        .btn-login {
+            background: transparent; border: none; color: var(--white);
+            padding: 0 20px; font-weight: 700; text-transform: uppercase;
+            cursor: pointer; font-size: 0.8rem; transition: background 0.2s;
+        }
+        .btn-login:hover { background: rgba(0,0,0,0.1); }
+        
+        /* PAGE HEADER */
+        .welcome-banner {
+            background: var(--bg-panel); 
+            border-bottom: 6px solid var(--green);
+            padding: 40px 10%;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+        }
+        .welcome-text h1 { font-size: 2.2rem; font-weight: 900; color: var(--text); text-transform: uppercase; line-height: 1; }
+        .welcome-text h1 span { color: var(--green); }
+        .welcome-text p { color: var(--muted); font-size: 1.1rem; font-weight: 600; margin-top: 8px; }
+        
+        /* SUMMARY ROW */
+        .summary-row {
+            display: flex;
+            gap: 15px;
+            padding: 30px 10% 0;
+            flex-wrap: wrap;
+        }
+        .summary-card {
+            background: var(--bg-panel);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+        }
+        .summary-card.complete { border-left: 4px solid var(--status-complete); }
+        .summary-card.progress { border-left: 4px solid var(--status-progress); }
+        .summary-card.planned { border-left: 4px solid var(--status-planned); }
+
+        /* MAIN CONTENT AREA */
+        .main { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+        .section { margin-bottom: 40px; }
+        .section-header { 
+            display: flex; align-items: center; justify-content: space-between; 
+            margin-bottom: 15px; padding-bottom: 8px; border-bottom: 4px solid var(--green); 
+        }
+        .section-title { font-size: 1rem; font-weight: 900; color: var(--text); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+        .section-meta { font-size: 0.8rem; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+
+        /* ROADMAP GRID & CARDS */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 15px;
+        }
+
+        .roadmap-card {
+            background: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .roadmap-card.complete:hover { transform: translateY(-3px); box-shadow: 0 4px 0 var(--status-complete); }
+        .roadmap-card.progress:hover { transform: translateY(-3px); box-shadow: 0 4px 0 var(--status-progress); }
+        .roadmap-card.planned:hover { transform: translateY(-3px); box-shadow: 0 4px 0 var(--status-planned); }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item-name { font-size: 1.1rem; font-weight: 900; text-transform: uppercase; color: var(--text); }
+        
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            color: #fff;
+        }
+        .status-badge.complete { background: var(--status-complete); }
+        .status-badge.progress { background: var(--status-progress); }
+        .status-badge.planned { background: var(--status-planned); }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .bar-track {
+            flex: 1;
+            height: 8px;
+            background: #eee;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            width: 0;
+            transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .bar-fill.complete { background: var(--status-complete); }
+        .bar-fill.progress { background: var(--status-progress); }
+        .bar-fill.planned { background: var(--status-planned); }
+        
+        .pct-label {
+            font-size: 0.85rem;
+            font-weight: 900;
+            color: var(--muted);
+            min-width: 36px;
+            text-align: right;
+        }
+
+        .item-desc { font-size: 0.85rem; color: var(--text-light); font-weight: 600; line-height: 1.5; margin-top: 5px; }
+
+        /* FOOTER */
+        footer { 
+            background: #1a1a1a; padding: 30px 10%; border-top: 4px solid var(--green); 
+            display: flex; justify-content: space-between; align-items: center; 
+            color: white;
+            margin-top: 40px;
+        }
+        .footer-left { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--white); text-transform: uppercase; }
+        .footer-left img { width: 22px; height: 22px; filter: grayscale(100%) brightness(200%); }
+        .footer-copy { font-size: 0.8rem; color: #666; text-transform: uppercase; font-weight: 700; }
+        
+        @media (max-width: 768px) {
+            .welcome-banner { padding: 30px 20px; }
+            .summary-row { padding: 20px 20px 0; }
+            footer { flex-direction: column; gap: 15px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="nebrix-nav">
+    <div class="logo">
+        <img src="nebrixlogo.png" alt="" onerror="this.style.display='none'">
+        Nebrix
+    </div>
+    <div class="nav-links">
+        <a href="progression.html" class="active">Roadmap</a>
+        <a href="documentation.html">Docs</a>
+        <a href="https://discord.com/invite/Dwha8GE3jw" target="_blank">Discord</a>
+    </div>
+    <div class="nav-right">
+        <button class="btn-login">Login</button>
+    </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="welcome-banner">
+    <div class="welcome-text">
+        <h1>Development <span>Progress</span></h1>
+        <p>What's finished, what's in development, and what's coming next!</p>
+    </div>
+</div>
+
+<div class="summary-row">
+    <div class="summary-card complete">5 Completed</div>
+    <div class="summary-card progress">4 In Progress</div>
+    <div class="summary-card planned">3 Planned</div>
+</div>
+
+<div class="main">
+
+    <!-- COMPLETED -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-title">✅ Core Features</span>
+            <span class="section-meta">Completed</span>
+        </div>
+
+        <div class="roadmap-grid">
+            <div class="roadmap-card complete">
+                <div class="item-header">
+                    <span class="item-name">Lua Scripting Api</span>
+                    <span class="status-badge complete">Complete</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill complete" data-width="100%"></div></div>
+                    <div class="pct-label">100%</div>
+                </div>
+                <p class="item-desc">Full Lua 5.4 integration with custom API bindings for game objects, physics, and rendering.</p>
+            </div>
+
+            <div class="roadmap-card complete">
+                <div class="item-header">
+                    <span class="item-name">3D Part System</span>
+                    <span class="status-badge complete">Complete</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill complete" data-width="100%"></div></div>
+                    <div class="pct-label">100%</div>
+                </div>
+                <p class="item-desc">Box, Sphere, Cylinder, and Wedge primitive shapes with full transform and physics support.</p>
+            </div>
+
+            <div class="roadmap-card complete">
+                <div class="item-header">
+                    <span class="item-name">Physics Engine</span>
+                    <span class="status-badge complete">Complete</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill complete" data-width="100%"></div></div>
+                    <div class="pct-label">100%</div>
+                </div>
+                <p class="item-desc">Collision detection, velocity, mass, anchoring, and force application on parts.</p>
+            </div>
+
+            <div class="roadmap-card complete">
+                <div class="item-header">
+                    <span class="item-name">GUI System</span>
+                    <span class="status-badge complete">Complete</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill complete" data-width="90%"></div></div>
+                    <div class="pct-label">90%</div>
+                </div>
+                <p class="item-desc">Frame, TextLabel, and TextButton elements with click events and property control.</p>
+            </div>
+
+            <div class="roadmap-card complete">
+                <div class="item-header">
+                    <span class="item-name">Game Creation Tools</span>
+                    <span class="status-badge complete">Complete</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill complete" data-width="100%"></div></div>
+                    <div class="pct-label">100%</div>
+                </div>
+                <p class="item-desc">Visual editor for building worlds, placing objects, and managing scene hierarchy.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- IN PROGRESS -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-title">🔨 In Active Development</span>
+            <span class="section-meta">In Progress</span>
+        </div>
+
+        <div class="roadmap-grid">
+            <div class="roadmap-card progress">
+                <div class="item-header">
+                    <span class="item-name">Game Publishing Platform</span>
+                    <span class="status-badge progress">In Progress</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill progress" data-width="90%"></div></div>
+                    <div class="pct-label">90%</div>
+                </div>
+                <p class="item-desc">Share your games with the community and browse creations from other developers.</p>
+            </div>
+
+            <div class="roadmap-card progress">
+                <div class="item-header">
+                    <span class="item-name">Script Editor</span>
+                    <span class="status-badge progress">In Progress</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill progress" data-width="65%"></div></div>
+                    <div class="pct-label">65%</div>
+                </div>
+                <p class="item-desc">Built-in code editor with syntax highlighting, auto-complete, and error reporting.</p>
+            </div>
+
+            <div class="roadmap-card progress">
+                <div class="item-header">
+                    <span class="item-name">Lighting &amp; Atmosphere</span>
+                    <span class="status-badge progress">In Progress</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill progress" data-width="60%"></div></div>
+                    <div class="pct-label">60%</div>
+                </div>
+                <p class="item-desc">Time of day system, ambient lighting, fog effects, and outdoor ambient settings.</p>
+            </div>
+
+            <div class="roadmap-card progress">
+                <div class="item-header">
+                    <span class="item-name">Multiplayer Networking</span>
+                    <span class="status-badge progress">In Progress</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill progress" data-width="40%"></div></div>
+                    <div class="pct-label">40%</div>
+                </div>
+                <p class="item-desc">Server-client architecture for hosting and joining multiplayer games.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLANNED -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-title">📋 Planned Features</span>
+            <span class="section-meta">Upcoming</span>
+        </div>
+
+        <div class="roadmap-grid">
+            <div class="roadmap-card planned">
+                <div class="item-header">
+                    <span class="item-name">Asset Marketplace</span>
+                    <span class="status-badge planned">Planned</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill planned" data-width="0%"></div></div>
+                    <div class="pct-label">0%</div>
+                </div>
+                <p class="item-desc">Browse and import community-created models, scripts, and game assets.</p>
+            </div>
+
+            <div class="roadmap-card planned">
+                <div class="item-header">
+                    <span class="item-name">Advanced Materials</span>
+                    <span class="status-badge planned">Planned</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill planned" data-width="0%"></div></div>
+                    <div class="pct-label">0%</div>
+                </div>
+                <p class="item-desc">PBR materials, textures, normal maps, and custom shaders for enhanced visuals.</p>
+            </div>
+
+            <div class="roadmap-card planned">
+                <div class="item-header">
+                    <span class="item-name">Sound &amp; Music System</span>
+                    <span class="status-badge planned">Planned</span>
+                </div>
+                <div class="progress-container">
+                    <div class="bar-track"><div class="bar-fill planned" data-width="0%"></div></div>
+                    <div class="pct-label">0%</div>
+                </div>
+                <p class="item-desc">3D spatial audio, music playback, and sound effect management.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-left">
+        <img src="nebrixlogo.png" alt="Nebrix" onerror="this.style.display='none'">
+        <span>Nebrix Platforms</span>
+    </div>
+    <div class="footer-copy">© 2026 Nebrix Platforms Inc.</div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Trigger progress bar animations after a slight delay
+        setTimeout(() => {
+            document.querySelectorAll('.bar-fill').forEach(el => {
+                el.style.width = el.dataset.width;
+            });
+        }, 150);
+    });
+</script>
+</body>
+</html>
