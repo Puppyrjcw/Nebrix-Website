@@ -291,7 +291,7 @@ async function loadPublishedGames() {
     const myMeta     = document.getElementById('my-games-meta');
 
     // Who is logged in? (saved by Studio / login page into localStorage)
-    const loggedInUser = localStorage.getItem('nebrix_user') || null;
+    const loggedInUser = localStorage.getItem('nebrix_username') || null;
 
     try {
         const res = await fetch(`${API_BASE}/published`, {
@@ -332,7 +332,7 @@ async function loadPublishedGames() {
 
     } catch (err) {
         // Server unreachable or returned an error
-        pubGrid.innerHTML  = `<p class="error-msg">Could not reach the server (${err.message})</p>`;
+        pubGrid.innerHTML  = `<p class="error-msg">Could not reach the Nebrix server (${err.message})</p>`;
         myGrid.innerHTML   = '<div class="empty-state">Server unavailable</div>';
         pubMeta.textContent = 'Offline';
         myMeta.textContent  = '—';
@@ -343,7 +343,7 @@ async function loadPublishedGames() {
 
 window.addEventListener('DOMContentLoaded', () => {
     // Show the saved username in the welcome banner
-    const savedName = localStorage.getItem('nebrix_user');
+    const savedName = localStorage.getItem('nebrix_username');
     const display   = document.getElementById('player-display');
     display.innerText = savedName || 'Player';
 
