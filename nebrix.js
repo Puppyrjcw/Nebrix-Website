@@ -46,40 +46,23 @@ function loadTheme() {
 // ── Nav rendering ─────────────────────────────────────────────────────────────
 
 function renderNav(activePage) {
-    const loggedIn = isLoggedIn();
-    const username = getUsername();
+    const navContainer = document.getElementById("nebrix-nav");
+    if (!navContainer) return;
 
-    // Define the links array properly
-    const links = [
-        { label: "Home",       href: "home.html",              key: "home"     },
-        { label: "Progress",   href: "progress.html",          key: "progress" },
-        { label: "Docs",       href: "documentation.html",     key: "docs"     },
-        { label: "GitHub",     href: "https://github.com/Puppyrjcw/Nebrix/releases", key: "github", external: true },
-        { label: "Discord",    href: "https://discord.com/invite/XTa4GwaJFY",         key: "discord", external: true },
-    ];
-
-    const navLinksHtml = links.map(l => {
-        const active = l.key === activePage ? ' class="active"' : '';
-        const ext    = l.external ? ' target="_blank" rel="noopener"' : '';
-        return `<a href="${l.href}"${active}${ext}>${l.label}</a>`;
-    }).join("");
-
-    const navRightHtml = loggedIn
-        ? `<a href="home.html" class="nav-username" style="color:white; margin-right:15px; font-weight:700;">👤 ${escapeHtml(username)}</a>
-           <button class="btn-login" onclick="logout()">Sign Out</button>`
-        : `<button class="btn-login" onclick="showLoginModal()">→ Login</button>`;
-
-    const navElement = document.getElementById("nebrix-nav");
-    if (navElement) {
-        navElement.innerHTML = `
-            <a href="home.html" class="logo">
-                <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
-                <span>Nebrix</span>
-            </a>
-            <div class="nav-links">${navLinksHtml}</div>
-            <div class="nav-right" style="display:flex; align-items:center; margin-left:auto;">${navRightHtml}</div>
-        `;
-    }
+    navContainer.innerHTML = `
+        <div class="logo">
+            <img src="nebrixlogo.png" alt="Nebrix Logo">
+            Nebrix
+        </div>
+        <div class="nav-links">
+            <a href="/progress" class="${activePage === 'progress' ? 'active' : ''}">Progress</a>
+            <a href="/documentation" class="${activePage === 'docs' ? 'active' : ''}">Docs</a>
+            <a href="https://discord.com/invite/XTa4GwaJFY" target="_blank">Discord</a>
+        </div>
+        <div class="nav-right">
+            <button class="btn-login" onclick="window.location.href='/signup'">Login</button>
+        </div>
+    `;
 }
 
 // ── Login / Register modals ───────────────────────────────────────────────────
