@@ -49,12 +49,13 @@ function renderNav(activePage) {
     const loggedIn = isLoggedIn();
     const username = getUsername();
 
-    const links = [ // <--- ADD THIS LINE
-        { label: "Home",     href: "/",                 key: "home"     },
-        { label: "Progress",  href: "/progress",     key: "progress"  },
-        { label: "Docs",     href: "/documentation",   key: "docs"      },
-        { label: "GitHub",   href: "https://github.com/Puppyrjcw/Nebrix/releases", key: "github", external: true },
-        { label: "Discord",  href: "https://discord.com/invite/XTa4GwaJFY",         key: "discord", external: true },
+    // Define the links array properly
+    const links = [
+        { label: "Home",       href: "home.html",              key: "home"     },
+        { label: "Progress",   href: "progress.html",          key: "progress" },
+        { label: "Docs",       href: "documentation.html",     key: "docs"     },
+        { label: "GitHub",     href: "https://github.com/Puppyrjcw/Nebrix/releases", key: "github", external: true },
+        { label: "Discord",    href: "https://discord.com/invite/XTa4GwaJFY",         key: "discord", external: true },
     ];
 
     const navLinksHtml = links.map(l => {
@@ -63,23 +64,22 @@ function renderNav(activePage) {
         return `<a href="${l.href}"${active}${ext}>${l.label}</a>`;
     }).join("");
 
-    // FIX 5: Logo always linked to home.html regardless of login state — the
-    // conditional was dead code. Kept it simple: always goes to index.html so
-    // logged-out users land on the splash/login page.
-const navRightHtml = loggedIn
-        ? `<a href="/home" class="nav-username">👤 ${escapeHtml(username)}</a>
+    const navRightHtml = loggedIn
+        ? `<a href="home.html" class="nav-username" style="color:white; margin-right:15px; font-weight:700;">👤 ${escapeHtml(username)}</a>
            <button class="btn-login" onclick="logout()">Sign Out</button>`
-        : `<button class="btn-login"     onclick="showLoginModal()">→ Login</button>
-           <button class="btn-register"  onclick="showRegisterModal()">+ Register</button>`;
+        : `<button class="btn-login" onclick="showLoginModal()">→ Login</button>`;
 
-    document.getElementById("nebrix-nav").innerHTML = `
-        <a href="/" class="logo">
-            <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
-            <span>Nebrix</span>
-        </a>
-        <div class="nav-links">${navLinksHtml}</div>
-        <div class="nav-right">${navRightHtml}</div>
-    `;
+    const navElement = document.getElementById("nebrix-nav");
+    if (navElement) {
+        navElement.innerHTML = `
+            <a href="home.html" class="logo">
+                <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
+                <span>Nebrix</span>
+            </a>
+            <div class="nav-links">${navLinksHtml}</div>
+            <div class="nav-right" style="display:flex; align-items:center; margin-left:auto;">${navRightHtml}</div>
+        `;
+    }
 }
 
 // ── Login / Register modals ───────────────────────────────────────────────────
