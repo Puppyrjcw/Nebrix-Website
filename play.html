@@ -134,36 +134,68 @@
 </div>
 
 <script>
-    const API_BASE = `https://api.nebrixgames.com`;
 
     document.addEventListener("DOMContentLoaded", async () => {
-    renderNav("home"); // Uses nebrix.js to show your top bar
+        // 1. Initialize the shared navigation from nebrix.js
+        if (typeof renderNav === "function") {
+            renderNav("home"); 
+        }
 
-    const params = new URLSearchParams(window.location.search);
-    const gameId = params.get("id");
+        // 2. Grab the Game ID from the URL (e.g., ?id=game_123)
+        const params = new URLSearchParams(window.location.search);
+        const gameId = params.get("id");
 
-    if (gameId) {
+        if (!gameId) {
+            document.getElementById("display-name").textContent = "No Game ID Provided";
+            document.getElementById("display-desc").textContent = "Please select a game from the home page.";
+            return;
+        }
+
         try {
-            // API is defined in nebrix.js
+            // 3. Fetch the list of games using the API constant from nebrix.js
             const res = await fetch(`${API}/published`); 
-            const games = await res.json();
+            const data = await res.json();
             
-            // Look for the specific game ID in the list
+            // Handle if the API returns a direct array or a {games: []} object
+            const games = Array.isArray(data) ? data : (data.games || []);
+            
+            // 4. Find the specific game
             const game = games.find(g => g.game_id === gameId);
 
             if (game) {
+                // Update text content
                 document.getElementById("display-name").textContent = game.name;
                 document.getElementById("display-author").textContent = game.author;
-                document.getElementById("display-desc").textContent = game.description;
+                document.getElementById("display-desc").textContent = game.description || "No description provided.";
+                
+                // Update stats
+                document.getElementById("stat-visits").textContent = game.play_count || 0;
+                
+                if (game.created_at) {
+                    const date = new Date(game.created_at * 1000).toLocaleDateString();
+                    document.getElementById("stat-created").textContent = date;
+                }
+            } else {
+                document.getElementById("display-name").textContent = "Game Not Found";
+                document.getElementById("display-desc").textContent = "The requested game ID does not exist on Nebrix.";
             }
         } catch (e) {
-            console.error("API Error:", e);
+            console.error("Nebrix API Error:", e);
+            document.getElementById("display-desc").textContent = "Failed to connect to Nebrix servers.";
         }
-    }
-});
+    });
 
+    // 5. Updated Play Button Logic
     function launchGame() {
-        alert("Connecting to Nebrix Engine...");
+        // Use the auth check from nebrix.js
+        if (typeof isLoggedIn === "function" && !isLoggedIn()) {
+            // If not logged in, show your custom login modal
+            showLoginModal();
+        } else {
+            // If logged in, proceed to launch
+            alert("Launching Nebrix Engine... Please ensure the client is installed.");
+            // Optional: window.location.href = `nebrix-player://id=${gameId}`; 
+        }
     }
 </script>
 
