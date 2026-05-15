@@ -6,6 +6,7 @@
     <link rel="icon" type="image/x-icon" href="nebrixlogo.png">
     <title>Nebrix - Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="nebrix.js"></script>
     <style>
         *, *::before, *::after { 
             box-sizing: border-box; 
@@ -350,12 +351,17 @@ async function loadPublishedGames() {
 // ─── Initialise ──────────────────────────────────────────────────────────────
 
 window.addEventListener('DOMContentLoaded', () => {
-    // Show the saved username in the welcome banner
+    // 1. Initialize the shared navigation and auth modals
+    if (typeof renderNav === "function") {
+        renderNav("home"); // This marks the "Home" link as active
+    }
+
+    // 2. Show the saved username in the welcome banner
     const savedName = localStorage.getItem('nebrix_username');
-    const display   = document.getElementById('player-display');
+    const display = document.getElementById('player-display');
     display.innerText = savedName || 'Player';
 
-    // Load published games from the server
+    // 3. Load published games from the server
     loadPublishedGames();
 });
 </script>
