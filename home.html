@@ -241,7 +241,8 @@
 // ─── Configuration ────────────────────────────────────────────────────────────
 // The server's HTTP API runs on port 7778 on the same host as this page.
 // Change SERVER_HOST if your backend is on a different machine.
-const API_BASE    = `https://api.nebrixgames.com`;
+const SERVER_HOST = window.location.hostname || 'localhost';
+const API_BASE    = `http://${SERVER_HOST}:7778`;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -300,7 +301,16 @@ async function loadPublishedGames() {
 
         if (!res.ok) throw new Error(`Server returned ${res.status}`);
 
-        const games = await res.json();
+        const json  = await res.json();
+        // The API returns { games: [...], page, limit, hasMore }
+        // not a bare array — unwrap it.
+        const games = Array.isArray(json) ? json : (json.games || []);
+
+        // Normalise field names: server uses created_at, we display as published_at
+        games.forEach(g => {
+            if (g.created_at !== undefined && g.published_at === undefined)
+                g.published_at = g.created_at;
+        });
 
         // ── All community games ──────────────────────────────────────────────
         pubGrid.innerHTML = '';
@@ -331,7 +341,7 @@ async function loadPublishedGames() {
 
     } catch (err) {
         // Server unreachable or returned an error
-        pubGrid.innerHTML  = `<p class="error-msg">Could not reach the Nebrix server (${err.message})</p>`;
+        pubGrid.innerHTML  = `<p class="error-msg">Could not reach the Nebrix server (${err.message}). Is the server running?</p>`;
         myGrid.innerHTML   = '<div class="empty-state">Server unavailable</div>';
         pubMeta.textContent = 'Offline';
         myMeta.textContent  = '—';
