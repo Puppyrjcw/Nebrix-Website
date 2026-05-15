@@ -137,31 +137,30 @@
     const API_BASE = `https://api.nebrixgames.com`;
 
     document.addEventListener("DOMContentLoaded", async () => {
-        const params = new URLSearchParams(window.location.search);
-        const gameId = params.get("id");
+    renderNav("home"); // Uses nebrix.js to show your top bar
 
-        if (!gameId) {
-            document.getElementById("display-name").textContent = "Game Not Found";
-            return;
-        }
+    const params = new URLSearchParams(window.location.search);
+    const gameId = params.get("id");
 
+    if (gameId) {
         try {
-            const res = await fetch(`${API_BASE}/published`); 
-            const json = await res.json();
-            const games = Array.isArray(json) ? json : (json.games || []);
+            // API is defined in nebrix.js
+            const res = await fetch(`${API}/published`); 
+            const games = await res.json();
+            
+            // Look for the specific game ID in the list
             const game = games.find(g => g.game_id === gameId);
 
             if (game) {
                 document.getElementById("display-name").textContent = game.name;
                 document.getElementById("display-author").textContent = game.author;
-                document.getElementById("display-desc").textContent = game.description || "No description provided.";
-                document.getElementById("stat-visits").textContent = game.play_count || 0;
-                document.getElementById("stat-created").textContent = new Date(game.created_at * 1000).toLocaleDateString();
+                document.getElementById("display-desc").textContent = game.description;
             }
-        } catch (err) {
-            console.error("Error loading game:", err);
+        } catch (e) {
+            console.error("API Error:", e);
         }
-    });
+    }
+});
 
     function launchGame() {
         alert("Connecting to Nebrix Engine...");
