@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="nebrixlogo.png">
+    <title>Nebrix - Game Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* GLOBAL STYLES FROM HOME.HTML */
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            border-radius: 0 !important; 
+        }
+        
+        :root {
+            --green: #00b06f; 
+            --green-dark: #008a56;
+            --blue-nav: #00b06f; 
+            --bg: #e2e2e2;      
+            --bg-panel: #ffffff;
+            --text: #1a1a1a; 
+            --muted: #767676;
+            --blue-link: #0066cc;
+            --white: #ffffff;
+        }
+
+        body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        /* NAVIGATION (EXACTLY FROM YOUR CODE) */
+        #nebrix-nav {
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; align-items: stretch; height: 44px;
+            background: var(--blue-nav); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .logo { 
+            display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1rem; color: #fff; 
+            padding: 0 16px; background: rgba(0,0,0,0.1); border-right: 1px solid rgba(255,255,255,0.1); 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .logo img { width: 20px; height: 20px; }
+
+        .nav-links { display: flex; }
+        .nav-links a { 
+            display: flex; align-items: center; padding: 0 14px; 
+            font-size: 0.84rem; font-weight: 700; color: var(--white); 
+            border-right: 1px solid rgba(255,255,255,0.1); 
+            text-transform: uppercase; transition: background 0.2s; 
+        }
+        .nav-links a:hover { background: rgba(0,0,0,0.1); }
+        
+        .nav-right { display: flex; margin-left: auto; }
+        .btn-login {
+            background: transparent; border: none; color: var(--white);
+            padding: 0 20px; font-weight: 700; text-transform: uppercase;
+            cursor: pointer; font-size: 0.8rem; transition: background 0.2s;
+        }
+        .btn-login:hover { background: rgba(0,0,0,0.1); }
+
+        /* GAME PAGE CONTENT */
+        .main { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+
+        .game-header { margin-bottom: 20px; }
+        .game-title-big { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; line-height: 1; }
+        .game-creator { font-size: 1rem; font-weight: 700; color: var(--muted); margin-top: 8px; }
+        .game-creator span { color: var(--blue-link); }
+
+        .top-row { display: grid; grid-template-columns: 1.8fr 1fr; background: var(--bg-panel); border-bottom: 6px solid var(--green); }
+        
+        .game-media { background: #000; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+        .game-media img { width: 40%; opacity: 0.7; }
+
+        .play-controls { padding: 30px; display: flex; flex-direction: column; border-left: 1px solid #eee; }
+        .btn-play-big { 
+            background: var(--green); color: #fff; border: none; padding: 18px; 
+            font-size: 1.8rem; font-weight: 900; text-transform: uppercase; cursor: pointer;
+            margin-bottom: 25px; transition: background 0.2s;
+        }
+        .btn-play-big:hover { background: var(--green-dark); }
+
+        .stats-list { list-style: none; font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+        .stats-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .stats-list li span:last-child { color: var(--text); }
+
+        .description-box { background: #fff; padding: 30px; margin-top: 20px; border-bottom: 4px solid #ccc; }
+        .section-label { font-weight: 900; text-transform: uppercase; border-bottom: 3px solid var(--green); padding-bottom: 5px; margin-bottom: 15px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR (COPY-PASTED FROM YOUR HOME.HTML) -->
+<nav id="nebrix-nav">
+    <div class="logo">
+        <img src="nebrixlogo.png" alt="">
+        Nebrix
+    </div>
+    <div class="nav-links">
+        <a href="progress.html">Progress</a>
+        <a href="documentation.html">Docs</a>
+        <a href="https://discord.com/invite/XTa4GwaJFY" target="_blank">Discord</a>
+    </div>
+    <div class="nav-right">
+        <button class="btn-login">Login</button>
+    </div>
+</nav>
+
+<div class="main">
+    <div class="game-header">
+        <h1 id="display-name" class="game-title-big">Loading Game...</h1>
+        <p class="game-creator">By <span id="display-author">---</span></p>
+    </div>
+
+    <div class="top-row">
+        <div class="game-media">
+            <img src="nebrixlogo.png" alt="Nebrix Logo">
+        </div>
+        <div class="play-controls">
+            <button class="btn-play-big" onclick="launchGame()">▶ Play</button>
+            <ul class="stats-list">
+                <li><span>Active</span><span id="stat-active">0</span></li>
+                <li><span>Visits</span><span id="stat-visits">0</span></li>
+                <li><span>Created</span><span id="stat-created">---</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="description-box">
+        <div class="section-label">Description</div>
+        <p id="display-desc" style="line-height: 1.6;">Fetching game data from Nebrix servers...</p>
+    </div>
+</div>
+
+<script>
+    const API_BASE = `https://api.nebrixgames.com`;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const params = new URLSearchParams(window.location.search);
+        const gameId = params.get("id");
+
+        if (!gameId) {
+            document.getElementById("display-name").textContent = "Game Not Found";
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/published`); 
+            const json = await res.json();
+            const games = Array.isArray(json) ? json : (json.games || []);
+            const game = games.find(g => g.game_id === gameId);
+
+            if (game) {
+                document.getElementById("display-name").textContent = game.name;
+                document.getElementById("display-author").textContent = game.author;
+                document.getElementById("display-desc").textContent = game.description || "No description provided.";
+                document.getElementById("stat-visits").textContent = game.play_count || 0;
+                document.getElementById("stat-created").textContent = new Date(game.created_at * 1000).toLocaleDateString();
+            }
+        } catch (err) {
+            console.error("Error loading game:", err);
+        }
+    });
+
+    function launchGame() {
+        alert("Connecting to Nebrix Engine...");
+    }
+</script>
+
+</body>
+</html>
