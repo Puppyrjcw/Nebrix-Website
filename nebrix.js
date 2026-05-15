@@ -25,9 +25,16 @@ function clearSession() {
 // ── Theme ────────────────────────────────────────────────────────────────────
 
 const THEMES = {
-    dark:     { "--bg": "#111111", "--bg-card": "#1c1c1c", "--bg-input": "#2a2a2a", "--text": "#ffffff", "--muted": "#aaaaaa", "--border": "rgba(255,255,255,0.1)" },
-    midnight: { "--bg": "#0a0a14", "--bg-card": "#13131f", "--bg-input": "#1e1e2e", "--text": "#e8e8ff", "--muted": "#8888aa", "--border": "rgba(120,120,255,0.15)" },
-    slate:    { "--bg": "#0f1117", "--bg-card": "#181c24", "--bg-input": "#222836", "--text": "#f0f4ff", "--muted": "#7a8499", "--border": "rgba(255,255,255,0.08)" },
+    // This is now your main White/Green theme
+    dark: { 
+        "--bg": "#e2e2e2",       // Light grey background (from home.html)
+        "--bg-card": "#ffffff",  // White panels
+        "--bg-input": "#ffffff", 
+        "--text": "#1a1a1a",     // Dark text
+        "--muted": "#767676", 
+        "--border": "#cccccc",
+        "--nav-bg": "#00b06f"    // Nebrix Green
+    }
 };
 
 function applyTheme(name) {
