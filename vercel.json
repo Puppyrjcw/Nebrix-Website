@@ -4,7 +4,7 @@
     { "source": "/", "destination": "/signup" },
     { "source": "/home", "destination": "/home" },
     { "source": "/progress", "destination": "/progression" },
-    { "source": "/documentation", "destination": "/documentation" }
-    { "source": "/play", "destination": "/play.html" },
+    { "source": "/documentation", "destination": "/documentation" },
+    { "source": "/play", "destination": "/play.html" }
   ]
 }
