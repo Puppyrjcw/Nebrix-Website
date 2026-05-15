@@ -92,8 +92,20 @@
     .sidebar a:hover { color: var(--green); background: #f0f0f0; }
     .sidebar a.active { color: #fff; background: var(--green); }
 
+    main {
+        display: flex;
+        width: 100%;
+    }
+       
     /* ── MAIN CONTENT ── */
-    .content { flex: 1; padding: 40px 48px; background: var(--bg); }
+    .content {
+    flex: 1;
+    padding: 40px 60px;
+    background: var(--bg);
+    /* This ensures it stays to the right of the sidebar */
+    margin-left: 0; 
+    min-height: calc(100vh - 60px);
+    }
 
     .intro-card {
         padding: 40px; margin-bottom: 40px;
