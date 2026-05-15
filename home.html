@@ -31,7 +31,7 @@
         body { font-family: 'Source Sans 3','Arial',sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
         a { color: inherit; text-decoration: none; }
 
-        /* NAVIGATION - Updated with Links */
+        /* NAVIGATION */
         #nebrix-nav {
             position: sticky; top: 0; z-index: 1000;
             display: flex; align-items: stretch; height: 44px;
@@ -106,6 +106,38 @@
             text-transform: uppercase; font-weight: 900; color: #999;
         }
 
+        /* FIX 1: .game-grid was referenced everywhere but never defined.
+           Added the grid layout so game cards actually display in a grid. */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        /* Game cards rendered by JS */
+        .game-card {
+            background: #fff;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+            transition: transform 0.1s, box-shadow 0.1s;
+            cursor: pointer;
+        }
+        .game-card:hover { transform: translateY(-3px); box-shadow: 0 4px 0 var(--green); }
+        .game-card-title { font-size: 1rem; font-weight: 900; text-transform: uppercase; color: var(--text); }
+        .game-card-author { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+        .game-card-desc { font-size: 0.82rem; color: var(--text-light); margin-top: 4px; flex: 1; }
+        .game-card-meta { font-size: 0.75rem; color: #aaa; font-weight: 700; text-transform: uppercase; margin-top: 6px; display: flex; justify-content: space-between; }
+        .game-card-play {
+            margin-top: 10px; background: var(--green); color: #fff;
+            border: none; font-family: inherit; font-size: 0.8rem; font-weight: 900;
+            text-transform: uppercase; padding: 8px 0; cursor: pointer;
+            transition: background 0.2s; width: 100%;
+        }
+        .game-card-play:hover { background: var(--green-dark); }
+
         .quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
         .quick-card { 
             background: #fff; padding: 25px 20px; display: flex; align-items: center; gap: 15px; 
@@ -123,6 +155,18 @@
         }
         .footer-left { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--white); text-transform: uppercase; }
         .footer-copy { font-size: 0.8rem; color: #666; text-transform: uppercase; font-weight: 700; }
+
+        /* Loading spinner */
+        .loading-msg {
+            grid-column: 1/-1; text-align: center; padding: 30px;
+            font-weight: 700; color: var(--muted); text-transform: uppercase; font-size: 0.85rem;
+        }
+
+        /* Error message */
+        .error-msg {
+            grid-column: 1/-1; text-align: center; padding: 30px;
+            font-weight: 700; color: #c0392b; text-transform: uppercase; font-size: 0.85rem;
+        }
     </style>
 </head>
 <body>
@@ -172,7 +216,7 @@
       <span class="section-meta" id="pub-games-meta">Syncing...</span>
     </div>
     <div id="pub-games-grid" class="game-grid">
-        <p style="grid-column: 1/-1; text-align: center; padding: 20px; font-weight: 700; color: var(--muted);">Searching for servers...</p>
+        <p class="loading-msg">Searching for servers...</p>
     </div>
   </div>
 
@@ -194,19 +238,118 @@
 </footer>
 
 <script>
-window.addEventListener('DOMContentLoaded', () => {
-    // 1. Try to find the name saved in the browser's memory
-    const savedName = localStorage.getItem('nebrix_user');
-    const display = document.getElementById('player-display');
+// ─── Configuration ────────────────────────────────────────────────────────────
+// The server's HTTP API runs on port 7778 on the same host as this page.
+// Change SERVER_HOST if your backend is on a different machine.
+const SERVER_HOST = window.location.hostname || 'localhost';
+const API_BASE    = `http://${SERVER_HOST}:7778`;
 
-    // 2. If a name exists, show it; otherwise, keep it as "Player"
-    if (savedName) {
-        display.innerText = savedName;
-    } else {
-        display.innerText = "Player";
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function formatDate(unixSeconds) {
+    if (!unixSeconds) return '—';
+    return new Date(unixSeconds * 1000).toLocaleDateString('en-US',
+        { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function makeGameCard(game, isOwn) {
+    const card = document.createElement('div');
+    card.className = 'game-card';
+    card.innerHTML = `
+        <div class="game-card-title">${escapeHtml(game.name)}</div>
+        <div class="game-card-author">by ${escapeHtml(game.author)}</div>
+        <div class="game-card-desc">${escapeHtml(game.description || '')}</div>
+        <div class="game-card-meta">
+            <span>${formatDate(game.published_at)}</span>
+            <span>▶ ${game.play_count ?? 0} plays</span>
+        </div>
+        <button class="game-card-play" data-id="${escapeHtml(game.game_id)}">▶ Play</button>
+    `;
+    card.querySelector('.game-card-play').addEventListener('click', () => {
+        // Navigate to the player page with the game_id as a query param
+        window.location.href = `play.html?id=${encodeURIComponent(game.game_id)}`;
+    });
+    return card;
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+// ─── FIX 2: Fetch published games from the server HTTP API ───────────────────
+// The original page had NO fetch() call at all — both game grids were always
+// empty because nothing ever contacted the server.
+
+async function loadPublishedGames() {
+    const pubGrid    = document.getElementById('pub-games-grid');
+    const myGrid     = document.getElementById('my-games-grid');
+    const pubMeta    = document.getElementById('pub-games-meta');
+    const myMeta     = document.getElementById('my-games-meta');
+
+    // Who is logged in? (saved by Studio / login page into localStorage)
+    const loggedInUser = localStorage.getItem('nebrix_user') || null;
+
+    try {
+        const res = await fetch(`${API_BASE}/published`, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (!res.ok) throw new Error(`Server returned ${res.status}`);
+
+        const games = await res.json();
+
+        // ── All community games ──────────────────────────────────────────────
+        pubGrid.innerHTML = '';
+        if (!Array.isArray(games) || games.length === 0) {
+            pubGrid.innerHTML = '<div class="empty-state">No community games published yet</div>';
+            pubMeta.textContent = '0 Games';
+        } else {
+            games.forEach(g => pubGrid.appendChild(makeGameCard(g, false)));
+            pubMeta.textContent = `${games.length} Game${games.length !== 1 ? 's' : ''}`;
+        }
+
+        // ── My published games (filter by author matching localStorage name) ─
+        myGrid.innerHTML = '';
+        if (loggedInUser) {
+            const mine = games.filter(g =>
+                g.author && g.author.toLowerCase() === loggedInUser.toLowerCase());
+            if (mine.length === 0) {
+                myGrid.innerHTML = '<div class="empty-state">No games published yet</div>';
+                myMeta.textContent = '0 Games';
+            } else {
+                mine.forEach(g => myGrid.appendChild(makeGameCard(g, true)));
+                myMeta.textContent = `${mine.length} Game${mine.length !== 1 ? 's' : ''}`;
+            }
+        } else {
+            myGrid.innerHTML = '<div class="empty-state">Log in to see your published games</div>';
+            myMeta.textContent = '—';
+        }
+
+    } catch (err) {
+        // Server unreachable or returned an error
+        pubGrid.innerHTML  = `<p class="error-msg">Could not reach the server (${err.message})</p>`;
+        myGrid.innerHTML   = '<div class="empty-state">Server unavailable</div>';
+        pubMeta.textContent = 'Offline';
+        myMeta.textContent  = '—';
     }
+}
+
+// ─── Initialise ──────────────────────────────────────────────────────────────
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Show the saved username in the welcome banner
+    const savedName = localStorage.getItem('nebrix_user');
+    const display   = document.getElementById('player-display');
+    display.innerText = savedName || 'Player';
+
+    // Load published games from the server
+    loadPublishedGames();
 });
-</script>
 </script>
 
 </body>
