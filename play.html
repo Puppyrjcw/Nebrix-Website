@@ -185,17 +185,34 @@
     });
 
     // 5. Updated Play Button Logic
-    function launchGame() {
-        // Use the auth check from nebrix.js
-        if (typeof isLoggedIn === "function" && !isLoggedIn()) {
-            // If not logged in, show your custom login modal
-            showLoginModal();
-        } else {
-            // If logged in, proceed to launch
-            alert("Launching Nebrix Engine... Please ensure the client is installed.");
-            // Optional: window.location.href = `nebrix-player://id=${gameId}`; 
-        }
+function launchGame() {
+    // 1. Grab the Game ID out of the URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const gameId = params.get("id");
+
+    if (!gameId) {
+        alert("Cannot launch game: No Game ID found in the URL.");
+        return;
     }
+
+    // 2. Use the auth check from nebrix.js
+    if (typeof isLoggedIn === "function" && !isLoggedIn()) {
+        showLoginModal();
+    } else {
+        // 3. Optional: Extract credentials if you want automatic room login
+        // Let's assume nebrix.js stores these or you have global variables/getters
+        let username = typeof getLoggedInUser === "function" ? getLoggedInUser() : "";
+        let password = typeof getLoggedInPass === "function" ? getLoggedInPass() : "";
+
+        // 4. Construct the custom deep link
+        // Your C++ code handles: nebrix://play/<game_id>
+        let deepLink = `nebrix://play/${gameId}`;
+
+        // Note: Browsers won't pass separate spaces via deep links directly to argv[2] / argv[3] natively
+        // unless you handle an architectural change. For standard anonymous/scene routing:
+        window.location.href = deepLink;
+    }
+}
 </script>
 
 </body>
