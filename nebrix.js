@@ -4,7 +4,7 @@
 // doesn't exist — the server only exposes HTTP on port 7778 on the same host.
 // Using window.location.hostname keeps this working both locally and in production.
 const API_HOST = window.location.hostname || "localhost";
-const API      = `http://${API_HOST}:7778`;
+const API      = `https://api.nebrixgames.com`;
 
 // ── Auth helpers ─────────────────────────────────────────────────────────────
 
