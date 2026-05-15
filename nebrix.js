@@ -49,13 +49,12 @@ function renderNav(activePage) {
     const loggedIn = isLoggedIn();
     const username = getUsername();
 
-    const links = [
-        { label: "Home",    href: "index.html",                                    key: "home"    },
-        { label: "Roadmap", href: "progression.html",                              key: "roadmap" },
-        { label: "Docs",    href: "documentation.html",                            key: "docs"    },
-        { label: "GitHub",  href: "https://github.com/Puppyrjcw/Nebrix/releases",  key: "github",  external: true },
-        { label: "Discord", href: "https://discord.com/invite/XTa4GwaJFY",         key: "discord", external: true },
-    ];
+{ label: "Home",     href: "/",                 key: "home"     },
+    { label: "Progress",  href: "/progress",     key: "progress"  },
+    { label: "Docs",     href: "/documentation",   key: "docs"     },
+    { label: "GitHub",   href: "https://github.com/Puppyrjcw/Nebrix/releases", key: "github", external: true },
+    { label: "Discord",  href: "https://discord.com/invite/XTa4GwaJFY",         key: "discord", external: true },
+];
 
     const navLinksHtml = links.map(l => {
         const active = l.key === activePage ? ' class="active"' : '';
@@ -66,14 +65,14 @@ function renderNav(activePage) {
     // FIX 5: Logo always linked to home.html regardless of login state — the
     // conditional was dead code. Kept it simple: always goes to index.html so
     // logged-out users land on the splash/login page.
-    const navRightHtml = loggedIn
-        ? `<a href="home.html" class="nav-username">👤 ${escapeHtml(username)}</a>
+const navRightHtml = loggedIn
+        ? `<a href="/home" class="nav-username">👤 ${escapeHtml(username)}</a>
            <button class="btn-login" onclick="logout()">Sign Out</button>`
         : `<button class="btn-login"     onclick="showLoginModal()">→ Login</button>
            <button class="btn-register"  onclick="showRegisterModal()">+ Register</button>`;
 
     document.getElementById("nebrix-nav").innerHTML = `
-        <a href="index.html" class="logo">
+        <a href="/" class="logo">
             <img src="nebrixlogo.png" alt="Nebrix Logo" onerror="this.style.display='none'">
             <span>Nebrix</span>
         </a>
