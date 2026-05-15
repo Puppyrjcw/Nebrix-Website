@@ -1,9 +1,9 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/signup.html" },
-    { "source": "/home", "destination": "/home.html" },
-    { "source": "/progress", "destination": "/progression.html" },
-    { "source": "/documentation", "destination": "/documentation.html" }
+    { "source": "/", "destination": "/signup" },
+    { "source": "/home", "destination": "/home" },
+    { "source": "/progress", "destination": "/progression" },
+    { "source": "/documentation", "destination": "/documentation" }
   ]
 }
