@@ -3,240 +3,1111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nebrix | Documentation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="nebrixlogo.png">
+    <title>Nebrix - Lua API Documentation</title>
+    <meta name="description" content="Complete Lua API documentation for Nebrix game engine scripting.">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        /* ── RESET & VARIABLES ── */
-        *, *::before, *::after { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            border-radius: 0 !important; /* Forces square corners */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border-radius: 0 !important;
         }
 
         :root {
-            --green:       #00b06f;    
-            --green-dark:  #008a57;
-            --bg:          #e2e2e2;    
-            --bg-card:     #ffffff;    
-            --bg-sidebar:  #fdfdfd;
-            --bg-code:     #1e1e1e;    
-            --text:        #1a1a1a;    
-            --muted:       #666666;
-            --border:      #cccccc;
-            --sidebar-w:   260px;
-            --nav-h:       45px;
+            --green:      #00b06f;
+            --green-dark: #008a56;
+            --bg:         #e2e2e2;
+            --bg-panel:   #ffffff;
+            --text:       #1a1a1a;
+            --text-light: #555555;
+            --muted:      #767676;
+            --border:     #cccccc;
+            --bg-code:    #1e1e1e;
+            --sidebar-w:  240px;
+            --nav-h:      44px;
         }
 
         html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Rubik', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            line-height: 1.5;
+        body {
+            font-family: 'Source Sans 3', 'Arial', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
         }
+        a { color: inherit; text-decoration: none; }
 
-        /* ── TOP NAVBAR ── */
-        nav.topnav {
-            position: fixed;
+        /* ── NAV ── */
+        #nebrix-nav {
+            position: sticky;
             top: 0;
-            width: 100%;
             z-index: 1000;
             display: flex;
-            align-items: center;
-            padding: 0 15px;
+            align-items: stretch;
             height: var(--nav-h);
             background: var(--green);
-            border-bottom: 2px solid var(--green-dark);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-
         .logo {
-            font-weight: 800;
-            font-size: 1rem; /* Smaller logo as requested */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            font-size: 1rem;
             color: #fff;
-            letter-spacing: 1px;
-            margin-right: 20px;
-        }
-
-        .nav-links { display: flex; gap: 5px; }
-        .nav-links a {
-            padding: 0 12px;
-            height: var(--nav-h);
-            line-height: var(--nav-h);
-            font-size: 0.85rem; 
-            font-weight: 600;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-        }
-        .nav-links a:hover, .nav-links a.active { 
-            background: rgba(0,0,0,0.1); 
-            color: #fff; 
-        }
-
-        .btn-login {
-            margin-left: auto;
-            background: transparent;
-            border: 1px solid #fff;
-            color: #fff;
-            padding: 4px 18px;
-            font-weight: 700;
-            font-size: 0.75rem;
-            cursor: pointer;
+            padding: 0 16px;
+            background: rgba(0,0,0,0.1);
+            border-right: 1px solid rgba(255,255,255,0.1);
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .btn-login:hover { background: rgba(255,255,255,0.1); }
+        .logo img { width: 20px; height: 20px; }
+        .nav-links { display: flex; }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: #fff;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            text-transform: uppercase;
+            transition: background 0.2s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active { background: rgba(0,0,0,0.1); }
+        .nav-right { display: flex; margin-left: auto; }
+        .btn-login {
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 0 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        .btn-login:hover { background: rgba(0,0,0,0.1); }
+
+        /* ── PAGE BANNER ── */
+        .page-banner {
+            background: var(--bg-panel);
+            border-bottom: 6px solid var(--green);
+            padding: 40px 10%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .page-banner h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--text);
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        .page-banner h1 span { color: var(--green); }
+        .page-banner p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .banner-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+        .banner-pill {
+            background: var(--green);
+            color: #fff;
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
         /* ── LAYOUT ── */
         .wrapper {
             display: flex;
-            margin-top: var(--nav-h); /* Offset for fixed header */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            gap: 30px;
+            align-items: flex-start;
         }
 
         /* ── SIDEBAR ── */
         .sidebar {
             width: var(--sidebar-w);
-            position: fixed;
-            top: var(--nav-h);
-            bottom: 0;
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
+            flex-shrink: 0;
+            position: sticky;
+            top: calc(var(--nav-h) + 20px);
+            max-height: calc(100vh - var(--nav-h) - 40px);
             overflow-y: auto;
-            padding: 20px 0;
         }
-
+        .sidebar-section { background: var(--bg-panel); margin-bottom: 4px; }
         .sidebar-label {
-            font-size: 0.65rem; 
-            font-weight: 800;
-            text-transform: uppercase; 
+            font-size: 0.65rem;
+            font-weight: 900;
+            text-transform: uppercase;
             color: #999;
-            padding: 10px 20px;
+            padding: 10px 16px 6px;
             letter-spacing: 1px;
+            border-bottom: 2px solid var(--green);
+            display: block;
         }
-
         .sidebar a {
-            display: block; 
-            padding: 8px 20px;
-            color: var(--muted); 
-            font-size: 0.9rem; 
-            font-weight: 500;
-            text-decoration: none;
+            display: block;
+            padding: 8px 16px;
+            color: var(--muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px solid #f0f0f0;
+            transition: 0.15s;
         }
-        .sidebar a:hover { color: var(--green); background: #f0f0f0; }
-        .sidebar a.active { 
-            color: #fff; 
-            background: var(--green); 
-            border-bottom: 2px solid var(--green-dark);
-        }
+        .sidebar a:last-child { border-bottom: none; }
+        .sidebar a:hover { color: var(--green); background: #f5f5f5; }
+        .sidebar a.active { color: #fff; background: var(--green); }
 
         /* ── MAIN CONTENT ── */
-        .content {
-            margin-left: var(--sidebar-w); /* Pushes content to the right */
-            flex: 1;
-            padding: 40px 60px;
-            min-height: 100vh;
-        }
+        .content { flex: 1; min-width: 0; }
 
+        /* ── SECTION CARDS ── */
         .doc-section {
-            background: #fff;
+            background: var(--bg-panel);
+            margin-bottom: 15px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 25px 12px;
+            border-bottom: 4px solid var(--green);
+        }
+        .section-title {
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text);
+        }
+        .section-body { padding: 25px; }
+
+        h3 {
+            font-size: 0.85rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--muted);
+            letter-spacing: 0.8px;
+            margin: 22px 0 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #eee;
+        }
+        h3:first-child { margin-top: 0; }
+
+        p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        p:last-child { margin-bottom: 0; }
+
+        /* ── API METHOD CARD ── */
+        .api-method {
+            background: #f9f9f9;
             border: 1px solid var(--border);
-            padding: 30px;
-            margin-bottom: 30px;
+            border-left: 4px solid var(--green);
+            padding: 16px 20px;
+            margin: 12px 0;
+        }
+        .method-sig {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 8px;
+            background: #eefaf4;
+            padding: 6px 10px;
+            border-left: 3px solid var(--green);
+        }
+        .api-method p { margin-bottom: 6px; font-size: 0.9rem; }
+        .param {
+            margin: 5px 0 5px 14px;
+            font-size: 0.875rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .param strong {
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
         }
 
-        h1 { font-size: 2rem; margin-bottom: 10px; }
-        h2 { 
-            font-size: 1.4rem; 
-            color: var(--green); 
-            margin-bottom: 15px; 
-            border-bottom: 1px solid #eee; 
-            padding-bottom: 5px;
-        }
-
-        p { margin-bottom: 15px; color: #444; }
-
-        /* ── CODE STYLING ── */
+        /* ── CODE ── */
         code {
             background: #f1f1f1;
-            color: #d63384; /* Roblox DevHub Pink */
+            color: #d63384;
             padding: 2px 6px;
-            font-family: monospace;
-            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.88rem;
         }
-
         pre {
             background: var(--bg-code);
             color: #e6e6e6;
-            padding: 15px;
-            margin: 15px 0;
+            padding: 16px 20px;
+            margin: 12px 0 0;
             overflow-x: auto;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             border-left: 4px solid var(--green);
+            font-family: 'Courier New', monospace;
+            line-height: 1.65;
+        }
+        pre:last-child { margin-bottom: 0; }
+        pre code {
+            background: none;
+            color: #e6e6e6;
+            padding: 0;
+            font-size: inherit;
         }
 
+        /* ── NOTE ── */
         .note {
             background: #e7f9f3;
             border-left: 4px solid var(--green);
-            padding: 15px;
+            padding: 14px 18px;
             color: #1a4d3c;
-            margin: 20px 0;
             font-size: 0.9rem;
+            font-weight: 600;
+            margin: 15px 0 0;
+        }
+        .note strong { color: var(--green-dark); }
+
+        /* ── TABLE ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.875rem;
+        }
+        th {
+            background: var(--green);
+            color: #fff;
+            font-weight: 900;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 9px 14px;
+            text-align: left;
+        }
+        td {
+            padding: 9px 14px;
+            color: var(--text-light);
+            font-weight: 600;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) td { background: #fafafa; }
+        td code { color: #d63384; }
+
+        /* ── LISTS ── */
+        ul {
+            margin: 10px 0 12px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        li {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #1a1a1a;
+            padding: 30px 10%;
+            border-top: 4px solid var(--green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .footer-left {
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .footer-copy {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* ── MOBILE SIDEBAR TOGGLE ── */
+        .menu-toggle-btn {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 199;
+            background: var(--green);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 16px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            font-weight: 900;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: var(--nav-h);
+                height: calc(100vh - var(--nav-h));
+                z-index: 150;
+                max-height: none;
+                transition: left 0.3s ease;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+                overflow-y: auto;
+                background: var(--bg-panel);
+            }
+            .sidebar.open { left: 0; }
+            .menu-toggle-btn { display: block; }
+            .wrapper { padding: 20px 14px 80px; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="topnav">
-        <div class="logo">NEBRIX</div>
-        <div class="nav-links">
-            <a href="home.html">Home</a>
-            <a href="documentation.html" class="active">Docs</a>
+<nav id="nebrix-nav">
+    <div class="logo">
+        <img src="nebrixlogo.png" alt="">
+        Nebrix
+    </div>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="progress.html">Progress</a>
+        <a href="documentation.html" class="active">Docs</a>
+        <a href="https://discord.com/invite/XTa4GwaJFY" target="_blank">Discord</a>
+    </div>
+    <div class="nav-right">
+        <button class="btn-login">Login</button>
+    </div>
+</nav>
+
+<div class="page-banner">
+    <div>
+        <h1>Lua API <span>Documentation</span></h1>
+        <p>Complete reference for scripting games in Nebrix using Lua.</p>
+        <div class="banner-pills">
+            <span class="banner-pill">Lua 5.4</span>
+            <span class="banner-pill">API v1.0</span>
+            <span class="banner-pill">Case-insensitive properties</span>
         </div>
-        <button class="btn-login">Log In</button>
-    </nav>
+    </div>
+</div>
 
-    <div class="wrapper">
-        <aside class="sidebar">
-            <div class="sidebar-label">Introduction</div>
-            <a href="#getting-started" class="active">Getting Started</a>
-            <a href="#installation">Installation</a>
-            
-            <div class="sidebar-label">Engine API</div>
+<div class="wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section">
+            <span class="sidebar-label">Getting Started</span>
+            <a href="#intro">Introduction</a>
+            <a href="#quickstart">Quick Start</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Data Types</span>
             <a href="#vector3">Vector3</a>
+            <a href="#vector2">Vector2</a>
+            <a href="#color3">Color3</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Objects</span>
             <a href="#instance">Instance</a>
-            <a href="#physics">PhysicsService</a>
-        </aside>
+            <a href="#part">Part</a>
+            <a href="#model">Model &amp; Folder</a>
+            <a href="#gui">GUI Elements</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Services</span>
+            <a href="#game">game</a>
+            <a href="#workspace">Workspace</a>
+            <a href="#lighting">Lighting</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Utilities</span>
+            <a href="#math">Math Extensions</a>
+            <a href="#table">Table Extensions</a>
+            <a href="#string">String Extensions</a>
+            <a href="#task">Task Library</a>
+            <a href="#globals">Global Functions</a>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Examples</span>
+            <a href="#examples">Complete Examples</a>
+        </div>
+    </aside>
 
-        <main class="content">
-            <div class="doc-section" id="getting-started">
-                <h1>Documentation</h1>
-                <p>Welcome to the official <strong>Nebrix V0.25</strong> technical manual. This guide covers the engine architecture, API references, and server-side implementation details.</p>
-                <div class="note">
-                    <strong>Note:</strong> Nebrix V0.25 features a complete interface overhaul. Ensure your scripts are compatible with the new <code>Slint UI</code> integration.
+    <!-- MAIN CONTENT -->
+    <main class="content">
+
+        <!-- INTRODUCTION -->
+        <div class="doc-section" id="intro">
+            <div class="section-header"><span class="section-title">📖 Introduction</span></div>
+            <div class="section-body">
+                <p>Nebrix uses Lua 5.4 as its scripting language. This API is designed to feel familiar to developers from other game engines while providing powerful features for creating 3D games.</p>
+                <div class="note"><strong>Note:</strong> All property names are case-insensitive — <code>Position</code> and <code>position</code> both work.</div>
+            </div>
+        </div>
+
+        <!-- QUICK START -->
+        <div class="doc-section" id="quickstart">
+            <div class="section-header"><span class="section-title">🚀 Quick Start</span></div>
+            <div class="section-body">
+                <p>Here's a simple example to get you started:</p>
+<pre><code>-- Create a red part
+local part = Instance.new("Part", workspace)
+part.Position = Vector3.new(0, 10, 0)
+part.Color = Color3.fromRGB(255, 0, 0)
+part.Size = Vector3.new(4, 1, 2)
+
+-- Add physics
+part.Anchored = false
+part:ApplyImpulse(Vector3.new(0, 50, 0))
+
+-- Update loop (called every frame)
+function onUpdate(dt)
+    part:Rotate(Vector3.new(0, 1, 0))
+end</code></pre>
+            </div>
+        </div>
+
+        <!-- VECTOR3 -->
+        <div class="doc-section" id="vector3">
+            <div class="section-header"><span class="section-title">📐 Vector3</span></div>
+            <div class="section-body">
+                <p>Represents a 3D vector with X, Y, and Z components.</p>
+                <div class="api-method">
+                    <div class="method-sig">Vector3.new(x, y, z) → Vector3</div>
+                    <p>Creates a new Vector3. All parameters default to 0.</p>
+                    <div class="param"><strong>x</strong> — The X component</div>
+                    <div class="param"><strong>y</strong> — The Y component</div>
+                    <div class="param"><strong>z</strong> — The Z component</div>
+<pre><code>local position = Vector3.new(10, 5, 0)
+local up = Vector3.new(0, 1, 0)</code></pre>
+                </div>
+                <h3>Constants</h3>
+                <ul>
+                    <li><code>Vector3.zero</code> — Shorthand for <code>Vector3.new(0, 0, 0)</code></li>
+                    <li><code>Vector3.one</code> — Shorthand for <code>Vector3.new(1, 1, 1)</code></li>
+                </ul>
+                <h3>Properties</h3>
+                <table>
+                    <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>X</code> or <code>x</code></td><td>number</td><td>The X component</td></tr>
+                    <tr><td><code>Y</code> or <code>y</code></td><td>number</td><td>The Y component</td></tr>
+                    <tr><td><code>Z</code> or <code>z</code></td><td>number</td><td>The Z component</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- VECTOR2 -->
+        <div class="doc-section" id="vector2">
+            <div class="section-header"><span class="section-title">📐 Vector2</span></div>
+            <div class="section-body">
+                <p>Represents a 2D vector with X and Y components. Used for GUI positioning and sizing.</p>
+                <div class="api-method">
+                    <div class="method-sig">Vector2.new(x, y) → Vector2</div>
+                    <p>Creates a new Vector2.</p>
+<pre><code>local guiPos = Vector2.new(100, 50)</code></pre>
+                </div>
+                <ul>
+                    <li><code>Vector2.zero</code> — Equals <code>Vector2.new(0, 0)</code></li>
+                    <li><code>Vector2.one</code> — Equals <code>Vector2.new(1, 1)</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COLOR3 -->
+        <div class="doc-section" id="color3">
+            <div class="section-header"><span class="section-title">🎨 Color3</span></div>
+            <div class="section-body">
+                <p>Represents an RGB color with values from 0 to 1 (or 0–255 with <code>fromRGB</code>).</p>
+                <div class="api-method">
+                    <div class="method-sig">Color3.new(r, g, b) → Color3</div>
+                    <p>Creates a Color3 with normalized values (0 to 1).</p>
+<pre><code>local white = Color3.new(1, 1, 1)
+local black = Color3.new(0, 0, 0)</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">Color3.fromRGB(r, g, b) → Color3</div>
+                    <p>Creates a Color3 from 0–255 values.</p>
+<pre><code>local red = Color3.fromRGB(255, 0, 0)
+local blue = Color3.fromRGB(0, 100, 255)</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">Color3.fromHSV(h, s, v) → Color3</div>
+                    <p>Creates a Color3 from HSV values (all 0–1).</p>
+<pre><code>local cyan = Color3.fromHSV(0.5, 1, 1)</code></pre>
+                </div>
+                <h3>Properties</h3>
+                <ul>
+                    <li><code>R</code> or <code>r</code> — Red component (0–1)</li>
+                    <li><code>G</code> or <code>g</code> — Green component (0–1)</li>
+                    <li><code>B</code> or <code>b</code> — Blue component (0–1)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- INSTANCE -->
+        <div class="doc-section" id="instance">
+            <div class="section-header"><span class="section-title">🧩 Instance</span></div>
+            <div class="section-body">
+                <p>Base class for all objects in Nebrix.</p>
+                <div class="api-method">
+                    <div class="method-sig">Instance.new(className, parent?) → Instance</div>
+                    <p>Creates a new instance of the specified type.</p>
+                    <div class="param"><strong>className</strong> — "Part", "Sphere", "Cylinder", "Wedge", "Model", "Folder", "Script", "Frame", "TextLabel", "TextButton"</div>
+                    <div class="param"><strong>parent</strong> — Optional parent object</div>
+<pre><code>local part = Instance.new("Part", workspace)
+local model = Instance.new("Model", workspace)
+local frame = Instance.new("Frame", game.PlayerGui)</code></pre>
+                </div>
+                <h3>Properties</h3>
+                <table>
+                    <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>Name</code></td><td>string</td><td>The name of the instance</td></tr>
+                    <tr><td><code>Parent</code></td><td>Instance</td><td>The parent object</td></tr>
+                    <tr><td><code>ClassName</code></td><td>string</td><td>The type of the instance (read-only)</td></tr>
+                </table>
+                <h3>Methods</h3>
+                <div class="api-method">
+                    <div class="method-sig">:IsA(className) → boolean</div>
+                    <p>Checks if the instance is of the specified type.</p>
+<pre><code>if part:IsA("Part") then
+    print("This is a part!")
+end</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:FindFirstChild(name) → Instance?</div>
+                    <p>Returns the first child with the specified name, or nil.</p>
+<pre><code>local head = character:FindFirstChild("Head")</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:WaitForChild(name) → Instance?</div>
+                    <p>Returns the first child with the specified name (currently same as FindFirstChild).</p>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:GetChildren() → {Instance}</div>
+                    <p>Returns an array of all children.</p>
+<pre><code>for i, child in pairs(workspace:GetChildren()) do
+    print(child.Name)
+end</code></pre>
                 </div>
             </div>
+        </div>
 
-            <div class="doc-section" id="vector3">
-                <h2>Vector3</h2>
-                <p>The <code>Vector3</code> class is used for 3D coordinates and direction vectors. All physics calculations in Nebrix utilize this type.</p>
-                <pre>
--- Example: Creating a new position
-local PART_POS = Vector3.new(15, 0, 0)
-print(PART_POS.X) -- Outputs 15
-                </pre>
+        <!-- PART -->
+        <div class="doc-section" id="part">
+            <div class="section-header"><span class="section-title">📦 Part</span></div>
+            <div class="section-body">
+                <p>A 3D physical object with shape, position, and physics properties. Supported types: <code>Part</code>, <code>Sphere</code>, <code>Cylinder</code>, <code>Wedge</code>.</p>
+                <h3>Properties</h3>
+                <table>
+                    <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>Position</code></td><td>Vector3</td><td>World position of the part</td></tr>
+                    <tr><td><code>Rotation</code></td><td>Vector3</td><td>Rotation in degrees (X, Y, Z)</td></tr>
+                    <tr><td><code>Size</code></td><td>Vector3</td><td>Dimensions of the part</td></tr>
+                    <tr><td><code>Color</code></td><td>Color3</td><td>The color of the part</td></tr>
+                    <tr><td><code>Transparency</code></td><td>number</td><td>0 = opaque, 1 = invisible</td></tr>
+                    <tr><td><code>Anchored</code></td><td>boolean</td><td>If true, physics won't move the part</td></tr>
+                    <tr><td><code>CanCollide</code></td><td>boolean</td><td>Whether physics collisions occur</td></tr>
+                    <tr><td><code>Mass</code></td><td>number</td><td>The mass for physics calculations</td></tr>
+                    <tr><td><code>Velocity</code></td><td>Vector3</td><td>Current velocity vector</td></tr>
+                </table>
+<pre><code>local part = Instance.new("Part", workspace)
+part.Position = Vector3.new(0, 10, 0)
+part.Size = Vector3.new(4, 1, 2)
+part.Color = Color3.fromRGB(100, 150, 255)
+part.Transparency = 0.5
+part.Anchored = false
+part.CanCollide = true
+part.Mass = 10</code></pre>
+                <h3>Physics Methods</h3>
+                <div class="api-method">
+                    <div class="method-sig">:SetPosition(position: Vector3)</div>
+                    <p>Instantly sets the position of the part.</p>
+<pre><code>part:SetPosition(Vector3.new(10, 5, 0))</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:Translate(offset: Vector3)</div>
+                    <p>Moves the part by the specified offset.</p>
+<pre><code>part:Translate(Vector3.new(0, 5, 0))</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:SetRotation(rotation: Vector3)</div>
+                    <p>Sets the rotation in degrees.</p>
+<pre><code>part:SetRotation(Vector3.new(0, 45, 0))</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:LookAt(position: Vector3)</div>
+                    <p>Rotates the part to face the target position.</p>
+<pre><code>part:LookAt(Vector3.new(10, 0, 10))</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:ApplyImpulse(impulse: Vector3)</div>
+                    <p>Applies an instant impulse (impulse / mass = velocity change).</p>
+<pre><code>part:ApplyImpulse(Vector3.new(0, 100, 0))</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:ApplyForce(force: Vector3)</div>
+                    <p>Applies continuous force over time (uses delta time). Best called inside <code>onUpdate</code>.</p>
+<pre><code>function onUpdate(dt)
+    part:ApplyForce(Vector3.new(0, 50, 0))
+end</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:AddVelocity(velocity: Vector3)</div>
+                    <p>Directly adds to the part's current velocity.</p>
+<pre><code>part:AddVelocity(Vector3.new(5, 0, 0))</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:GetVelocity() → Vector3</div>
+                    <p>Returns the current velocity of the part.</p>
+<pre><code>local vel = part:GetVelocity()
+print("Speed:", vel.Y)</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:IsGrounded() → boolean</div>
+                    <p>Returns true if the part is currently touching the ground.</p>
+<pre><code>if part:IsGrounded() then
+    print("On ground!")
+end</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:GetForwardVector() → Vector3</div>
+                    <p>Returns the forward direction vector based on current rotation.</p>
+<pre><code>local forward = part:GetForwardVector()
+part:Translate(forward)</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">:GetUpVector() → Vector3</div>
+                    <p>Returns the up direction vector (always 0, 1, 0).</p>
+                </div>
             </div>
+        </div>
 
-            <div class="doc-section" id="physics">
-                <h2>PhysicsService</h2>
-                <p>Handles the global simulation properties, including gravity and N-body calculations.</p>
-                <pre>
--- Set global gravity
-PhysicsService.Gravity = Vector3.new(0, -196.2, 0)
-                </pre>
+        <!-- MODEL & FOLDER -->
+        <div class="doc-section" id="model">
+            <div class="section-header"><span class="section-title">📁 Model &amp; Folder</span></div>
+            <div class="section-body">
+                <p>Containers for organizing multiple objects in the game hierarchy.</p>
+<pre><code>local car = Instance.new("Model", workspace)
+car.Name = "Car"
+
+local body = Instance.new("Part", car)
+body.Name = "Body"
+body.Size = Vector3.new(4, 2, 6)
+
+local wheel = Instance.new("Cylinder", car)
+wheel.Name = "Wheel"</code></pre>
             </div>
-        </main>
-    </div>
+        </div>
+
+        <!-- GUI ELEMENTS -->
+        <div class="doc-section" id="gui">
+            <div class="section-header"><span class="section-title">🖥️ GUI Elements</span></div>
+            <div class="section-body">
+                <p>Create in-game user interfaces with <code>Frame</code>, <code>TextLabel</code>, and <code>TextButton</code>.</p>
+                <h3>Frame</h3>
+<pre><code>local frame = Instance.new("Frame", game.PlayerGui)
+frame.Size = Vector2.new(200, 100)
+frame.Position = Vector2.new(50, 50)
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)</code></pre>
+                <h3>TextLabel</h3>
+<pre><code>local label = Instance.new("TextLabel", frame)
+label.Text = "Hello Nebrix!"
+label.Size = Vector2.new(200, 50)
+label.Position = Vector2.new(0, 0)</code></pre>
+                <h3>TextButton</h3>
+                <div class="api-method">
+                    <div class="method-sig">button.Clicked = function()</div>
+                    <p>Set a function to handle button click events.</p>
+<pre><code>local button = Instance.new("TextButton", frame)
+button.Text = "Click Me"
+button.Size = Vector2.new(150, 40)
+
+button.Clicked = function()
+    print("Button was clicked!")
+end</code></pre>
+                </div>
+                <h3>GUI Properties</h3>
+                <table>
+                    <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>Size</code></td><td>Vector2</td><td>Width and height in pixels</td></tr>
+                    <tr><td><code>Position</code></td><td>Vector2</td><td>X and Y position in pixels</td></tr>
+                    <tr><td><code>BackgroundColor3</code></td><td>Color3</td><td>Background color</td></tr>
+                    <tr><td><code>Text</code></td><td>string</td><td>Text content (Label/Button only)</td></tr>
+                    <tr><td><code>Visible</code></td><td>boolean</td><td>Whether the element is visible</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- GAME -->
+        <div class="doc-section" id="game">
+            <div class="section-header"><span class="section-title">🎮 game</span></div>
+            <div class="section-body">
+                <p>The root of the game hierarchy. Use it to access services and global containers.</p>
+                <div class="api-method">
+                    <div class="method-sig">game:GetService(serviceName) → Service</div>
+                    <p>Returns the specified service by name.</p>
+<pre><code>local workspace = game:GetService("Workspace")
+local lighting = game:GetService("Lighting")
+local gui = game:GetService("PlayerGui")</code></pre>
+                </div>
+                <h3>Direct Properties</h3>
+                <ul>
+                    <li><code>game.Workspace</code> — The 3D world container</li>
+                    <li><code>game.Lighting</code> — Lighting and atmosphere settings</li>
+                    <li><code>game.ScriptService</code> — Container for scripts</li>
+                    <li><code>game.PlayerGui</code> — Container for GUI elements</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- WORKSPACE -->
+        <div class="doc-section" id="workspace">
+            <div class="section-header"><span class="section-title">🌍 Workspace</span></div>
+            <div class="section-body">
+                <p>The 3D world where all parts and models exist. Accessible via <code>workspace</code> or <code>game.Workspace</code>.</p>
+<pre><code>-- Both of these work:
+local part = Instance.new("Part", workspace)
+local part2 = Instance.new("Part", game.Workspace)</code></pre>
+            </div>
+        </div>
+
+        <!-- LIGHTING -->
+        <div class="doc-section" id="lighting">
+            <div class="section-header"><span class="section-title">💡 Lighting</span></div>
+            <div class="section-body">
+                <p>Controls the lighting, atmosphere, and time of day in your game.</p>
+                <h3>Properties</h3>
+                <table>
+                    <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>TimeOfDay</code></td><td>number</td><td>Time in hours (0–24)</td></tr>
+                    <tr><td><code>Brightness</code></td><td>number</td><td>Overall brightness multiplier</td></tr>
+                    <tr><td><code>Ambient</code></td><td>Color3</td><td>Ambient light color</td></tr>
+                    <tr><td><code>OutdoorAmbient</code></td><td>Color3</td><td>Outdoor ambient light color</td></tr>
+                    <tr><td><code>FogStart</code></td><td>number</td><td>Distance where fog starts</td></tr>
+                    <tr><td><code>FogEnd</code></td><td>number</td><td>Distance where fog is fully opaque</td></tr>
+                    <tr><td><code>FogColor</code></td><td>Color3</td><td>Color of the fog</td></tr>
+                </table>
+<pre><code>local lighting = game.Lighting
+lighting.TimeOfDay = 18.5
+lighting.Brightness = 2
+lighting.Ambient = Color3.fromRGB(150, 100, 100)
+lighting.FogStart = 50
+lighting.FogEnd = 500
+lighting.FogColor = Color3.fromRGB(200, 200, 220)</code></pre>
+                <div class="api-method">
+                    <div class="method-sig">:SetTimeOfDay(time: number)</div>
+                    <p>Sets the time of day (0–24).</p>
+<pre><code>function onUpdate(dt)
+    local lighting = game.Lighting
+    lighting:SetTimeOfDay(lighting.TimeOfDay + dt * 0.1)
+    if lighting.TimeOfDay > 24 then
+        lighting.TimeOfDay = 0
+    end
+end</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATH EXTENSIONS -->
+        <div class="doc-section" id="math">
+            <div class="section-header"><span class="section-title">➕ Math Extensions</span></div>
+            <div class="section-body">
+                <p>Extended math functions beyond the standard Lua math library.</p>
+                <div class="api-method">
+                    <div class="method-sig">math.clamp(value, min, max) → number</div>
+                    <p>Clamps a value between min and max.</p>
+<pre><code>local speed = math.clamp(speed, 0, 100)</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">math.lerp(a, b, t) → number</div>
+                    <p>Linear interpolation between a and b.</p>
+<pre><code>local pos = math.lerp(0, 100, 0.5) -- Returns 50</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">math.sign(value) → number</div>
+                    <p>Returns -1, 0, or 1 depending on the sign of the value.</p>
+<pre><code>local dir = math.sign(-5) -- Returns -1</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">math.round(value) → number</div>
+                    <p>Rounds to the nearest integer.</p>
+<pre><code>local rounded = math.round(4.7) -- Returns 5</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">math.randomFloat(min, max) → number</div>
+                    <p>Returns a random float between min and max.</p>
+<pre><code>local speed = math.randomFloat(1.0, 5.0)</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">math.map(value, inMin, inMax, outMin, outMax) → number</div>
+                    <p>Maps a value from one range to another.</p>
+<pre><code>local n = math.map(50, 0, 100, 0, 1) -- Returns 0.5</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">math.distance(vec1, vec2) → number</div>
+                    <p>Returns the distance between two Vector3 points.</p>
+<pre><code>local dist = math.distance(
+    Vector3.new(0, 0, 0),
+    Vector3.new(10, 0, 0)
+) -- Returns 10</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLE EXTENSIONS -->
+        <div class="doc-section" id="table">
+            <div class="section-header"><span class="section-title">📋 Table Extensions</span></div>
+            <div class="section-body">
+                <p>Additional table manipulation functions.</p>
+                <div class="api-method">
+                    <div class="method-sig">table.find(tbl, value) → number?</div>
+                    <p>Returns the index of value in the table, or nil if not found.</p>
+<pre><code>local fruits = {"apple", "banana", "orange"}
+local i = table.find(fruits, "banana") -- Returns 2</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">table.getn(tbl) → number</div>
+                    <p>Returns the length of the table.</p>
+<pre><code>local count = table.getn({1, 2, 3, 4}) -- Returns 4</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">table.clear(tbl)</div>
+                    <p>Removes all elements from the table.</p>
+<pre><code>local list = {1, 2, 3}
+table.clear(list) -- list is now {}</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">table.clone(tbl) → table</div>
+                    <p>Creates a shallow copy of the table.</p>
+<pre><code>local copy = table.clone({a = 1, b = 2})</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">table.merge(tbl1, tbl2) → table</div>
+                    <p>Creates a new table merging both inputs.</p>
+<pre><code>local merged = table.merge({a=1}, {b=2}) -- {a=1, b=2}</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">table.shuffle(tbl) → table</div>
+                    <p>Randomly shuffles the table in place and returns it.</p>
+<pre><code>local deck = {1, 2, 3, 4, 5}
+table.shuffle(deck)</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- STRING EXTENSIONS -->
+        <div class="doc-section" id="string">
+            <div class="section-header"><span class="section-title">🔤 String Extensions</span></div>
+            <div class="section-body">
+                <p>Additional string manipulation functions.</p>
+                <div class="api-method">
+                    <div class="method-sig">string.split(str, separator) → {string}</div>
+<pre><code>local parts = string.split("a,b,c", ",") -- {"a","b","c"}</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">string.trim(str) → string</div>
+                    <p>Removes leading and trailing whitespace.</p>
+<pre><code>string.trim("  hello  ") -- "hello"</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">string.startswith(str, prefix) → boolean</div>
+<pre><code>string.startswith("player_1", "player_") -- true</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">string.endswith(str, suffix) → boolean</div>
+<pre><code>string.endswith("game.lua", ".lua") -- true</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">string.replace(str, find, replace) → string</div>
+<pre><code>string.replace("Hello World", "World", "Nebrix")
+-- "Hello Nebrix"</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- TASK LIBRARY -->
+        <div class="doc-section" id="task">
+            <div class="section-header"><span class="section-title">⏱️ Task Library</span></div>
+            <div class="section-body">
+                <p>Functions for managing asynchronous tasks and timing.</p>
+                <div class="api-method">
+                    <div class="method-sig">task.wait()</div>
+                    <p>Yields execution. Also available as the global <code>wait()</code>.</p>
+                </div>
+                <div class="note"><strong>Note:</strong> The task library is minimal in the current version. More scheduling features are planned for future releases.</div>
+            </div>
+        </div>
+
+        <!-- GLOBAL FUNCTIONS -->
+        <div class="doc-section" id="globals">
+            <div class="section-header"><span class="section-title">🌐 Global Functions</span></div>
+            <div class="section-body">
+                <div class="api-method">
+                    <div class="method-sig">print(...)</div>
+                    <p>Outputs messages to the console.</p>
+<pre><code>print("Hello, Nebrix!")
+print("Position:", part.Position)</code></pre>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">warn(message)</div>
+                    <p>Outputs a warning message to the console.</p>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">error(message)</div>
+                    <p>Throws an error and stops execution.</p>
+                </div>
+                <div class="api-method">
+                    <div class="method-sig">onUpdate(dt: number)</div>
+                    <p>Called every frame if defined in your script. <code>dt</code> is delta time in seconds.</p>
+<pre><code>function onUpdate(dt)
+    part.Rotation = part.Rotation + Vector3.new(0, 90 * dt, 0)
+end</code></pre>
+                </div>
+                <h3>Global Variables</h3>
+                <ul>
+                    <li><code>script</code> — Reference to the current script object</li>
+                    <li><code>workspace</code> — Shorthand for <code>game.Workspace</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COMPLETE EXAMPLES -->
+        <div class="doc-section" id="examples">
+            <div class="section-header"><span class="section-title">💡 Complete Examples</span></div>
+            <div class="section-body">
+                <h3>Spinning Part</h3>
+<pre><code>local part = Instance.new("Part", workspace)
+part.Position = Vector3.new(0, 10, 0)
+part.Color = Color3.fromRGB(255, 100, 100)
+part.Anchored = true
+
+function onUpdate(dt)
+    part.Rotation = part.Rotation + Vector3.new(0, 45 * dt, 0)
+end</code></pre>
+                <h3>Bouncing Ball</h3>
+<pre><code>local ball = Instance.new("Sphere", workspace)
+ball.Position = Vector3.new(0, 50, 0)
+ball.Size = Vector3.new(2, 2, 2)
+ball.Color = Color3.fromRGB(100, 150, 255)
+ball.Anchored = false
+ball.CanCollide = true
+
+function onUpdate(dt)
+    if ball:IsGrounded() then
+        local vel = ball:GetVelocity()
+        if vel.Y < 0 then
+            ball:ApplyImpulse(Vector3.new(0, 80, 0))
+        end
+    end
+end</code></pre>
+                <h3>Simple Button Counter</h3>
+<pre><code>local count = 0
+
+local frame = Instance.new("Frame", game.PlayerGui)
+frame.Size = Vector2.new(200, 100)
+frame.Position = Vector2.new(10, 10)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+
+local label = Instance.new("TextLabel", frame)
+label.Size = Vector2.new(200, 50)
+label.Text = "Count: 0"
+
+local button = Instance.new("TextButton", frame)
+button.Size = Vector2.new(200, 40)
+button.Position = Vector2.new(0, 55)
+button.Text = "Click Me!"
+button.BackgroundColor3 = Color3.fromRGB(225, 29, 72)
+
+button.Clicked = function()
+    count = count + 1
+    label.Text = "Count: " .. count
+end</code></pre>
+                <h3>Day/Night Cycle</h3>
+<pre><code>local lighting = game.Lighting
+lighting.TimeOfDay = 12
+
+function onUpdate(dt)
+    lighting.TimeOfDay = lighting.TimeOfDay + dt * 0.1
+    if lighting.TimeOfDay >= 24 then
+        lighting.TimeOfDay = 0
+    end
+
+    local time = lighting.TimeOfDay
+    if time > 6 and time < 18 then
+        lighting.Brightness = 2
+    else
+        lighting.Brightness = 0.3
+    end
+end</code></pre>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<footer>
+    <div class="footer-left">Nebrix Platforms</div>
+    <div class="footer-copy">© 2026 Nebrix Corporation — Lua API v1.0</div>
+</footer>
+
+<button class="menu-toggle-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Toggle sidebar">☰</button>
+
+<script>
+    // Sidebar: close on link click (mobile)
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 900)
+                document.getElementById('sidebar').classList.remove('open');
+        });
+    });
+
+    // Scroll-spy active sidebar link
+    const sections = document.querySelectorAll('.doc-section[id]');
+    const sideLinks = document.querySelectorAll('.sidebar a[href^="#"]');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                sideLinks.forEach(l => l.classList.remove('active'));
+                const active = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+</script>
 
 </body>
 </html>
