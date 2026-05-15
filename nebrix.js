@@ -49,12 +49,13 @@ function renderNav(activePage) {
     const loggedIn = isLoggedIn();
     const username = getUsername();
 
-{ label: "Home",     href: "/",                 key: "home"     },
-    { label: "Progress",  href: "/progress",     key: "progress"  },
-    { label: "Docs",     href: "/documentation",   key: "docs"     },
-    { label: "GitHub",   href: "https://github.com/Puppyrjcw/Nebrix/releases", key: "github", external: true },
-    { label: "Discord",  href: "https://discord.com/invite/XTa4GwaJFY",         key: "discord", external: true },
-];
+    const links = [ // <--- ADD THIS LINE
+        { label: "Home",     href: "/",                 key: "home"     },
+        { label: "Progress",  href: "/progress",     key: "progress"  },
+        { label: "Docs",     href: "/documentation",   key: "docs"      },
+        { label: "GitHub",   href: "https://github.com/Puppyrjcw/Nebrix/releases", key: "github", external: true },
+        { label: "Discord",  href: "https://discord.com/invite/XTa4GwaJFY",         key: "discord", external: true },
+    ];
 
     const navLinksHtml = links.map(l => {
         const active = l.key === activePage ? ' class="active"' : '';
