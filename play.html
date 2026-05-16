@@ -184,15 +184,41 @@ function launchGame() {
         return;
     }
 
-    if (typeof isLoggedIn === "function" && !isLoggedIn()) {
-        showLoginModal();
-    } else {
-        // Grab the username and append it to the deep link URL
-        let username = typeof getLoggedInUser === "function" ? getLoggedInUser() : "Guest";
-        // Format becomes: nebrix://play/GAME_ID/USERNAME
-        let deepLink = `nebrix://play/${gameId}/${encodeURIComponent(username)}`;
-        window.location.href = deepLink;
+    // 1. Determine if the user is actually logged in
+    let loggedIn = false;
+    if (typeof isLoggedIn === "function") {
+        loggedIn = isLoggedIn();
+    } else if (localStorage.getItem("username") || sessionStorage.getItem("username")) {
+        loggedIn = true; // Fallback: User has a username stored in the browser cache
     }
+
+    if (!loggedIn) {
+        if (typeof showLoginModal === "function") {
+            showLoginModal();
+        } else {
+            alert("Please log in to the website before playing!");
+        }
+        return;
+    }
+
+    // 2. Extract the actual username
+    let username = "Guest";
+    if (typeof getLoggedInUser === "function") {
+        username = getLoggedInUser();
+    } else {
+        // Fallback: pull directly from browser storage depending on how your backend saves it
+        username = localStorage.getItem("username") || sessionStorage.getItem("username") || "Guest";
+    }
+
+    // 3. Prevent launching as Guest if they passed the checks
+    if (username === "Guest") {
+        alert("Error: Could not resolve your username. Please re-login.");
+        return;
+    }
+
+    // Format becomes: nebrix://play/GAME_ID/USERNAME
+    let deepLink = `nebrix://play/${gameId}/${encodeURIComponent(username)}`;
+    window.location.href = deepLink;
 }
 </script>
 
