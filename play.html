@@ -1,133 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="nebrixlogo.png">
-    <title>Nebrix - Game Page</title>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <script src="nebrix.js"></script>
-    <style>
-        *, *::before, *::after { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            border-radius: 0 !important; 
-        }
-        
-        :root {
-            --primary: #2b78e4; 
-            --primary-dark: #1c5bba;
-            --bg: #e2e2e2;      
-            --bg-panel: #ffffff;
-            --text: #1a1a1a; 
-            --muted: #767676;
-            --blue-link: #0066cc;
-            --white: #ffffff;
-            --btn-green: #00b06f;
-            --btn-green-dark: #008a56;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="nebrixlogo.png">
+    <title>Nebrix - Game Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="nebrix.js"></script>
+    <style>
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            border-radius: 0 !important; 
+        }
+        
+        :root {
+            /* Mapped directly to align seamlessly with nebrix.js theme properties */
+            --bg: #e2e2e2;      
+            --bg-card: #ffffff;
+            --text: #1a1a1a; 
+            --muted: #767676;
+            --blue-link: #0066cc;
+            --white: #ffffff;
+            --btn-green: #00b06f;
+            --btn-green-dark: #008a56;
+            --nav-bg: #2b78e4; /* Overridden manually here if you want blue instead of green */
+        }
 
-        body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
+        body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
 
-        #nebrix-nav {
-            position: sticky; top: 0; z-index: 1000;
-            display: flex; align-items: stretch; height: 44px;
-            background: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-        .logo { 
-            display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1rem; color: #fff; 
-            padding: 0 16px; background: rgba(0,0,0,0.1); border-right: 1px solid rgba(255,255,255,0.1); 
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .logo img { width: 20px; height: 20px; object-fit: contain; }
+        /* Navigation Bar Layout Styles */
+        #nebrix-nav {
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; align-items: stretch; height: 44px;
+            background: var(--nav-bg); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        #nebrix-nav .logo { 
+            display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1rem; color: #fff; 
+            padding: 0 16px; background: rgba(0,0,0,0.1); border-right: 1px solid rgba(255,255,255,0.1); 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        #nebrix-nav .logo img { width: 20px; height: 20px; object-fit: contain; }
 
-        .nav-links { display: flex; }
-        .nav-links a { 
-            display: flex; align-items: center; padding: 0 14px; 
-            font-size: 0.84rem; font-weight: 700; color: var(--white); 
-            border-right: 1px solid rgba(255,255,255,0.1); 
-            text-transform: uppercase; transition: background 0.2s; 
-        }
-        .nav-links a:hover { background: rgba(0,0,0,0.1); }
-        
-        .nav-right { display: flex; margin-left: auto; }
-        .btn-login {
-            background: transparent; border: none; color: var(--white);
-            padding: 0 20px; font-weight: 700; text-transform: uppercase;
-            cursor: pointer; font-size: 0.8rem; transition: background 0.2s;
-        }
-        .btn-login:hover { background: rgba(0,0,0,0.1); }
+        #nebrix-nav .nav-links { display: flex; }
+        #nebrix-nav .nav-links a { 
+            display: flex; align-items: center; padding: 0 14px; 
+            font-size: 0.84rem; font-weight: 700; color: var(--white); 
+            border-right: 1px solid rgba(255,255,255,0.1); 
+            text-transform: uppercase; transition: background 0.2s; 
+        }
+        #nebrix-nav .nav-links a:hover, #nebrix-nav .nav-links a.active { background: rgba(0,0,0,0.1); }
+        
+        #nebrix-nav .nav-right { display: flex; margin-left: auto; }
+        #nebrix-nav .btn-login {
+            background: transparent; border: none; color: var(--white);
+            padding: 0 20px; font-weight: 700; text-transform: uppercase;
+            cursor: pointer; font-size: 0.8rem; transition: background 0.2s;
+        }
+        #nebrix-nav .btn-login:hover { background: rgba(0,0,0,0.1); }
 
-        .main { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        /* Main Content Layout Styles */
+        .main { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
 
-        .game-header { margin-bottom: 20px; }
-        .game-title-big { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; line-height: 1; }
-        .game-creator { font-size: 1rem; font-weight: 700; color: var(--muted); margin-top: 8px; }
-        .game-creator span { color: var(--blue-link); }
+        .game-header { margin-bottom: 20px; }
+        .game-title-big { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; line-height: 1; }
+        .game-creator { font-size: 1rem; font-weight: 700; color: var(--muted); margin-top: 8px; }
+        .game-creator span { color: var(--blue-link); }
 
-        .top-row { display: grid; grid-template-columns: 1.8fr 1fr; background: var(--bg-panel); border-bottom: 6px solid var(--primary); }
-        
-        .game-media { background: #000; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
-        .game-media img { width: 40%; opacity: 0.7; }
+        .top-row { display: grid; grid-template-columns: 1.8fr 1fr; background: var(--bg-card); border-bottom: 6px solid var(--nav-bg); }
+        
+        .game-media { background: #000; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+        .game-media img { width: 40%; opacity: 0.7; }
 
-        .play-controls { padding: 30px; display: flex; flex-direction: column; border-left: 1px solid #eee; }
-        .btn-play-big { 
-            background: var(--btn-green); color: #fff; border: none; padding: 18px; 
-            font-size: 1.8rem; font-weight: 900; text-transform: uppercase; cursor: pointer;
-            margin-bottom: 25px; transition: background 0.2s;
-        }
-        .btn-play-big:hover { background: var(--btn-green-dark); }
+        .play-controls { padding: 30px; display: flex; flex-direction: column; border-left: 1px solid #eee; }
+        .btn-play-big { 
+            background: var(--btn-green); color: #fff; border: none; padding: 18px; 
+            font-size: 1.8rem; font-weight: 900; text-transform: uppercase; cursor: pointer;
+            margin-bottom: 25px; transition: background 0.2s;
+        }
+        .btn-play-big:hover { background: var(--btn-green-dark); }
 
-        .stats-list { list-style: none; font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
-        .stats-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
-        .stats-list li span:last-child { color: var(--text); }
+        .stats-list { list-style: none; font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+        .stats-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .stats-list li span:last-child { color: var(--text); }
 
-        .description-box { background: #fff; padding: 30px; margin-top: 20px; border-bottom: 4px solid #ccc; }
-        .section-label { font-weight: 900; text-transform: uppercase; border-bottom: 3px solid var(--primary); padding-bottom: 5px; margin-bottom: 15px; display: inline-block; }
-    </style>
+        .description-box { background: #fff; padding: 30px; margin-top: 20px; border-bottom: 4px solid #ccc; }
+        .section-label { font-weight: 900; text-transform: uppercase; border-bottom: 3px solid var(--nav-bg); padding-bottom: 5px; margin-bottom: 15px; display: inline-block; }
+    </style>
 </head>
 <body>
 
-<nav id="nebrix-nav">
-    <div class="logo">
-        <img src="nebrixlogo.png" alt="">
-        Nebrix
-    </div>
-    <div class="nav-links">
-        <a href="progress.html">Progress</a>
-        <a href="documentation.html">Docs</a>
-        <a href="https://discord.com/invite/XTa4GwaJFY" target="_blank">Discord</a>
-    </div>
-    <div class="nav-right" id="nav-auth-box">
-        <button class="btn-login">Login</button>
-    </div>
-</nav>    
+<nav id="nebrix-nav"></nav>    
+
 <div class="main">
-    <div class="game-header">
-        <h1 id="display-name" class="game-title-big">Loading Game...</h1>
-        <p class="game-creator">By <span id="display-author">---</span></p>
-    </div>
+    <div class="game-header">
+        <h1 id="display-name" class="game-title-big">Loading Game...</h1>
+        <p class="game-creator">By <span id="display-author">---</span></p>
+    </div>
 
-    <div class="top-row">
-        <div class="game-media">
-            <img src="nebrixlogo.png" alt="Nebrix Logo">
-        </div>
-        <div class="play-controls">
-            <button class="btn-play-big" onclick="launchGame()">▶ Play</button>
-            <ul class="stats-list">
-                <li><span>Active</span><span id="stat-active">0</span></li>
-                <li><span>Visits</span><span id="stat-visits">0</span></li>
-                <li><span>Created</span><span id="stat-created">---</span></li>
-            </ul>
-        </div>
-    </div>
+    <div class="top-row">
+        <div class="game-media">
+            <img src="nebrixlogo.png" alt="Nebrix Logo">
+        </div>
+        <div class="play-controls">
+            <button class="btn-play-big" onclick="launchGame()">▶ Play</button>
+            <ul class="stats-list">
+                <li><span>Active</span><span id="stat-active">0</span></li>
+                <li><span>Visits</span><span id="stat-visits">0</span></li>
+                <li><span>Created</span><span id="stat-created">---</span></li>
+            </ul>
+        </div>
+    </div>
 
-    <div class="description-box">
-        <div class="section-label">Description</div>
-        <p id="display-desc" style="line-height: 1.6;">Fetching game data from Nebrix servers...</p>
-    </div>
+    <div class="description-box">
+        <div class="section-label">Description</div>
+        <p id="display-desc" style="line-height: 1.6;">Fetching game data from Nebrix servers...</p>
+    </div>
 </div>
 
 <script>
