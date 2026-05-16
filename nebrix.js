@@ -56,18 +56,29 @@ function renderNav(activePage) {
     const navContainer = document.getElementById("nebrix-nav");
     if (!navContainer) return;
 
+    const loggedIn = isLoggedIn();
+    const user = getUsername();
+
+    let rightSideHtml = `<button class="btn-login" onclick="showLoginModal()">Login</button>`;
+    if (loggedIn && user) {
+        rightSideHtml = `
+            <span style="color:#fff;font-weight:700;display:flex;align-items:center;padding:0 20px;font-size:0.85rem;text-transform:uppercase;">Logged in as: ${user}</span>
+            <button class="btn-login" onclick="logout()" style="background:rgba(0,0,0,0.15);">Logout</button>
+        `;
+    }
+
     navContainer.innerHTML = `
         <div class="logo">
-            <img src="nebrixlogo.svg" alt="Nebrix Logo">
+            <img src="nebrixlogo.png" alt="Nebrix Logo">
             Nebrix
         </div>
         <div class="nav-links">
-            <a href="/progress" class="${activePage === 'progress' ? 'active' : ''}">Progress</a>
-            <a href="/documentation" class="${activePage === 'docs' ? 'active' : ''}">Docs</a>
+            <a href="progress.html" class="${activePage === 'progress' ? 'active' : ''}">Progress</a>
+            <a href="documentation.html" class="${activePage === 'docs' ? 'active' : ''}">Docs</a>
             <a href="https://discord.com/invite/XTa4GwaJFY" target="_blank">Discord</a>
         </div>
         <div class="nav-right">
-            <button class="btn-login" onclick="window.location.href='/signup'">Login</button>
+            ${rightSideHtml}
         </div>
     `;
 }
