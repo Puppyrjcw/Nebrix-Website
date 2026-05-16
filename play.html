@@ -187,9 +187,10 @@ function launchGame() {
     if (typeof isLoggedIn === "function" && !isLoggedIn()) {
         showLoginModal();
     } else {
-        let username = typeof getLoggedInUser === "function" ? getLoggedInUser() : "";
-        let password = typeof getLoggedInPass === "function" ? getLoggedInPass() : "";
-        let deepLink = `nebrix://play/${gameId}`;
+        // Grab the username and append it to the deep link URL
+        let username = typeof getLoggedInUser === "function" ? getLoggedInUser() : "Guest";
+        // Format becomes: nebrix://play/GAME_ID/USERNAME
+        let deepLink = `nebrix://play/${gameId}/${encodeURIComponent(username)}`;
         window.location.href = deepLink;
     }
 }
