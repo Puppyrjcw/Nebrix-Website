@@ -139,12 +139,11 @@
             background-size: 125%; background-position: center; 
         }
         .hero-content { position: relative; z-index: 10; padding: 40px 6vw; max-width: 800px; }
-        .hero-content h1 { 
-            font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; 
-            line-height: 0.9; color: var(--white); margin-bottom: 20px; 
-            text-transform: uppercase; letter-spacing: -2px; 
-        }
-        .hero-content h1 span { color: var(--green); }
+.hero-title-image {
+    width: clamp(320px, 50vw, 700px);
+    display: block;
+    margin-bottom: 20px;
+}
         .hero-content p { font-size: 1.1rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 30px; max-width: 500px; }
 
         .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -240,7 +239,7 @@
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="hero-content">
-            <h1>Nebrix<br><span>Games</span></h1>
+            <img src="nebrixlogo2.png" alt="Nebrix Games" class="hero-title-image">
             <p>A next-generation platform for creators. Build, share, and connect in a community-driven ecosystem designed for performance and power.</p>
             <div class="hero-btns">
                 <button class="btn-hero btn-primary">Download Player</button>
