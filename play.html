@@ -15,27 +15,29 @@
             border-radius: 0 !important; 
         }
         
-        :root {
-            /* Mapped directly to align seamlessly with nebrix.js theme properties */
-            --bg: #e2e2e2;      
-            --bg-card: #ffffff;
-            --text: #1a1a1a; 
-            --muted: #767676;
-            --blue-link: #0066cc;
-            --white: #ffffff;
-            --btn-green: #00b06f;
-            --btn-green-dark: #008a56;
-            --nav-bg: #2b78e4; /* Overridden manually here if you want blue instead of green */
+        /* Forced specificity using body tag to prevent nebrix.js from overwriting colors */
+        body, :root {
+            --primary: #2b78e4 !important; 
+            --primary-dark: #1c5bba !important;
+            --bg: #e2e2e2 !important;      
+            --bg-panel: #ffffff !important;
+            --text: #1a1a1a !important; 
+            --muted: #767676 !important;
+            --blue-link: #0066cc !important;
+            --white: #ffffff !important;
+            --btn-green: #00b06f !important;
+            --btn-green-dark: #008a56 !important;
+            --nav-bg: #2b78e4 !important;
         }
 
         body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
         a { text-decoration: none; color: inherit; }
 
-        /* Navigation Bar Layout Styles */
+        /* NAVIGATION BAR */
         #nebrix-nav {
             position: sticky; top: 0; z-index: 1000;
             display: flex; align-items: stretch; height: 44px;
-            background: var(--nav-bg); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            background: var(--primary) !important; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
         #nebrix-nav .logo { 
             display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1rem; color: #fff; 
@@ -51,7 +53,7 @@
             border-right: 1px solid rgba(255,255,255,0.1); 
             text-transform: uppercase; transition: background 0.2s; 
         }
-        #nebrix-nav .nav-links a:hover, #nebrix-nav .nav-links a.active { background: rgba(0,0,0,0.1); }
+        #nebrix-nav .nav-links a:hover { background: rgba(0,0,0,0.1); }
         
         #nebrix-nav .nav-right { display: flex; margin-left: auto; }
         #nebrix-nav .btn-login {
@@ -61,7 +63,7 @@
         }
         #nebrix-nav .btn-login:hover { background: rgba(0,0,0,0.1); }
 
-        /* Main Content Layout Styles */
+        /* MAIN LAYOUT */
         .main { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
 
         .game-header { margin-bottom: 20px; }
@@ -69,25 +71,25 @@
         .game-creator { font-size: 1rem; font-weight: 700; color: var(--muted); margin-top: 8px; }
         .game-creator span { color: var(--blue-link); }
 
-        .top-row { display: grid; grid-template-columns: 1.8fr 1fr; background: var(--bg-card); border-bottom: 6px solid var(--nav-bg); }
+        .top-row { display: grid; grid-template-columns: 1.8fr 1fr; background: var(--bg-panel); border-bottom: 6px solid var(--primary); }
         
         .game-media { background: #000; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
         .game-media img { width: 40%; opacity: 0.7; }
 
         .play-controls { padding: 30px; display: flex; flex-direction: column; border-left: 1px solid #eee; }
         .btn-play-big { 
-            background: var(--btn-green); color: #fff; border: none; padding: 18px; 
+            background: var(--btn-green) !important; color: #fff; border: none; padding: 18px; 
             font-size: 1.8rem; font-weight: 900; text-transform: uppercase; cursor: pointer;
             margin-bottom: 25px; transition: background 0.2s;
         }
-        .btn-play-big:hover { background: var(--btn-green-dark); }
+        .btn-play-big:hover { background: var(--btn-green-dark) !important; }
 
         .stats-list { list-style: none; font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
         .stats-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
         .stats-list li span:last-child { color: var(--text); }
 
         .description-box { background: #fff; padding: 30px; margin-top: 20px; border-bottom: 4px solid #ccc; }
-        .section-label { font-weight: 900; text-transform: uppercase; border-bottom: 3px solid var(--nav-bg); padding-bottom: 5px; margin-bottom: 15px; display: inline-block; }
+        .section-label { font-weight: 900; text-transform: uppercase; border-bottom: 3px solid var(--primary); padding-bottom: 5px; margin-bottom: 15px; display: inline-block; }
     </style>
 </head>
 <body>
