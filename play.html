@@ -24,6 +24,8 @@
             --muted: #767676;
             --blue-link: #0066cc;
             --white: #ffffff;
+            --btn-green: #00b06f;
+            --btn-green-dark: #008a56;
         }
 
         body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
@@ -72,11 +74,11 @@
 
         .play-controls { padding: 30px; display: flex; flex-direction: column; border-left: 1px solid #eee; }
         .btn-play-big { 
-            background: var(--primary); color: #fff; border: none; padding: 18px; 
+            background: var(--btn-green); color: #fff; border: none; padding: 18px; 
             font-size: 1.8rem; font-weight: 900; text-transform: uppercase; cursor: pointer;
             margin-bottom: 25px; transition: background 0.2s;
         }
-        .btn-play-big:hover { background: var(--primary-dark); }
+        .btn-play-big:hover { background: var(--btn-green-dark); }
 
         .stats-list { list-style: none; font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
         .stats-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
