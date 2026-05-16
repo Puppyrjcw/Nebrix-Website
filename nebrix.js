@@ -58,7 +58,7 @@ function renderNav(activePage) {
 
     navContainer.innerHTML = `
         <div class="logo">
-            <img src="nebrixlogo.png" alt="Nebrix Logo">
+            <img src="nebrixlogo.svg" alt="Nebrix Logo">
             Nebrix
         </div>
         <div class="nav-links">
