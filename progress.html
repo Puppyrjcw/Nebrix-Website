@@ -16,18 +16,15 @@
         }
         
         :root {
-            --green: #00b06f; 
-            --green-dark: #008a56;
-            --blue-nav: #00b06f; 
+            --primary: #2b78e4; 
+            --primary-dark: #1c5bba;
             --bg: #e2e2e2;      
             --bg-panel: #ffffff;
-            --text: #1a1a1a; 
+            --text: #1a1a1a;  
             --text-light: #555555; 
             --muted: #767676;
-            --border: #ffffff; 
             --white: #ffffff;
 
-            /* Status Colors */
             --status-complete: #00b06f;
             --status-progress: #f39c12;
             --status-planned: #c0392b;
@@ -37,18 +34,17 @@
         body { font-family: 'Source Sans 3', 'Arial', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
         a { color: inherit; text-decoration: none; }
 
-        /* NAVIGATION */
         #nebrix-nav {
             position: sticky; top: 0; z-index: 1000;
             display: flex; align-items: stretch; height: 44px;
-            background: var(--blue-nav); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            background: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
         .logo { 
             display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1rem; color: #fff; 
             padding: 0 16px; background: rgba(0,0,0,0.1); border-right: 1px solid rgba(255,255,255,0.1); 
             text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .logo img { width: 20px; height: 20px; }
+        .logo img { width: 20px; height: 20px; object-fit: contain; }
 
         .nav-links { display: flex; }
         .nav-links a { 
@@ -67,18 +63,16 @@
         }
         .btn-login:hover { background: rgba(0,0,0,0.1); }
         
-        /* PAGE HEADER */
         .welcome-banner {
             background: var(--bg-panel); 
-            border-bottom: 6px solid var(--green);
+            border-bottom: 6px solid var(--primary);
             padding: 40px 10%;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
         }
         .welcome-text h1 { font-size: 2.2rem; font-weight: 900; color: var(--text); text-transform: uppercase; line-height: 1; }
-        .welcome-text h1 span { color: var(--green); }
+        .welcome-text h1 span { color: var(--primary); }
         .welcome-text p { color: var(--muted); font-size: 1.1rem; font-weight: 600; margin-top: 8px; }
         
-        /* SUMMARY ROW */
         .summary-row {
             display: flex;
             gap: 15px;
@@ -101,18 +95,16 @@
         .summary-card.progress { border-left: 4px solid var(--status-progress); }
         .summary-card.planned { border-left: 4px solid var(--status-planned); }
 
-        /* MAIN CONTENT AREA */
         .main { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
         .section { margin-bottom: 40px; }
         .section-header { 
             display: flex; align-items: center; justify-content: space-between; 
-            margin-bottom: 15px; padding-bottom: 8px; border-bottom: 4px solid var(--green); 
+            margin-bottom: 15px; padding-bottom: 8px; border-bottom: 4px solid var(--primary); 
         }
         .section-title { font-size: 1rem; font-weight: 900; color: var(--text); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
         .section-meta { font-size: 0.8rem; color: var(--muted); font-weight: 700; text-transform: uppercase; }
 
-        /* ROADMAP GRID & CARDS */
         .roadmap-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -181,9 +173,8 @@
 
         .item-desc { font-size: 0.85rem; color: var(--text-light); font-weight: 600; line-height: 1.5; margin-top: 5px; }
 
-        /* FOOTER */
         footer { 
-            background: #1a1a1a; padding: 30px 10%; border-top: 4px solid var(--green); 
+            background: #1a1a1a; padding: 30px 10%; border-top: 4px solid var(--primary); 
             display: flex; justify-content: space-between; align-items: center; 
             color: white;
             margin-top: 40px;
@@ -201,7 +192,6 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav id="nebrix-nav">
     <div class="logo">
         <img src="nebrixlogo.png" alt="" onerror="this.style.display='none'">
@@ -217,7 +207,6 @@
     </div>
 </nav>
 
-<!-- PAGE HEADER -->
 <div class="welcome-banner">
     <div class="welcome-text">
         <h1>Development <span>Progress</span></h1>
@@ -233,7 +222,6 @@
 
 <div class="main">
 
-    <!-- COMPLETED -->
     <div class="section">
         <div class="section-header">
             <span class="section-title">✅ Core Features</span>
@@ -303,7 +291,6 @@
         </div>
     </div>
 
-    <!-- IN PROGRESS -->
     <div class="section">
         <div class="section-header">
             <span class="section-title">🔨 In Active Development</span>
@@ -361,7 +348,6 @@
         </div>
     </div>
 
-    <!-- PLANNED -->
     <div class="section">
         <div class="section-header">
             <span class="section-title">📋 Planned Features</span>
@@ -409,7 +395,6 @@
 
 </div>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-left">
         <img src="nebrixlogo.png" alt="Nebrix" onerror="this.style.display='none'">
@@ -420,7 +405,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Trigger progress bar animations after a slight delay
         setTimeout(() => {
             document.querySelectorAll('.bar-fill').forEach(el => {
                 el.style.width = el.dataset.width;
