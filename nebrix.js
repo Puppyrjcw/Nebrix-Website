@@ -62,14 +62,14 @@ function renderNav(activePage) {
     let rightSideHtml = `<button class="btn-login" onclick="showLoginModal()">Login</button>`;
     if (loggedIn && user) {
         rightSideHtml = `
-            <span style="color:#fff;font-weight:700;display:flex;align-items:center;padding:0 20px;font-size:0.85rem;text-transform:uppercase;">Logged in as: ${user}</span>
-            <button class="btn-login" onclick="logout()" style="background:rgba(0,0,0,0.15);">Logout</button>
+            <span style="color:#fff;font-weight:700;display:flex;align-items:center;padding:0 20px;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;">Logged in as: ${user}</span>
+            <button class="btn-login" onclick="logout()" style="background:rgba(0,0,0,0.15); border-left: 1px solid rgba(255,255,255,0.1);">Logout</button>
         `;
     }
 
     navContainer.innerHTML = `
         <div class="logo">
-            <img src="nebrixlogo.png" alt="Nebrix Logo">
+            <img src="nebrixlogo.png" alt="">
             Nebrix
         </div>
         <div class="nav-links">
