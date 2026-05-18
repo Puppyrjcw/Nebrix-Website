@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="nebrixlogo.svg">
+    <link rel="icon" type="image/svg+xml" href="nebrixlogo.svg">
     <title>Nebrix - Home</title>
+    
+    <!-- Google Fonts & Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
     <script src="nebrix.js"></script>
     <style>
         *, *::before, *::after { 
@@ -31,6 +35,14 @@
         body { font-family: 'Source Sans 3','Arial',sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
         a { color: inherit; text-decoration: none; }
 
+        /* Icon defaults */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* NAVIGATION */
         #nebrix-nav {
             position: sticky; top: 0; z-index: 1000;
@@ -53,8 +65,8 @@
         
         .logo img { 
             width: 20px; 
-            height: 20px; /* Lock both dimensions so the SVG scales consistently */
-            object-fit: contain; /* Prevents stretching or distortion */
+            height: 20px;
+            object-fit: contain; 
         }
 
         .nav-links { display: flex; }
@@ -140,12 +152,15 @@
         .game-card-title { font-size: 1rem; font-weight: 900; text-transform: uppercase; color: var(--text); }
         .game-card-author { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
         .game-card-desc { font-size: 0.82rem; color: var(--text-light); margin-top: 4px; flex: 1; }
-        .game-card-meta { font-size: 0.75rem; color: #aaa; font-weight: 700; text-transform: uppercase; margin-top: 6px; display: flex; justify-content: space-between; }
+        .game-card-meta { font-size: 0.75rem; color: #aaa; font-weight: 700; text-transform: uppercase; margin-top: 6px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .play-count { display: flex; align-items: center; gap: 4px; }
+        
         .game-card-play {
             margin-top: 10px; background: var(--primary); color: #fff;
             border: none; font-family: inherit; font-size: 0.8rem; font-weight: 900;
             text-transform: uppercase; padding: 8px 0; cursor: pointer;
-            transition: background 0.2s; width: 100%;
+            transition: background 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
         .game-card-play:hover { background: var(--primary-dark); }
 
@@ -155,7 +170,7 @@
             transition: 0.1s; box-shadow: 0 2px 0 rgba(0,0,0,0.05);
         }
         .quick-card:hover { transform: translateY(-3px); box-shadow: 0 4px 0 var(--primary); }
-        .quick-icon { font-size: 1.5rem; }
+        .quick-icon { font-size: 1.5rem; color: var(--primary); }
         .quick-label { font-size: 1rem; font-weight: 900; text-transform: uppercase; color: var(--text); }
 
         /* FOOTER */
@@ -198,20 +213,26 @@
 </nav>
 
 <div class="welcome-banner">
-  <div class="welcome-text">
-    <h1 id="welcome-heading">Welcome Back, <span id="player-display">Player</span></h1>
-    <p>Ready to build something amazing today?</p>
-  </div>
+<div class="welcome-text">
+  <h1 id="welcome-heading">Welcome Back, <span id="player-display">Player</span></h1>
+  <p id="welcome-subtext">Ready to build something amazing today?</p>
+</div>
   <div class="welcome-actions">
-    <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank">↓ Get Studio</a>
-    <a href="documentation.html" class="btn-secondary">📖 Documentation</a>
+    <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank">
+        <span class="material-symbols-outlined">download</span> Get Studio
+    </a>
+    <a href="documentation.html" class="btn-secondary">
+        <span class="material-symbols-outlined">menu_book</span> Documentation
+    </a>
   </div>
 </div>
 
 <div class="main">
   <div class="section">
     <div class="section-header">
-      <span class="section-title">📁 My Published Games</span>
+      <span class="section-title">
+          <span class="material-symbols-outlined">folder</span> My Published Games
+      </span>
       <span class="section-meta" id="my-games-meta">0 Games</span>
     </div>
     <div id="my-games-grid" class="game-grid">
@@ -221,7 +242,9 @@
 
   <div class="section">
     <div class="section-header">
-      <span class="section-title">🌐 All Community Games</span>
+      <span class="section-title">
+          <span class="material-symbols-outlined">public</span> All Community Games
+      </span>
       <span class="section-meta" id="pub-games-meta">Syncing...</span>
     </div>
     <div id="pub-games-grid" class="game-grid">
@@ -230,19 +253,35 @@
   </div>
 
   <div class="section">
-    <div class="section-header"><span class="section-title">🔗 Resources</span></div>
+    <div class="section-header">
+        <span class="section-title">
+            <span class="material-symbols-outlined">link</span> Resources
+        </span>
+    </div>
     <div class="quick-grid">
-      <a href="documentation.html" class="quick-card"><span class="quick-icon">📖</span><div class="quick-label">Docs</div></a>
-      <a href="progress.html" class="quick-card"><span class="quick-icon">🗺️</span><div class="quick-label">Roadmap</div></a>
-      <a href="https://discord.com/invite/XTa4GwaJFY" class="quick-card" target="_blank"><span class="quick-icon">💬</span><div class="quick-label">Discord</div></a>
-      <a href="settings.html" class="quick-card"><span class="quick-icon">⚙️</span><div class="quick-label">Settings</div></a>
+      <a href="documentation.html" class="quick-card">
+          <span class="material-symbols-outlined quick-icon">menu_book</span>
+          <div class="quick-label">Docs</div>
+      </a>
+      <a href="progress.html" class="quick-card">
+          <span class="material-symbols-outlined quick-icon">map</span>
+          <div class="quick-label">Roadmap</div>
+      </a>
+      <a href="https://discord.com/invite/XTa4GwaJFY" class="quick-card" target="_blank">
+          <span class="material-symbols-outlined quick-icon">forum</span>
+          <div class="quick-label">Discord</div>
+      </a>
+      <a href="settings.html" class="quick-card">
+          <span class="material-symbols-outlined quick-icon">settings</span>
+          <div class="quick-label">Settings</div>
+      </a>
     </div>
   </div>
 </div>
 
 <footer>
-  <div class="footer-left"><span>Nebrix Platforms</span></div>
-  <div class="footer-copy">© 2026 Nebrix Platforms Inc.</div>
+  <div class="footer-left"><span>Nebrix</span></div>
+  <div class="footer-copy">© 2026 Nebrix.</div>
 </footer>
 
 <script>
@@ -266,9 +305,13 @@ function makeGameCard(game, isOwn) {
         <div class="game-card-desc">${escapeHtml(game.description || '')}</div>
         <div class="game-card-meta">
             <span>${formatDate(game.published_at)}</span>
-            <span>▶ ${game.play_count ?? 0} plays</span>
+            <span class="play-count">
+                <span class="material-symbols-outlined" style="font-size: 1rem;">play_arrow</span> ${game.play_count ?? 0} plays
+            </span>
         </div>
-        <button class="game-card-play" data-id="${escapeHtml(game.game_id)}">▶ Play</button>
+        <button class="game-card-play" data-id="${escapeHtml(game.game_id)}">
+            <span class="material-symbols-outlined" style="font-size: 1.1rem;">play_circle</span> Play
+        </button>
     `;
     card.querySelector('.game-card-play').addEventListener('click', () => {
         window.location.href = `play.html?id=${encodeURIComponent(game.game_id)}`;
@@ -353,6 +396,82 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedName = localStorage.getItem('nebrix_username');
     const display = document.getElementById('player-display');
     display.innerText = savedName || 'Player';
+
+    // ─── TIME-BASED WELCOME MESSAGES ──────────────────────────────────────────
+    const currentHour = new Date().getHours();
+    let messagePool = [];
+
+    if (currentHour < 12) {
+        // Morning: 12:00 AM to 11:59 AM
+        messagePool = [
+            "Good morning. Let's build something great today!",
+            "Fresh morning, fresh ideas. What are we starting with?",
+            "Grab some coffee and let's get to work!",
+            "A clean slate awaits. What's on your project board today?",
+            "Early session! Time to boot up Nebrix Studio!",
+            "Good morning! Ready for some games?",
+            "Start the day with a quick session. What game is next?",
+            "Morning! Let's check out what's new on the Nebrix.",
+            "Time to test out some community builds!",
+            "Grab a coffee and let's get gaming!"
+        ];
+    } else if (currentHour < 17) {
+        // Afternoon: 12:00 PM to 4:59 PM
+        messagePool = [
+            "Lunch and code?",
+            "Good afternoon. Time to create some new games!",
+            "Hope your day is going smoothly. Ready to test some new updates?",
+            "Good afternoon. Perfect time to add some new features!",
+            "Lunch and studio?",
+            "Lunch break! Ready for some code?",
+            "Good afternoon. Taking a quick gaming break?",
+            "Good afternoon. Let's jump into some new games!",
+            "Time to unwind for a bit. What are we playing?",
+            "Checking out the latest updates? Let's play!",
+            "Afternoon check-in. Let's see who's online right now!",
+            "Ready to dive back in? The community is active!",
+            "Need a break from routine? Let's explore some new games!"
+        ];
+    } else if (currentHour < 21) {
+        // Evening: 5:00 PM to 8:59 PM
+        messagePool = [
+            "Good evening! Time to relax and build something interesting.",
+            "Evening session. Ready to boot up studio?",
+            "Winding down the day with a little game development!",
+            "Grab a drink, get comfortable, and let's start creating!",
+            "The day's major tasks are done. Time for your passion project!",
+            "Unwind, focus, and let's bring some new ideas to life.",
+            "Nothing beats a quiet evening coding session.",
+            "Evening check-in. Ready to make a few final updates?",
+            "Good evening. Time to relax and play some games!",
+            "The workday is over. Let's jump into some new games!",
+            "Evening session. What's the game plan tonight?",
+            "Grab a drink, get comfortable, and let's join in!",
+            "Good evening. Ready to see what the community has been making?",
+            "Time to dive back into your favorite games!",
+            "Unwind, log in, and let's play some games!"
+        ];
+    } else {
+        // Night: 9:00 PM to 11:59 PM
+        messagePool = [
+            "Quiet nights are the best for deep focus. What are we updating?",
+            "The world is quiet. Perfect time to get coding!",
+            "Zero distractions. Perfect for coding!",
+            "Ready to code something amazing tonight?",
+            "Just one more quick fix before heading to bed?",
+            "Staying up late? Let's explore some new games!",
+            "The world is asleep. Perfect time for some uninterrupted gaming.",
+            "Night owl mode activated. What are we playing tonight?"
+        ];
+    }
+
+    // Pick a random message out of the selected pool, fallback to a default if empty
+    const finalMessage = messagePool.length > 0 
+        ? messagePool[Math.floor(Math.random() * messagePool.length)]
+        : "Ready to build something amazing today?";
+        
+    document.getElementById('welcome-subtext').innerText = finalMessage;
+    // ─── END OF WELCOME MESSAGES ──────────────────────────────────────────
 
     loadPublishedGames();
 });
