@@ -215,7 +215,7 @@
 <div class="welcome-banner">
 <div class="welcome-text">
   <h1 id="welcome-heading">Welcome Back, <span id="player-display">Player</span></h1>
-  <p id="welcome-subtext">Ready to build something amazing today?</p>
+  <p id="welcome-subtext">Ready to jump into Nebrix today?</p>
 </div>
   <div class="welcome-actions">
     <a href="https://github.com/Puppyrjcw/Nebrix/releases" class="btn-primary" target="_blank">
@@ -327,6 +327,97 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
+function updateWelcomeMessage(hasPublishedGames) {
+    const currentHour = new Date().getHours();
+    let messagePool = [];
+
+    if (currentHour < 12) {
+        // Morning: 12:00 AM to 11:59 AM
+        messagePool = [
+            "Good morning! Ready for some games?",
+            "Start the day with a quick session. What game is next?",
+            "Morning! Let's check out what's new on the Nebrix.",
+            "Time to test out some community builds!",
+            "Grab a coffee and let's get gaming!"
+        ];
+        if (hasPublishedGames) {
+            messagePool.push(
+                "Good morning. Let's build something great today!",
+                "Fresh morning, fresh ideas. What are we starting with?",
+                "Grab some coffee and let's get to work!",
+                "A clean slate awaits. What's on your project board today?",
+                "Early session! Time to boot up Nebrix Studio!"
+            );
+        }
+    } else if (currentHour < 17) {
+        // Afternoon: 12:00 PM to 4:59 PM
+        messagePool = [
+            "Good afternoon. Taking a quick gaming break?",
+            "Good afternoon. Let's jump into some new games!",
+            "Time to unwind for a bit. What are we playing?",
+            "Checking out the latest updates? Let's play!",
+            "Afternoon check-in. Let's see who's online right now!",
+            "Ready to dive back in? The community is active!",
+            "Need a break from routine? Let's explore some new games!"
+        ];
+        if (hasPublishedGames) {
+            messagePool.push(
+                "Lunch and code?",
+                "Good afternoon. Time to create some new games!",
+                "Hope your day is going smoothly. Ready to test some new updates?",
+                "Good afternoon. Perfect time to add some new features!",
+                "Lunch and studio?",
+                "Lunch break! Ready for some code?"
+            );
+        }
+    } else if (currentHour < 21) {
+        // Evening: 5:00 PM to 8:59 PM
+        messagePool = [
+            "Good evening. Time to relax and play some games!",
+            "The workday is over. Let's jump into some new games!",
+            "Evening session. What's the game plan tonight?",
+            "Grab a drink, get comfortable, and let's join in!",
+            "Good evening. Ready to see what the community has been making?",
+            "Time to dive back into your favorite games!",
+            "Unwind, log in, and let's play some games!"
+        ];
+        if (hasPublishedGames) {
+            messagePool.push(
+                "Good evening! Time to relax and build something interesting.",
+                "Evening session. Ready to boot up studio?",
+                "Winding down the day with a little game development!",
+                "Grab a drink, get comfortable, and let's start creating!",
+                "The day's major tasks are done. Time for your passion project!",
+                "Unwind, focus, and let's bring some new ideas to life.",
+                "Nothing beats a quiet evening coding session.",
+                "Evening check-in. Ready to make a few final updates?"
+            );
+        }
+    } else {
+        // Night: 9:00 PM to 11:59 PM
+        messagePool = [
+            "Staying up late? Let's explore some new games!",
+            "The world is asleep. Perfect time for some uninterrupted gaming.",
+            "Night owl mode activated. What are we playing tonight?"
+        ];
+        if (hasPublishedGames) {
+            messagePool.push(
+                "Quiet nights are the best for deep focus. What are we updating?",
+                "The world is quiet. Perfect time to get coding!",
+                "Zero distractions. Perfect for coding!",
+                "Ready to code something amazing tonight?",
+                "Just one more quick fix before heading to bed?"
+            );
+        }
+    }
+
+    const finalMessage = messagePool.length > 0 
+        ? messagePool[Math.floor(Math.random() * messagePool.length)]
+        : "Ready to jump into Nebrix today?";
+        
+    document.getElementById('welcome-subtext').innerText = finalMessage;
+}
+
 async function loadPublishedGames() {
     const pubGrid    = document.getElementById('pub-games-grid');
     const myGrid     = document.getElementById('my-games-grid');
@@ -334,6 +425,7 @@ async function loadPublishedGames() {
     const myMeta     = document.getElementById('my-games-meta');
 
     const loggedInUser = localStorage.getItem('nebrix_username') || null;
+    let developerStatus = false;
 
     try {
         const res = await fetch(`${API_BASE}/published`, {
@@ -372,17 +464,22 @@ async function loadPublishedGames() {
             } else {
                 mine.forEach(g => myGrid.appendChild(makeGameCard(g, true)));
                 myMeta.textContent = `${mine.length} Game${mine.length !== 1 ? 's' : ''}`;
+                developerStatus = true; // User has at least one published game!
             }
         } else {
             myGrid.innerHTML = '<div class="empty-state">Log in to see your published games</div>';
             myMeta.textContent = '—';
         }
 
+        updateWelcomeMessage(developerStatus);
+
     } catch (err) {
         pubGrid.innerHTML  = `<p class="error-msg">Could not reach the Nebrix server (${err.message}). Is the server running?</p>`;
         myGrid.innerHTML   = '<div class="empty-state">Server unavailable</div>';
         pubMeta.textContent = 'Offline';
         myMeta.textContent  = '—';
+        
+        updateWelcomeMessage(false); // Fallback to safe player-only messages if server is down
     }
 }
 
@@ -396,82 +493,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedName = localStorage.getItem('nebrix_username');
     const display = document.getElementById('player-display');
     display.innerText = savedName || 'Player';
-
-    // ─── TIME-BASED WELCOME MESSAGES ──────────────────────────────────────────
-    const currentHour = new Date().getHours();
-    let messagePool = [];
-
-    if (currentHour < 12) {
-        // Morning: 12:00 AM to 11:59 AM
-        messagePool = [
-            "Good morning. Let's build something great today!",
-            "Fresh morning, fresh ideas. What are we starting with?",
-            "Grab some coffee and let's get to work!",
-            "A clean slate awaits. What's on your project board today?",
-            "Early session! Time to boot up Nebrix Studio!",
-            "Good morning! Ready for some games?",
-            "Start the day with a quick session. What game is next?",
-            "Morning! Let's check out what's new on the Nebrix.",
-            "Time to test out some community builds!",
-            "Grab a coffee and let's get gaming!"
-        ];
-    } else if (currentHour < 17) {
-        // Afternoon: 12:00 PM to 4:59 PM
-        messagePool = [
-            "Lunch and code?",
-            "Good afternoon. Time to create some new games!",
-            "Hope your day is going smoothly. Ready to test some new updates?",
-            "Good afternoon. Perfect time to add some new features!",
-            "Lunch and studio?",
-            "Lunch break! Ready for some code?",
-            "Good afternoon. Taking a quick gaming break?",
-            "Good afternoon. Let's jump into some new games!",
-            "Time to unwind for a bit. What are we playing?",
-            "Checking out the latest updates? Let's play!",
-            "Afternoon check-in. Let's see who's online right now!",
-            "Ready to dive back in? The community is active!",
-            "Need a break from routine? Let's explore some new games!"
-        ];
-    } else if (currentHour < 21) {
-        // Evening: 5:00 PM to 8:59 PM
-        messagePool = [
-            "Good evening! Time to relax and build something interesting.",
-            "Evening session. Ready to boot up studio?",
-            "Winding down the day with a little game development!",
-            "Grab a drink, get comfortable, and let's start creating!",
-            "The day's major tasks are done. Time for your passion project!",
-            "Unwind, focus, and let's bring some new ideas to life.",
-            "Nothing beats a quiet evening coding session.",
-            "Evening check-in. Ready to make a few final updates?",
-            "Good evening. Time to relax and play some games!",
-            "The workday is over. Let's jump into some new games!",
-            "Evening session. What's the game plan tonight?",
-            "Grab a drink, get comfortable, and let's join in!",
-            "Good evening. Ready to see what the community has been making?",
-            "Time to dive back into your favorite games!",
-            "Unwind, log in, and let's play some games!"
-        ];
-    } else {
-        // Night: 9:00 PM to 11:59 PM
-        messagePool = [
-            "Quiet nights are the best for deep focus. What are we updating?",
-            "The world is quiet. Perfect time to get coding!",
-            "Zero distractions. Perfect for coding!",
-            "Ready to code something amazing tonight?",
-            "Just one more quick fix before heading to bed?",
-            "Staying up late? Let's explore some new games!",
-            "The world is asleep. Perfect time for some uninterrupted gaming.",
-            "Night owl mode activated. What are we playing tonight?"
-        ];
-    }
-
-    // Pick a random message out of the selected pool, fallback to a default if empty
-    const finalMessage = messagePool.length > 0 
-        ? messagePool[Math.floor(Math.random() * messagePool.length)]
-        : "Ready to build something amazing today?";
-        
-    document.getElementById('welcome-subtext').innerText = finalMessage;
-    // ─── END OF WELCOME MESSAGES ──────────────────────────────────────────
 
     loadPublishedGames();
 });
