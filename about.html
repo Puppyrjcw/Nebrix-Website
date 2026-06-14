@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebrix - About</title>
+    <link rel="icon" type="image/png" href="assets/images/nebrixlogo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="about-hero">
+        <a href="index.html" class="nav-brand">
+            <img src="assets/images/nebrixlogo.png" alt="Nebrix Logo" class="nav-logo-img">
+            <span class="logo-text">About</span>
+        </a>
+        <div class="action-row">
+            <a href="index.html" class="btn-primary">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg> 
+                Home
+            </a>
+        </div>
+    </header>
+
+    <section class="about-content">
+        <div class="about-section">
+            <h2>What is Nebrix?</h2>
+            <p>Nebrix is an active development, community focused platform where anyone can create, share, and play games! Our goal is to give developers the tools they need to bring their ideas to life, and share their games with the world all on one platform, completely free of charge. Whether you're an experienced programmer or just getting started, Nebrix is designed to make game creation more accessible.</p>
+            <p>With <strong>Nebrix Studio</strong>, you can build everything from simple Obbys to massive 3D worlds. Nebrix Studio provides a wide variety of tools including customizable shaders, Visual Scene editor, Lua scripting editor, a Robust Physics engine, and so much more. We bring all of these tools together in a single, easy-to-use application that both beginners and experienced developers can understand.</p>
+            <p>With <strong>Nebrix Player</strong>, you can explore a vast community that continues to grow every day. Join your friends in multiplayer sessions with a single click, no port forwarding, no IP addresses, no complicated setup. Just open the game page, tell your friends to click play and you're in the same server just like that! The Player client handles networking automatically, allowing you to join friends instantly and focus on playing. Leave reviews, submit suggestions, and provide feedback directly to developers through the website.</p>
+            <p>Nebrix is built around three core pillars: <strong>creativity</strong>, <strong>accessibility</strong>, and <strong>community</strong>. We believe anyone can learn to create games with the right tools, and Nebrix is the perfect place to start. No starting from scratch, no server setups, no complex multiplayer setup. Just you and your ideas, and a platform that helps you turn them into reality. We combine the complex and simple so everyone can make games together.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>The Technology</h2>
+            <p>At its core, Nebrix is built on a foundation of raw performance and broad accessibility. The engine is written in modern C++20 with OpenGL 4.6 with the goal of introducing Vulkan in the future. This allows Nebrix to run efficiently on older hardware while taking advantage of modern systems.</p>
+            <p>For Nebrix Studio game development we chose <strong>Lua 5.4</strong> as our primary scripting language because it is lightweight, fast, and approachable for beginners. In the future we aim to also add C# as it is optimized and many developers have experience with this language. We use a customized Lua for Nebrix to add more features to move and manipulate objects giving more control over game development yet simple and easy to understand for beginners.</p>
+            <p>For Nebrix Multiplayer we use Linux Ubuntu servers running a custom, lightweight C++ dedicated server. We use ENet on top of UDP to provide fast, low-latency multiplayer networking. For the Chat Service we use TCP networking instead to ensure your message delivers reliably and securely. We also have a non-AI custom chat filter to ensure no one can share sensitive, personal, or harmful messages to others.</p>            
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                </div>
+                <h3>Nebrix Studio</h3>
+                <p>The all in one development environment where you build your games and share them with the world. Featuring an intuitive visual scene editor with simple and easy tools that both beginners and experienced developers can understand; a powerful Lua script editor with syntax highlighting, autocomplete, and integrated debugging; a terrain editor for creating vast outdoor environments; an advanced UI designer; and seamless one click publishing button that uploads your game straight to the Nebrix platform for instant distribution to players worldwide. Everything you need, all in one place, completely free.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                </div>
+                <h3>Nebrix Player</h3>
+                <p>Discover and play games created by the community in a fast, lightweight, multiplayer client. Browse libraries of games and have endless hours of fun. Join friends instantly with a single click of a button and have a built in secure chat right in your Player! Review and send feedback straight to the developers of your favourite game! Build a library of your most favourite games. With cloud saves synced across all your devices, you can start playing on your desktop and continue right where you left off on your laptop. Experience the creativity of developers from around the globe, all within a safe, humanly moderated environment suitable for all ages.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                </div>
+                <h3>Community</h3>
+                <p>We prioritize the community in everything we do. Every major feature decision goes through a public voting process where community members can propose ideas, discuss them in dedicated forums, and cast their votes to influence the development roadmap. Our moderation team is 100% human with no automated takedowns! Every report is reviewed by trained human moderators, ensuring fair, consistent, and transparent enforcement of our community guidelines. We maintain an active Discord server where developers help each other solve bugs, share resources, and form teams. The Nebrix community isn't just users of a platform; they are co-creators of the platform itself.</p>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Philosophy</h2>
+            <p>We saw a clear gap between experienced developers struggling with expensive servers and complex distribution, while beginners faced months of learning and costly tools just to share a simple game. There was no easy bridge between them. We created Nebrix to be that bridge. A single, free platform where anyone, from first time creators to professional game developers, can build and publish games with one click, and reach a global audience in seconds without ever touching a server or paying a cent.</p>                    
+        </div>
+
+        <div class="about-section">
+            <h2>Progress</h2>
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>February 2026 — First version of Nebrix Studio</h3>
+                        <p>After two months of intensive development, we completed the first functional version of Nebrix Studio. This early build featured the core rendering engine with OpenGL 4.6, basic 3D primitive rendering, a basic scene hierarchy, a simple physics integration with collision detection, and a basic playable character controller with movement, jumping, and camera following. With the tools developed at this time we were able to create a simple obstacle course.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>April 2026 — Server Infrastructure & Account System</h3>
+                        <p>We deployed the first generation of the Nebrix server infrastructure on Linux Ubuntu. This milestone included the ability to save and load games, account creation via the website. This version also improved performance significantly in Nebrix Studio with the new feature of Culling and better rendering optimizations. This version also gave SVG icons on the explorer tab. This was also the first version with Lua scripting support with ~20 custom functions.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>May 2026 — Full Multiplayer & Nebrix Player Launch</h3>
+                        <p>In May 2026, we released the first version of Nebrix with fully functional multiplayer support. For the object translations we chose UDP networking for its fast and low latency speed, although for the Chat system we chose TCP  networking instead for secure, and reliable messages. At this version we also introduced the custom no-AI chat filter to ensure no one can send personal information or harmful messages between others.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="about-section">
+            <h2>Join Us</h2>
+            <p>Want to follow Nebrix's development? Join our Discord to get updates, vote for new features, share feedback, and connect with other members of the community. We're actively building the platform and welcome anyone interested in game development or the future of Nebrix.</p>
+            <div class="about-actions">
+                <a href="https://discord.com/invite/XTa4GwaJFY" class="btn-primary">Join Our Discord</a>
+                <a href="index.html" class="btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="about-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="assets/images/nebrixlogo2.png" alt="Nebrix" class="footer-logo-img">
+            </div>
+            <p class="footer-tagline">Releasing 2027</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="https://discord.com/invite/XTa4GwaJFY">Discord</a>
+            </div>
+        </div>
+    </fxooter>
+</body>
+</html>
